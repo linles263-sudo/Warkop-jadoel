@@ -6,14 +6,14 @@
   <title>Warkop Jadoel Digital</title>
   <style>
     *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
-    body{background:#f0f8f0;color:#1a3d1a;padding:10px}
+    body{background:#f0f8f0;color:#1a3d1a;padding:10px;padding-bottom:40px}
     .container{max-width:500px;margin:0 auto}
     .header{background:#2e7d32;padding:15px;border-radius:10px;text-align:center;margin-bottom:15px;color:#fff;box-shadow:0 2px 5px rgba(0,0,0,0.2)}
     .card{background:#ffffff;padding:15px;border-radius:10px;margin-bottom:15px;border:1px solid #c8e6c9;box-shadow:0 1px 3px rgba(0,0,0,0.1)}
     .btn{background:#2e7d32;border:none;padding:12px 15px;border-radius:8px;color:#fff;font-weight:bold;cursor:pointer;width:100%;margin:5px 0}
     .btn:active{background:#1b5e20}
     .btn-danger{background:#d32f2f}
-    input,select{width:100%;padding:12px;margin:5px 0;border-radius:8px;border:1px solid #a5d6a7;background:#fff;color:#1a3d1a}
+    input{width:100%;padding:12px;margin:5px 0;border-radius:8px;border:1px solid #a5d6a7;background:#fff;color:#1a3d1a}
     table{width:100%;border-collapse:collapse;margin:10px 0}
     th,td{padding:10px;text-align:left;border-bottom:1px solid #e8f5e9}
     th{background:#e8f5e9}
@@ -25,23 +25,31 @@
     .tab-content{display:none}
     .tab-content.active{display:block}
     h3{color:#2e7d32;margin-bottom:10px}
+    .menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+    .menu-btn{background:#e8f5e9;border:1px solid #a5d6a7;padding:15px;border-radius:8px;text-align:center;cursor:pointer}
+    .menu-btn:active{background:#c8e6c9}
+    .menu-btn b{display:block;color:#1b5e20}
+    .search-result{background:#fff;border:1px solid #a5d6a7;border-radius:8px;max-height:200px;overflow-y:auto;margin-top:-5px;margin-bottom:10px;display:none}
+    .search-item{padding:12px;border-bottom:1px solid #e8f5e9;cursor:pointer}
+    .search-item:active{background:#e8f5e9}
+    .footer-license{position:fixed;bottom:5px;left:0;width:100%;text-align:center;font-size:10px;color:#81c784;opacity:0.7}
   </style>
 </head>
 <body>
 <div class="expired" id="expiredScreen">
   <div>
-    <h2>⚠️ LISENSI EXPIRED</h2>
-    <p style="margin:15px 0">Masa aktif Warkop Jadoel sudah habis pada<br><b id="tglExpired"></b></p>
-    <p>Hubungi developer untuk perpanjangan:</p>
+    <h2>⚠️ APLIKASI TERKUNCI</h2>
+    <p style="margin:15px 0">Lisensi aplikasi telah berakhir</p>
+    <p>Hubungi developer untuk aktivasi ulang:</p>
     <p style="margin:10px 0"><b>WA: 0895351432524</b></p>
-    <button class="btn" onclick="window.open('https://wa.me/628xxx?text=Saya%20mau%20perpanjang%20lisensi%20Warkop%20Jadoel')">Chat WA Sekarang</button>
+    <button class="btn" onclick="window.open('https://wa.me/628xxx?text=Saya%20mau%20aktivasi%20ulang%20Warkop%20Jadoel%20KSR-WKP-01')">Chat WA Sekarang</button>
   </div>
 </div>
 
 <div class="container" id="mainApp">
   <div class="header">
     <h2>☕ WARKOP JADOEL</h2>
-    <p id="infoLisensi">Lisensi Aktif s/d: 2 Mei 2027</p>
+    <p style="font-size:14px;opacity:0.9">Sistem Kasir Digital</p>
   </div>
 
   <div class="tab">
@@ -53,9 +61,13 @@
   <div id="Kasir" class="tab-content active">
     <div class="card">
       <h3>Transaksi Baru</h3>
-      <select id="pilihMenu"></select>
+      <input type="text" id="cariMenu" placeholder="🔍 Ketik nama menu..." oninput="cariMenuRealTime()">
+      <div class="search-result" id="hasilCari"></div>
+      
+      <p style="margin:10px 0 5px 0;font-weight:bold;color:#2e7d32">Menu Cepat:</p>
+      <div class="menu-grid" id="menuCepat"></div>
+      
       <input type="number" id="jumlah" placeholder="Jumlah" value="1" min="1">
-      <button class="btn" onclick="tambahKeranjang()">+ Tambah ke Keranjang</button>
       
       <table id="keranjang">
         <thead><tr><th>Item</th><th>Qty</th><th>Subtotal</th><th></th></tr></thead>
@@ -84,39 +96,33 @@
       <p>Total Omset: <b>Rp <span id="totalOmset">0</span></b></p>
       <button class="btn btn-danger" onclick="resetLaporan()">Hapus Semua Laporan</button>
     </div>
-    <div class="card">
-      <h3>Tentang Aplikasi</h3>
-      <p><b>Warkop Jadoel Digital</b></p>
-      <p id="infoLisensi2"></p>
-      <p>Developer: Mas Prof</p>
-    </div>
   </div>
 </div>
+
+<div class="footer-license" id="footerLicense">KSR-WKP-01</div>
 
 <script>
 // ====== PENGATURAN ======
 const TANGGAL_EXPIRED = '2027-05-02'; // YYYY-MM-DD
 const NAMA_WARKOP = 'Warkop Jadoel';
+const KODE_LISENSI = 'KSR-WKP-01'; // GANTI KODE PER KLIEN
 const NO_WA_ADMIN = '6281234567890'; // GANTI NOMOR LU
 // ========================
 
 let menu = JSON.parse(localStorage.getItem('menuWarkop')) || [];
 let keranjang = [];
 let transaksi = JSON.parse(localStorage.getItem('trxWarkop')) || [];
+let menuTerpilih = null;
 
-// Cek Lisensi
 function cekLisensi(){
-  const tgl = new Date(TANGGAL_EXPIRED).toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'});
-  document.getElementById('infoLisensi').innerText = `Lisensi Aktif s/d: ${tgl}`;
-  document.getElementById('infoLisensi2').innerText = `Lisensi Aktif s/d: ${tgl}`;
-  document.getElementById('tglExpired').innerText = tgl;
+  document.getElementById('footerLicense').innerText = KODE_LISENSI;
+  // Gak nampilin tanggal expired sama sekali
   if(new Date() > new Date(TANGGAL_EXPIRED)){
     document.getElementById('expiredScreen').style.display = 'flex';
     document.getElementById('mainApp').style.display = 'none';
   }
 }
 
-// Menu Default Warkop Jadoel
 if(menu.length === 0){
   menu = [
     {id:1,nama:'Kopi Jadoel Hitam',harga:5000},
@@ -133,13 +139,53 @@ if(menu.length === 0){
 
 function renderMenu(){
   const daftar = document.getElementById('daftarMenu');
-  const pilih = document.getElementById('pilihMenu');
+  const menuCepat = document.getElementById('menuCepat');
   daftar.innerHTML = '';
-  pilih.innerHTML = '<option value="">-- Pilih Menu --</option>';
+  menuCepat.innerHTML = '';
+  
   menu.forEach(m => {
     daftar.innerHTML += `<div class="menu-item"><span><b>${m.nama}</b><br>Rp ${m.harga.toLocaleString('id-ID')}</span><button class="btn-danger" style="width:auto;padding:8px" onclick="hapusMenu(${m.id})">Hapus</button></div>`;
-    pilih.innerHTML += `<option value="${m.id}">${m.nama} - Rp ${m.harga.toLocaleString('id-ID')}</option>`;
+    menuCepat.innerHTML += `<div class="menu-btn" onclick="pilihMenuCepat(${m.id})"><b>${m.nama}</b>Rp ${m.harga.toLocaleString('id-ID')}</div>`;
   });
+}
+
+function cariMenuRealTime(){
+  const keyword = document.getElementById('cariMenu').value.toLowerCase().trim();
+  const hasil = document.getElementById('hasilCari');
+  if(keyword.length === 0){ hasil.style.display = 'none'; return; }
+  const filtered = menu.filter(m => m.nama.toLowerCase().includes(keyword));
+  hasil.innerHTML = '';
+  if(filtered.length === 0){
+    hasil.innerHTML = '<div class="search-item">Menu tidak ditemukan</div>';
+  } else {
+    filtered.forEach(m => {
+      hasil.innerHTML += `<div class="search-item" onclick="pilihDariSearch(${m.id})"><b>${m.nama}</b><br>Rp ${m.harga.toLocaleString('id-ID')}</div>`;
+    });
+  }
+  hasil.style.display = 'block';
+}
+
+function pilihDariSearch(id){
+  menuTerpilih = menu.find(m => m.id === id);
+  document.getElementById('cariMenu').value = menuTerpilih.nama;
+  document.getElementById('hasilCari').style.display = 'none';
+  tambahKeKeranjang();
+}
+
+function pilihMenuCepat(id){
+  menuTerpilih = menu.find(m => m.id === id);
+  tambahKeKeranjang();
+}
+
+function tambahKeKeranjang(){
+  if(!menuTerpilih) return alert('Pilih menu dulu');
+  const jumlah = parseInt(document.getElementById('jumlah').value) || 1;
+  if(jumlah < 1) return alert('Jumlah minimal 1');
+  keranjang.push({...menuTerpilih,jumlah,subtotal:menuTerpilih.harga*jumlah});
+  document.getElementById('jumlah').value = 1;
+  document.getElementById('cariMenu').value = '';
+  menuTerpilih = null;
+  renderKeranjang();
 }
 
 function tambahMenu(){
@@ -159,17 +205,6 @@ function hapusMenu(id){
     localStorage.setItem('menuWarkop',JSON.stringify(menu));
     renderMenu();
   }
-}
-
-function tambahKeranjang(){
-  const id = parseInt(document.getElementById('pilihMenu').value);
-  const jumlah = parseInt(document.getElementById('jumlah').value);
-  if(!id) return alert('Pilih menu dulu');
-  if(jumlah < 1) return alert('Jumlah minimal 1');
-  const item = menu.find(m => m.id === id);
-  keranjang.push({...item,jumlah,subtotal:item.harga*jumlah});
-  document.getElementById('jumlah').value = 1;
-  renderKeranjang();
 }
 
 function renderKeranjang(){
@@ -192,17 +227,12 @@ function bayar(){
   if(keranjang.length === 0) return alert('Keranjang masih kosong');
   const total = keranjang.reduce((a,b) => a+b.subtotal,0);
   const nama = document.getElementById('namaPelanggan').value.trim() || 'Pelanggan';
-  
   transaksi.push({tanggal:new Date().toISOString(),items:keranjang,total,nama});
   localStorage.setItem('trxWarkop',JSON.stringify(transaksi));
-  
   let nota = `*NOTA ${NAMA_WARKOP}*\n\nPelanggan/Meja: ${nama}\n${new Date().toLocaleString('id-ID')}\n\n`;
-  keranjang.forEach(k => {
-    nota += `${k.nama} x${k.jumlah}\n  Rp ${k.subtotal.toLocaleString('id-ID')}\n`;
-  });
+  keranjang.forEach(k => { nota += `${k.nama} x${k.jumlah}\n  Rp ${k.subtotal.toLocaleString('id-ID')}\n`; });
   nota += `\n*TOTAL: Rp ${total.toLocaleString('id-ID')}*\n\nTerima kasih, monggo pinarak malih ☕`;
   window.open(`https://wa.me/?text=${encodeURIComponent(nota)}`);
-  
   keranjang = [];
   document.getElementById('namaPelanggan').value = '';
   renderKeranjang();
@@ -218,7 +248,7 @@ function updateLaporan(){
 }
 
 function resetLaporan(){
-  if(confirm('Yakin hapus SEMUA data transaksi? Gak bisa dibalikin loh')){
+  if(confirm('Yakin hapus SEMUA data transaksi?')){
     transaksi = [];
     localStorage.setItem('trxWarkop','[]');
     updateLaporan();
@@ -233,10 +263,15 @@ function openTab(evt,tabName){
   evt.currentTarget.classList.add('active');
 }
 
-// Init
+document.addEventListener('click',function(e){
+  if(!e.target.matches('#cariMenu')){
+    document.getElementById('hasilCari').style.display = 'none';
+  }
+});
+
 cekLisensi();
 renderMenu();
 updateLaporan();
 </script>
 </body>
-                                                                            </html>
+      </html>
