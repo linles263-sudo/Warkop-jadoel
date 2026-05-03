@@ -15,10 +15,10 @@
     .btn-danger{background:#d32f2f}
     .btn-blue{background:#1976d2}
     .btn-small{padding:8px;font-size:14px;width:auto;margin:3px}
-    input{width:100%;padding:12px;margin:5px 0;border-radius:8px;border:1px solid #a5d6a7;background:#fff;color:#1a3d1a}
+    input,select{width:100%;padding:12px;margin:5px 0;border-radius:8px;border:1px solid #a5d6a7;background:#fff;color:#1a3d1a}
     .input-group{display:flex;gap:8px}
     .input-group input{flex:1}
-    table{width:100%;border-collapse:collapse;margin:10px 0}
+    table{width:100%;border-collapse:collapse;margin:10px 0;font-size:14px}
     th,td{padding:10px;text-align:left;border-bottom:1px solid #e8f5e9}
     th{background:#e8f5e9}
     .menu-item{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #e8f5e9}
@@ -40,6 +40,11 @@
     .search-item{padding:12px;border-bottom:1px solid #e8f5e9;cursor:pointer}
     .search-item:active{background:#e8f5e9}
     .footer-license{position:fixed;bottom:5px;left:0;width:100%;text-align:center;font-size:10px;color:#81c784;opacity:0.7}
+    .payment-method{display:flex;gap:8px;margin:10px 0}
+    .payment-method label{flex:1;padding:12px;border:2px solid #c8e6c9;border-radius:8px;text-align:center;cursor:pointer}
+    .payment-method input{display:none}
+    .payment-method input:checked+label{background:#2e7d32;color:#fff;border-color:#2e7d32}
+    .qris-img{width:120px;height:120px;background:#fff;border:1px solid #000;margin:5px auto;display:block}
     @media print {
       body *{visibility:hidden}
       #strukArea, #strukArea *{visibility:visible}
@@ -87,14 +92,15 @@
       </table>
       <h3>Total: Rp <span id="total">0</span></h3>
       
-      <!-- FORM SIMPLE -->
-      <input type="text" id="namaPelanggan" placeholder="Nama Pelanggan">
-      <div class="input-group">
-        <input type="text" id="noMeja" placeholder="No Meja">
-        <input type="tel" id="waPelanggan" placeholder="No WA">
+      <!-- METODE BAYAR -->
+      <p style="margin:10px 0 5px 0;font-weight:bold;color:#2e7d32">Metode Bayar:</p>
+      <div class="payment-method">
+        <input type="radio" id="cash" name="bayar" value="CASH" checked>
+        <label for="cash">💵 CASH</label>
+        <input type="radio" id="qris" name="bayar" value="QRIS">
+        <label for="qris">📱 QRIS</label>
       </div>
       
-      <button class="btn" onclick="bayar()">💰 BAYAR & KIRIM WA</button>
       <button class="btn btn-blue" onclick="cetakStruk()">🖨️ CETAK STRUK</button>
     </div>
   </div>
@@ -119,6 +125,13 @@
       <p>Total Omset: <b>Rp <span id="totalOmset">0</span></b></p>
       <button class="btn btn-danger" onclick="resetLaporan()">Hapus Semua Laporan</button>
     </div>
+    <div class="card">
+      <h3>Detail Menu Terjual</h3>
+      <table id="tabelLaporan">
+        <thead><tr><th>Menu</th><th>Terjual</th><th>Omset</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
   </div>
 </div>
 
@@ -134,6 +147,7 @@ const NAMA_WARKOP = 'Warkop Jadoel';
 const KODE_LISENSI = 'KSR-WKP-01';
 const NO_WA_ADMIN = '6281234567890';
 const ALAMAT_WARKOP = 'Jl. Jadoel No. 45, Tulungagung';
+const QRIS_CODE = '00020101021226650014ID.CO.QRIS.WWW01189360091400012345670208QRISWARKOP52045814'; // GANTI QRIS LU
 // ========================
 
 let menu = JSON.parse(localStorage.getItem('menuWarkop')) || [];
@@ -151,18 +165,15 @@ function cekLisensi(){
 
 if(menu.length === 0){
   menu = [
-    {id:1,nama:'Kopi Jadoel Hitam',harga:5000,stok:50},
-    {id:2,nama:'Kopi Susu Jadoel',harga:7000,stok:50},
-    {id:3,nama:'Teh Tubruk Panas',harga:4000,stok:100},
-    {id:4,nama:'Teh Es Jadoel',harga:5000,stok:100},
-    {id:5,nama:'Indomie Rebus Telor',harga:10000,stok:30},
-    {id:6,nama:'Indomie Goreng Kornet',harga:13000,stok:30},
-    {id:7,nama:'Roti Bakar Coklat',harga:8000,stok:20},
-    {id:8,nama:'Pisang Goreng',harga:6000,stok:40},
-    {id:9,nama:'Good day panas',harga:6000,stok:25},
-    {id:10,nama:'Goodday dingin',harga:7000,stok:25},
-    {id:11,nama:'Nutrisari',harga:4000,stok:50},
-    {id:12,nama:'Kukubima',harga:4000,stok:50}
+    {id:1,nama:'Kopi hitam',harga:5000,stok:50},
+    {id:2,nama:'Kopi susu',harga:6000,stok:50},
+    {id:3,nama:'Good day panas',harga:6000,stok:25},
+    {id:4,nama:'Good day dingin',harga:7000,stok:25},
+    {id:5,nama:'Pop mie',harga:8000,stok:30},
+    {id:6,nama:'Kuku bima',harga:5000,stok:40},
+    {id:7,nama:'Kuku bima susu',harga:7000,stok:20},
+    {id:8,nama:'Xtra joss',harga:5000,stok:30},
+    {id:9,nama:'Xtrajoss susu',harga:7000,stok:20}
   ];
   localStorage.setItem('menuWarkop',JSON.stringify(menu));
 }
@@ -174,7 +185,6 @@ function renderMenu(){
   menuCepat.innerHTML = '';
   
   menu.forEach(m => {
-    // Daftar menu di tab Menu
     daftar.innerHTML += `
       <div class="menu-item">
         <span><b>${m.nama}</b><br>Rp ${m.harga.toLocaleString('id-ID')} | Stok: ${m.stok}</span>
@@ -184,9 +194,8 @@ function renderMenu(){
         </div>
       </div>`;
     
-    // Tombol menu cepat - disable kalo stok 0
     const disabled = m.stok <= 0 ? 'disabled' : '';
-    const stokBadge = m.stok <= 5 ? `<span class="stok-badge">${m.stok}</span>` : '';
+    const stokBadge = m.stok <= 5 && m.stok > 0 ? `<span class="stok-badge">${m.stok}</span>` : '';
     menuCepat.innerHTML += `
       <div class="menu-btn ${disabled}" onclick="${m.stok > 0 ? `pilihMenuCepat(${m.id})` : ''}">
         ${stokBadge}
@@ -287,39 +296,30 @@ function hapusItem(i){
 function simpanTransaksi(){
   if(keranjang.length === 0) return false;
   const total = keranjang.reduce((a,b) => a+b.subtotal,0);
-  const nama = document.getElementById('namaPelanggan').value.trim() || 'Pelanggan';
-  const meja = document.getElementById('noMeja').value.trim() || '-';
-  const wa = document.getElementById('waPelanggan').value.trim() || '-';
+  const metodeBayar = document.querySelector('input[name="bayar"]:checked').value;
   
-  // Kurangi stok - ANTI KARYAWAN NAKAL
+  // Kurangi stok
   keranjang.forEach(k => {
     const item = menu.find(m => m.id === k.id);
     if(item) item.stok -= k.jumlah;
   });
   localStorage.setItem('menuWarkop',JSON.stringify(menu));
   
-  transaksi.push({tanggal:new Date().toISOString(),items:keranjang,total,nama,meja,wa});
+  transaksi.push({tanggal:new Date().toISOString(),items:keranjang,total,metodeBayar});
   localStorage.setItem('trxWarkop',JSON.stringify(transaksi));
-  return {total,nama,meja,wa};
-}
-
-function bayar(){
-  const data = simpanTransaksi();
-  if(!data) return alert('Keranjang masih kosong');
-  
-  let nota = `*NOTA ${NAMA_WARKOP}*\n\nPelanggan: ${data.nama}\nMeja: ${data.meja}\n${new Date().toLocaleString('id-ID')}\n\n`;
-  keranjang.forEach(k => { nota += `${k.nama} x${k.jumlah}\n  Rp ${k.subtotal.toLocaleString('id-ID')}\n`; });
-  nota += `\n*TOTAL: Rp ${data.total.toLocaleString('id-ID')}*\n\nTerima kasih, monggo pinarak malih ☕`;
-  
-  const waTujuan = data.wa !== '-' ? data.wa : '';
-  window.open(`https://wa.me/${waTujuan}?text=${encodeURIComponent(nota)}`);
-  
-  resetKeranjang();
+  return {total,metodeBayar};
 }
 
 function cetakStruk(){
   const data = simpanTransaksi();
   if(!data) return alert('Keranjang masih kosong');
+  
+  const qrisSection = data.metodeBayar === 'QRIS' ? `
+    ========================<br>
+    <b>SCAN QRIS UNTUK BAYAR</b><br>
+    <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${QRIS_CODE}" class="qris-img"><br>
+    ========================<br>
+  ` : '';
   
   const struk = `
     <div style="width:58mm;font-family:monospace;font-size:12px;text-align:center">
@@ -327,18 +327,18 @@ function cetakStruk(){
       ${ALAMAT_WARKOP}<br>
       ========================<br>
       ${new Date().toLocaleString('id-ID')}<br>
-      Nama: ${data.nama}<br>
-      Meja: ${data.meja}<br>
       ========================<br>
       <div style="text-align:left">
       ${keranjang.map(k => `
         ${k.nama}<br>
-        ${k.jumlah} x ${k.harga.toLocaleString('id-ID')} = ${k.subtotal.toLocaleString('id-ID')}<br>
+        ${k.jumlah} x ${k.harga.toLocaleString('id-ID')}<br>
+        <span style="float:right">${k.subtotal.toLocaleString('id-ID')}</span><br>
       `).join('')}
       </div>
       ========================<br>
       <b>TOTAL: Rp ${data.total.toLocaleString('id-ID')}</b><br>
-      ========================<br>
+      Bayar: ${data.metodeBayar}<br>
+      ${qrisSection}
       Terima kasih<br>
       ${KODE_LISENSI}
     </div>
@@ -351,9 +351,6 @@ function cetakStruk(){
 
 function resetKeranjang(){
   keranjang = [];
-  document.getElementById('namaPelanggan').value = '';
-  document.getElementById('noMeja').value = '';
-  document.getElementById('waPelanggan').value = '';
   renderKeranjang();
   renderMenu();
   updateLaporan();
@@ -365,6 +362,23 @@ function updateLaporan(){
   const omset = trxHariIni.reduce((a,b) => a+b.total,0);
   document.getElementById('totalTrx').innerText = trxHariIni.length;
   document.getElementById('totalOmset').innerText = omset.toLocaleString('id-ID');
+  
+  // Laporan detail menu
+  const menuTerjual = {};
+  trxHariIni.forEach(t => {
+    t.items.forEach(item => {
+      if(!menuTerjual[item.nama]) menuTerjual[item.nama] = {qty:0,omset:0};
+      menuTerjual[item.nama].qty += item.jumlah;
+      menuTerjual[item.nama].omset += item.subtotal;
+    });
+  });
+  
+  const tbody = document.querySelector('#tabelLaporan tbody');
+  tbody.innerHTML = '';
+  Object.keys(menuTerjual).forEach(nama => {
+    const data = menuTerjual[nama];
+    tbody.innerHTML += `<tr><td>${nama}</td><td>${data.qty}</td><td>Rp ${data.omset.toLocaleString('id-ID')}</td></tr>`;
+  });
 }
 
 function resetLaporan(){
@@ -394,4 +408,4 @@ renderMenu();
 updateLaporan();
 </script>
 </body>
-      </html>
+  </html>
