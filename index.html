@@ -3,41 +3,44 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Warkop Digital Pro</title>
+  <title>Warkop Jadoel Digital</title>
   <style>
     *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
-    body{background:#1a1a1a;color:#fff;padding:10px}
+    body{background:#f0f8f0;color:#1a3d1a;padding:10px}
     .container{max-width:500px;margin:0 auto}
-    .header{background:#ff6b00;padding:15px;border-radius:10px;text-align:center;margin-bottom:15px}
-    .card{background:#2d2d2d;padding:15px;border-radius:10px;margin-bottom:15px}
-    .btn{background:#ff6b00;border:none;padding:10px 15px;border-radius:8px;color:#fff;font-weight:bold;cursor:pointer;width:100%;margin:5px 0}
-    .btn-danger{background:#dc3545}
-    input,select{width:100%;padding:10px;margin:5px 0;border-radius:8px;border:none;background:#404040;color:#fff}
+    .header{background:#2e7d32;padding:15px;border-radius:10px;text-align:center;margin-bottom:15px;color:#fff;box-shadow:0 2px 5px rgba(0,0,0,0.2)}
+    .card{background:#ffffff;padding:15px;border-radius:10px;margin-bottom:15px;border:1px solid #c8e6c9;box-shadow:0 1px 3px rgba(0,0,0,0.1)}
+    .btn{background:#2e7d32;border:none;padding:12px 15px;border-radius:8px;color:#fff;font-weight:bold;cursor:pointer;width:100%;margin:5px 0}
+    .btn:active{background:#1b5e20}
+    .btn-danger{background:#d32f2f}
+    input,select{width:100%;padding:12px;margin:5px 0;border-radius:8px;border:1px solid #a5d6a7;background:#fff;color:#1a3d1a}
     table{width:100%;border-collapse:collapse;margin:10px 0}
-    th,td{padding:8px;text-align:left;border-bottom:1px solid #404040}
-    .menu-item{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #404040}
-    .expired{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);display:none;justify-content:center;align-items:center;text-align:center;padding:20px;z-index:999}
-    .tab{display:flex;margin-bottom:15px}
-    .tab button{flex:1;padding:10px;background:#404040;border:none;color:#fff}
-    .tab button.active{background:#ff6b00}
+    th,td{padding:10px;text-align:left;border-bottom:1px solid #e8f5e9}
+    th{background:#e8f5e9}
+    .menu-item{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #e8f5e9}
+    .expired{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);display:none;justify-content:center;align-items:center;text-align:center;padding:20px;z-index:999;color:#fff}
+    .tab{display:flex;margin-bottom:15px;background:#fff;border-radius:10px;overflow:hidden;border:1px solid #c8e6c9}
+    .tab button{flex:1;padding:12px;background:#fff;border:none;color:#2e7d32;font-weight:bold}
+    .tab button.active{background:#2e7d32;color:#fff}
     .tab-content{display:none}
     .tab-content.active{display:block}
+    h3{color:#2e7d32;margin-bottom:10px}
   </style>
 </head>
 <body>
 <div class="expired" id="expiredScreen">
   <div>
     <h2>⚠️ LISENSI EXPIRED</h2>
-    <p style="margin:15px 0">Masa aktif aplikasi Warkop Digital sudah habis pada<br><b id="tglExpired"></b></p>
-    <p>Hubungi developer untuk perpanjangan lisensi:</p>
+    <p style="margin:15px 0">Masa aktif Warkop Jadoel sudah habis pada<br><b id="tglExpired"></b></p>
+    <p>Hubungi developer untuk perpanjangan:</p>
     <p style="margin:10px 0"><b>WA: 0895351432524</b></p>
-    <button class="btn" onclick="window.open('https://wa.me/628xxx?text=Saya%20mau%20perpanjang%20lisensi%20Warkop%20Digital')">Chat WA Sekarang</button>
+    <button class="btn" onclick="window.open('https://wa.me/628xxx?text=Saya%20mau%20perpanjang%20lisensi%20Warkop%20Jadoel')">Chat WA Sekarang</button>
   </div>
 </div>
 
 <div class="container" id="mainApp">
   <div class="header">
-    <h2>☕ WARKOP DIGITAL </h2>
+    <h2>☕ WARKOP JADOEL</h2>
     <p id="infoLisensi">Lisensi Aktif s/d: 2 Mei 2027</p>
   </div>
 
@@ -51,26 +54,26 @@
     <div class="card">
       <h3>Transaksi Baru</h3>
       <select id="pilihMenu"></select>
-      <input type="number" id="jumlah" placeholder="Jumlah" value="1">
-      <button class="btn" onclick="tambahKeranjang()">+ Tambah</button>
+      <input type="number" id="jumlah" placeholder="Jumlah" value="1" min="1">
+      <button class="btn" onclick="tambahKeranjang()">+ Tambah ke Keranjang</button>
       
       <table id="keranjang">
         <thead><tr><th>Item</th><th>Qty</th><th>Subtotal</th><th></th></tr></thead>
         <tbody></tbody>
       </table>
       <h3>Total: Rp <span id="total">0</span></h3>
-      <input type="text" id="namaPelanggan" placeholder="Nama Pelanggan">
-      <button class="btn" onclick="bayar()">💰 BAYAR & KIRIM NOTA</button>
+      <input type="text" id="namaPelanggan" placeholder="Nama Pelanggan / No Meja">
+      <button class="btn" onclick="bayar()">💰 BAYAR & KIRIM NOTA WA</button>
     </div>
   </div>
 
   <div id="Menu" class="tab-content">
     <div class="card">
-      <h3>Kelola Menu</h3>
-      <input type="text" id="namaMenu" placeholder="Nama Menu">
-      <input type="number" id="hargaMenu" placeholder="Harga">
-      <button class="btn" onclick="tambahMenu()">+ Tambah Menu</button>
-      <div id="daftarMenu"></div>
+      <h3>Kelola Menu Warkop</h3>
+      <input type="text" id="namaMenu" placeholder="Nama Menu, contoh: Kopi Jadoel">
+      <input type="number" id="hargaMenu" placeholder="Harga, contoh: 6000">
+      <button class="btn" onclick="tambahMenu()">+ Tambah Menu Baru</button>
+      <div id="daftarMenu" style="margin-top:15px"></div>
     </div>
   </div>
 
@@ -79,40 +82,51 @@
       <h3>Laporan Hari Ini</h3>
       <p>Total Transaksi: <b id="totalTrx">0</b></p>
       <p>Total Omset: <b>Rp <span id="totalOmset">0</span></b></p>
-      <button class="btn btn-danger" onclick="resetLaporan()">Reset Laporan</button>
+      <button class="btn btn-danger" onclick="resetLaporan()">Hapus Semua Laporan</button>
+    </div>
+    <div class="card">
+      <h3>Tentang Aplikasi</h3>
+      <p><b>Warkop Jadoel Digital</b></p>
+      <p id="infoLisensi2"></p>
+      <p>Developer: Mas Prof</p>
     </div>
   </div>
 </div>
 
 <script>
-// ====== PENGATURAN LISENSI ======
+// ====== PENGATURAN ======
 const TANGGAL_EXPIRED = '2027-05-02'; // YYYY-MM-DD
-const NAMA_WARKOP = 'Warkop Sejahtera';
-const NO_WA_ADMIN = '628xxx'; // Ganti nomor lu
-// ================================
+const NAMA_WARKOP = 'Warkop Jadoel';
+const NO_WA_ADMIN = '6281234567890'; // GANTI NOMOR LU
+// ========================
 
-let menu = JSON.parse(localStorage.getItem('menuWarkop')) || '[]');
+let menu = JSON.parse(localStorage.getItem('menuWarkop')) || [];
 let keranjang = [];
-let transaksi = JSON.parse(localStorage.getItem('trxWarkop')) || '[]';
+let transaksi = JSON.parse(localStorage.getItem('trxWarkop')) || [];
 
 // Cek Lisensi
 function cekLisensi(){
-  document.getElementById('infoLisensi').innerText = `Lisensi Aktif s/d: ${new Date(TANGGAL_EXPIRED).toLocaleDateString('id-ID')}`;
-  document.getElementById('tglExpired').innerText = new Date(TANGGAL_EXPIRED).toLocaleDateString('id-ID');
+  const tgl = new Date(TANGGAL_EXPIRED).toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'});
+  document.getElementById('infoLisensi').innerText = `Lisensi Aktif s/d: ${tgl}`;
+  document.getElementById('infoLisensi2').innerText = `Lisensi Aktif s/d: ${tgl}`;
+  document.getElementById('tglExpired').innerText = tgl;
   if(new Date() > new Date(TANGGAL_EXPIRED)){
     document.getElementById('expiredScreen').style.display = 'flex';
     document.getElementById('mainApp').style.display = 'none';
   }
 }
 
-// Default Menu kalo kosong
+// Menu Default Warkop Jadoel
 if(menu.length === 0){
   menu = [
-    {id:1,nama:'Kopi Hitam',harga:5000},
-    {id:2,nama:'Kopi Susu',harga:7000},
-    {id:3,nama:'Indomie Rebus',harga:8000},
-    {id:4,nama:'Indomie Goreng + Telor',harga:12000},
-    {id:5,nama:'Teh Panas',harga:4000}
+    {id:1,nama:'Kopi Jadoel Hitam',harga:5000},
+    {id:2,nama:'Kopi Susu Jadoel',harga:7000},
+    {id:3,nama:'Teh Tubruk Panas',harga:4000},
+    {id:4,nama:'Teh Es Jadoel',harga:5000},
+    {id:5,nama:'Indomie Rebus Telor',harga:10000},
+    {id:6,nama:'Indomie Goreng Kornet',harga:13000},
+    {id:7,nama:'Roti Bakar Coklat',harga:8000},
+    {id:8,nama:'Pisang Goreng',harga:6000}
   ];
   localStorage.setItem('menuWarkop',JSON.stringify(menu));
 }
@@ -121,17 +135,17 @@ function renderMenu(){
   const daftar = document.getElementById('daftarMenu');
   const pilih = document.getElementById('pilihMenu');
   daftar.innerHTML = '';
-  pilih.innerHTML = '';
+  pilih.innerHTML = '<option value="">-- Pilih Menu --</option>';
   menu.forEach(m => {
-    daftar.innerHTML += `<div class="menu-item"><span>${m.nama} - Rp ${m.harga.toLocaleString('id-ID')}</span><button class="btn-danger" style="width:auto;padding:5px" onclick="hapusMenu(${m.id})">Hapus</button></div>`;
-    pilih.innerHTML += `<option value="${m.id}">${m.nama} - ${m.harga}</option>`;
+    daftar.innerHTML += `<div class="menu-item"><span><b>${m.nama}</b><br>Rp ${m.harga.toLocaleString('id-ID')}</span><button class="btn-danger" style="width:auto;padding:8px" onclick="hapusMenu(${m.id})">Hapus</button></div>`;
+    pilih.innerHTML += `<option value="${m.id}">${m.nama} - Rp ${m.harga.toLocaleString('id-ID')}</option>`;
   });
 }
 
 function tambahMenu(){
-  const nama = document.getElementById('namaMenu').value;
+  const nama = document.getElementById('namaMenu').value.trim();
   const harga = parseInt(document.getElementById('hargaMenu').value);
-  if(!nama || !harga) return alert('Isi lengkap');
+  if(!nama || !harga || harga < 1) return alert('Isi nama & harga yang bener');
   menu.push({id:Date.now(),nama,harga});
   localStorage.setItem('menuWarkop',JSON.stringify(menu));
   document.getElementById('namaMenu').value = '';
@@ -140,16 +154,21 @@ function tambahMenu(){
 }
 
 function hapusMenu(id){
-  menu = menu.filter(m => m.id !== id);
-  localStorage.setItem('menuWarkop',JSON.stringify(menu));
-  renderMenu();
+  if(confirm('Yakin hapus menu ini?')){
+    menu = menu.filter(m => m.id !== id);
+    localStorage.setItem('menuWarkop',JSON.stringify(menu));
+    renderMenu();
+  }
 }
 
 function tambahKeranjang(){
   const id = parseInt(document.getElementById('pilihMenu').value);
   const jumlah = parseInt(document.getElementById('jumlah').value);
+  if(!id) return alert('Pilih menu dulu');
+  if(jumlah < 1) return alert('Jumlah minimal 1');
   const item = menu.find(m => m.id === id);
   keranjang.push({...item,jumlah,subtotal:item.harga*jumlah});
+  document.getElementById('jumlah').value = 1;
   renderKeranjang();
 }
 
@@ -159,7 +178,7 @@ function renderKeranjang(){
   let total = 0;
   keranjang.forEach((k,i) => {
     total += k.subtotal;
-    tbody.innerHTML += `<tr><td>${k.nama}</td><td>${k.jumlah}</td><td>${k.subtotal.toLocaleString('id-ID')}</td><td><button class="btn-danger" style="padding:3px" onclick="hapusItem(${i})">X</button></td></tr>`;
+    tbody.innerHTML += `<tr><td>${k.nama}</td><td>${k.jumlah}</td><td>Rp ${k.subtotal.toLocaleString('id-ID')}</td><td><button class="btn-danger" style="padding:5px" onclick="hapusItem(${i})">X</button></td></tr>`;
   });
   document.getElementById('total').innerText = total.toLocaleString('id-ID');
 }
@@ -170,23 +189,20 @@ function hapusItem(i){
 }
 
 function bayar(){
-  if(keranjang.length === 0) return alert('Keranjang kosong');
+  if(keranjang.length === 0) return alert('Keranjang masih kosong');
   const total = keranjang.reduce((a,b) => a+b.subtotal,0);
-  const nama = document.getElementById('namaPelanggan').value || 'Pelanggan';
+  const nama = document.getElementById('namaPelanggan').value.trim() || 'Pelanggan';
   
-  // Simpan transaksi
   transaksi.push({tanggal:new Date().toISOString(),items:keranjang,total,nama});
   localStorage.setItem('trxWarkop',JSON.stringify(transaksi));
   
-  // Kirim Nota WA
-  let nota = `*NOTA ${NAMA_WARKOP}*\n\nPelanggan: ${nama}\nTanggal: ${new Date().toLocaleString('id-ID')}\n\n`;
+  let nota = `*NOTA ${NAMA_WARKOP}*\n\nPelanggan/Meja: ${nama}\n${new Date().toLocaleString('id-ID')}\n\n`;
   keranjang.forEach(k => {
-    nota += `${k.nama} x${k.jumlah} = Rp ${k.subtotal.toLocaleString('id-ID')}\n`;
+    nota += `${k.nama} x${k.jumlah}\n  Rp ${k.subtotal.toLocaleString('id-ID')}\n`;
   });
-  nota += `\n*TOTAL: Rp ${total.toLocaleString('id-ID')}*\n\nTerima kasih sudah ngopi! ☕`;
+  nota += `\n*TOTAL: Rp ${total.toLocaleString('id-ID')}*\n\nTerima kasih, monggo pinarak malih ☕`;
   window.open(`https://wa.me/?text=${encodeURIComponent(nota)}`);
   
-  // Reset
   keranjang = [];
   document.getElementById('namaPelanggan').value = '';
   renderKeranjang();
@@ -202,10 +218,11 @@ function updateLaporan(){
 }
 
 function resetLaporan(){
-  if(confirm('Yakin reset semua laporan?')){
+  if(confirm('Yakin hapus SEMUA data transaksi? Gak bisa dibalikin loh')){
     transaksi = [];
     localStorage.setItem('trxWarkop','[]');
     updateLaporan();
+    alert('Laporan berhasil direset');
   }
 }
 
@@ -222,4 +239,4 @@ renderMenu();
 updateLaporan();
 </script>
 </body>
-  </html>
+                                                                            </html>
