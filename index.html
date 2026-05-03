@@ -13,7 +13,11 @@
     .btn{background:#2e7d32;border:none;padding:12px 15px;border-radius:8px;color:#fff;font-weight:bold;cursor:pointer;width:100%;margin:5px 0}
     .btn:active{background:#1b5e20}
     .btn-danger{background:#d32f2f}
+    .btn-blue{background:#1976d2}
+    .btn-small{padding:8px;font-size:14px;width:auto;margin:3px}
     input{width:100%;padding:12px;margin:5px 0;border-radius:8px;border:1px solid #a5d6a7;background:#fff;color:#1a3d1a}
+    .input-group{display:flex;gap:8px}
+    .input-group input{flex:1}
     table{width:100%;border-collapse:collapse;margin:10px 0}
     th,td{padding:10px;text-align:left;border-bottom:1px solid #e8f5e9}
     th{background:#e8f5e9}
@@ -26,13 +30,21 @@
     .tab-content.active{display:block}
     h3{color:#2e7d32;margin-bottom:10px}
     .menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
-    .menu-btn{background:#e8f5e9;border:1px solid #a5d6a7;padding:15px;border-radius:8px;text-align:center;cursor:pointer}
+    .menu-btn{background:#e8f5e9;border:1px solid #a5d6a7;padding:15px;border-radius:8px;text-align:center;cursor:pointer;position:relative}
     .menu-btn:active{background:#c8e6c9}
     .menu-btn b{display:block;color:#1b5e20}
+    .menu-btn.disabled{background:#f5f5f5;color:#999;cursor:not-allowed}
+    .menu-btn.disabled b{color:#999}
+    .stok-badge{position:absolute;top:5px;right:5px;background:#d32f2f;color:#fff;font-size:10px;padding:2px 6px;border-radius:10px}
     .search-result{background:#fff;border:1px solid #a5d6a7;border-radius:8px;max-height:200px;overflow-y:auto;margin-top:-5px;margin-bottom:10px;display:none}
     .search-item{padding:12px;border-bottom:1px solid #e8f5e9;cursor:pointer}
     .search-item:active{background:#e8f5e9}
     .footer-license{position:fixed;bottom:5px;left:0;width:100%;text-align:center;font-size:10px;color:#81c784;opacity:0.7}
+    @media print {
+      body *{visibility:hidden}
+      #strukArea, #strukArea *{visibility:visible}
+      #strukArea{position:absolute;left:0;top:0;width:58mm;font-size:12px}
+    }
   </style>
 </head>
 <body>
@@ -74,16 +86,27 @@
         <tbody></tbody>
       </table>
       <h3>Total: Rp <span id="total">0</span></h3>
-      <input type="text" id="namaPelanggan" placeholder="Nama Pelanggan / No Meja">
-      <button class="btn" onclick="bayar()">💰 BAYAR & KIRIM NOTA WA</button>
+      
+      <!-- FORM SIMPLE -->
+      <input type="text" id="namaPelanggan" placeholder="Nama Pelanggan">
+      <div class="input-group">
+        <input type="text" id="noMeja" placeholder="No Meja">
+        <input type="tel" id="waPelanggan" placeholder="No WA">
+      </div>
+      
+      <button class="btn" onclick="bayar()">💰 BAYAR & KIRIM WA</button>
+      <button class="btn btn-blue" onclick="cetakStruk()">🖨️ CETAK STRUK</button>
     </div>
   </div>
 
   <div id="Menu" class="tab-content">
     <div class="card">
-      <h3>Kelola Menu Warkop</h3>
-      <input type="text" id="namaMenu" placeholder="Nama Menu, contoh: Kopi Jadoel">
-      <input type="number" id="hargaMenu" placeholder="Harga, contoh: 6000">
+      <h3>Kelola Menu & Stok</h3>
+      <input type="text" id="namaMenu" placeholder="Nama Menu">
+      <div class="input-group">
+        <input type="number" id="hargaMenu" placeholder="Harga">
+        <input type="number" id="stokMenu" placeholder="Stok" value="100">
+      </div>
       <button class="btn" onclick="tambahMenu()">+ Tambah Menu Baru</button>
       <div id="daftarMenu" style="margin-top:15px"></div>
     </div>
@@ -99,14 +122,18 @@
   </div>
 </div>
 
+<!-- AREA STRUK BUAT PRINT -->
+<div id="strukArea" style="display:none"></div>
+
 <div class="footer-license" id="footerLicense">KSR-WKP-01</div>
 
 <script>
 // ====== PENGATURAN ======
-const TANGGAL_EXPIRED = '2027-05-02'; // YYYY-MM-DD
+const TANGGAL_EXPIRED = '2027-05-02';
 const NAMA_WARKOP = 'Warkop Jadoel';
-const KODE_LISENSI = 'KSR-WKP-01'; // GANTI KODE PER KLIEN
-const NO_WA_ADMIN = '6281234567890'; // GANTI NOMOR LU
+const KODE_LISENSI = 'KSR-WKP-01';
+const NO_WA_ADMIN = '6281234567890';
+const ALAMAT_WARKOP = 'Jl. Jadoel No. 45, Tulungagung';
 // ========================
 
 let menu = JSON.parse(localStorage.getItem('menuWarkop')) || [];
@@ -116,7 +143,6 @@ let menuTerpilih = null;
 
 function cekLisensi(){
   document.getElementById('footerLicense').innerText = KODE_LISENSI;
-  // Gak nampilin tanggal expired sama sekali
   if(new Date() > new Date(TANGGAL_EXPIRED)){
     document.getElementById('expiredScreen').style.display = 'flex';
     document.getElementById('mainApp').style.display = 'none';
@@ -125,14 +151,18 @@ function cekLisensi(){
 
 if(menu.length === 0){
   menu = [
-    {id:1,nama:'Kopi Jadoel Hitam',harga:5000},
-    {id:2,nama:'Kopi Susu Jadoel',harga:7000},
-    {id:3,nama:'Teh Tubruk Panas',harga:4000},
-    {id:4,nama:'Teh Es Jadoel',harga:5000},
-    {id:5,nama:'Indomie Rebus Telor',harga:10000},
-    {id:6,nama:'Indomie Goreng Kornet',harga:13000},
-    {id:7,nama:'Roti Bakar Coklat',harga:8000},
-    {id:8,nama:'Pisang Goreng',harga:6000}
+    {id:1,nama:'Kopi Jadoel Hitam',harga:5000,stok:50},
+    {id:2,nama:'Kopi Susu Jadoel',harga:7000,stok:50},
+    {id:3,nama:'Teh Tubruk Panas',harga:4000,stok:100},
+    {id:4,nama:'Teh Es Jadoel',harga:5000,stok:100},
+    {id:5,nama:'Indomie Rebus Telor',harga:10000,stok:30},
+    {id:6,nama:'Indomie Goreng Kornet',harga:13000,stok:30},
+    {id:7,nama:'Roti Bakar Coklat',harga:8000,stok:20},
+    {id:8,nama:'Pisang Goreng',harga:6000,stok:40},
+    {id:9,nama:'Good day panas',harga:6000,stok:25},
+    {id:10,nama:'Goodday dingin',harga:7000,stok:25},
+    {id:11,nama:'Nutrisari',harga:4000,stok:50},
+    {id:12,nama:'Kukubima',harga:4000,stok:50}
   ];
   localStorage.setItem('menuWarkop',JSON.stringify(menu));
 }
@@ -144,22 +174,48 @@ function renderMenu(){
   menuCepat.innerHTML = '';
   
   menu.forEach(m => {
-    daftar.innerHTML += `<div class="menu-item"><span><b>${m.nama}</b><br>Rp ${m.harga.toLocaleString('id-ID')}</span><button class="btn-danger" style="width:auto;padding:8px" onclick="hapusMenu(${m.id})">Hapus</button></div>`;
-    menuCepat.innerHTML += `<div class="menu-btn" onclick="pilihMenuCepat(${m.id})"><b>${m.nama}</b>Rp ${m.harga.toLocaleString('id-ID')}</div>`;
+    // Daftar menu di tab Menu
+    daftar.innerHTML += `
+      <div class="menu-item">
+        <span><b>${m.nama}</b><br>Rp ${m.harga.toLocaleString('id-ID')} | Stok: ${m.stok}</span>
+        <div>
+          <button class="btn-small" onclick="tambahStok(${m.id})">+Stok</button>
+          <button class="btn-danger btn-small" onclick="hapusMenu(${m.id})">Hapus</button>
+        </div>
+      </div>`;
+    
+    // Tombol menu cepat - disable kalo stok 0
+    const disabled = m.stok <= 0 ? 'disabled' : '';
+    const stokBadge = m.stok <= 5 ? `<span class="stok-badge">${m.stok}</span>` : '';
+    menuCepat.innerHTML += `
+      <div class="menu-btn ${disabled}" onclick="${m.stok > 0 ? `pilihMenuCepat(${m.id})` : ''}">
+        ${stokBadge}
+        <b>${m.nama}</b>Rp ${m.harga.toLocaleString('id-ID')}
+      </div>`;
   });
+}
+
+function tambahStok(id){
+  const tambah = prompt('Tambah stok berapa?');
+  if(tambah && !isNaN(tambah)){
+    const item = menu.find(m => m.id === id);
+    item.stok += parseInt(tambah);
+    localStorage.setItem('menuWarkop',JSON.stringify(menu));
+    renderMenu();
+  }
 }
 
 function cariMenuRealTime(){
   const keyword = document.getElementById('cariMenu').value.toLowerCase().trim();
   const hasil = document.getElementById('hasilCari');
   if(keyword.length === 0){ hasil.style.display = 'none'; return; }
-  const filtered = menu.filter(m => m.nama.toLowerCase().includes(keyword));
+  const filtered = menu.filter(m => m.nama.toLowerCase().includes(keyword) && m.stok > 0);
   hasil.innerHTML = '';
   if(filtered.length === 0){
-    hasil.innerHTML = '<div class="search-item">Menu tidak ditemukan</div>';
+    hasil.innerHTML = '<div class="search-item">Menu tidak ada / Stok habis</div>';
   } else {
     filtered.forEach(m => {
-      hasil.innerHTML += `<div class="search-item" onclick="pilihDariSearch(${m.id})"><b>${m.nama}</b><br>Rp ${m.harga.toLocaleString('id-ID')}</div>`;
+      hasil.innerHTML += `<div class="search-item" onclick="pilihDariSearch(${m.id})"><b>${m.nama}</b><br>Rp ${m.harga.toLocaleString('id-ID')} | Stok: ${m.stok}</div>`;
     });
   }
   hasil.style.display = 'block';
@@ -174,6 +230,7 @@ function pilihDariSearch(id){
 
 function pilihMenuCepat(id){
   menuTerpilih = menu.find(m => m.id === id);
+  if(menuTerpilih.stok <= 0) return alert('Stok habis!');
   tambahKeKeranjang();
 }
 
@@ -181,6 +238,8 @@ function tambahKeKeranjang(){
   if(!menuTerpilih) return alert('Pilih menu dulu');
   const jumlah = parseInt(document.getElementById('jumlah').value) || 1;
   if(jumlah < 1) return alert('Jumlah minimal 1');
+  if(jumlah > menuTerpilih.stok) return alert(`Stok ${menuTerpilih.nama} cuma ${menuTerpilih.stok}`);
+  
   keranjang.push({...menuTerpilih,jumlah,subtotal:menuTerpilih.harga*jumlah});
   document.getElementById('jumlah').value = 1;
   document.getElementById('cariMenu').value = '';
@@ -191,11 +250,13 @@ function tambahKeKeranjang(){
 function tambahMenu(){
   const nama = document.getElementById('namaMenu').value.trim();
   const harga = parseInt(document.getElementById('hargaMenu').value);
+  const stok = parseInt(document.getElementById('stokMenu').value) || 0;
   if(!nama || !harga || harga < 1) return alert('Isi nama & harga yang bener');
-  menu.push({id:Date.now(),nama,harga});
+  menu.push({id:Date.now(),nama,harga,stok});
   localStorage.setItem('menuWarkop',JSON.stringify(menu));
   document.getElementById('namaMenu').value = '';
   document.getElementById('hargaMenu').value = '';
+  document.getElementById('stokMenu').value = '100';
   renderMenu();
 }
 
@@ -223,19 +284,78 @@ function hapusItem(i){
   renderKeranjang();
 }
 
-function bayar(){
-  if(keranjang.length === 0) return alert('Keranjang masih kosong');
+function simpanTransaksi(){
+  if(keranjang.length === 0) return false;
   const total = keranjang.reduce((a,b) => a+b.subtotal,0);
   const nama = document.getElementById('namaPelanggan').value.trim() || 'Pelanggan';
-  transaksi.push({tanggal:new Date().toISOString(),items:keranjang,total,nama});
+  const meja = document.getElementById('noMeja').value.trim() || '-';
+  const wa = document.getElementById('waPelanggan').value.trim() || '-';
+  
+  // Kurangi stok - ANTI KARYAWAN NAKAL
+  keranjang.forEach(k => {
+    const item = menu.find(m => m.id === k.id);
+    if(item) item.stok -= k.jumlah;
+  });
+  localStorage.setItem('menuWarkop',JSON.stringify(menu));
+  
+  transaksi.push({tanggal:new Date().toISOString(),items:keranjang,total,nama,meja,wa});
   localStorage.setItem('trxWarkop',JSON.stringify(transaksi));
-  let nota = `*NOTA ${NAMA_WARKOP}*\n\nPelanggan/Meja: ${nama}\n${new Date().toLocaleString('id-ID')}\n\n`;
+  return {total,nama,meja,wa};
+}
+
+function bayar(){
+  const data = simpanTransaksi();
+  if(!data) return alert('Keranjang masih kosong');
+  
+  let nota = `*NOTA ${NAMA_WARKOP}*\n\nPelanggan: ${data.nama}\nMeja: ${data.meja}\n${new Date().toLocaleString('id-ID')}\n\n`;
   keranjang.forEach(k => { nota += `${k.nama} x${k.jumlah}\n  Rp ${k.subtotal.toLocaleString('id-ID')}\n`; });
-  nota += `\n*TOTAL: Rp ${total.toLocaleString('id-ID')}*\n\nTerima kasih, monggo pinarak malih ☕`;
-  window.open(`https://wa.me/?text=${encodeURIComponent(nota)}`);
+  nota += `\n*TOTAL: Rp ${data.total.toLocaleString('id-ID')}*\n\nTerima kasih, monggo pinarak malih ☕`;
+  
+  const waTujuan = data.wa !== '-' ? data.wa : '';
+  window.open(`https://wa.me/${waTujuan}?text=${encodeURIComponent(nota)}`);
+  
+  resetKeranjang();
+}
+
+function cetakStruk(){
+  const data = simpanTransaksi();
+  if(!data) return alert('Keranjang masih kosong');
+  
+  const struk = `
+    <div style="width:58mm;font-family:monospace;font-size:12px;text-align:center">
+      <b>${NAMA_WARKOP}</b><br>
+      ${ALAMAT_WARKOP}<br>
+      ========================<br>
+      ${new Date().toLocaleString('id-ID')}<br>
+      Nama: ${data.nama}<br>
+      Meja: ${data.meja}<br>
+      ========================<br>
+      <div style="text-align:left">
+      ${keranjang.map(k => `
+        ${k.nama}<br>
+        ${k.jumlah} x ${k.harga.toLocaleString('id-ID')} = ${k.subtotal.toLocaleString('id-ID')}<br>
+      `).join('')}
+      </div>
+      ========================<br>
+      <b>TOTAL: Rp ${data.total.toLocaleString('id-ID')}</b><br>
+      ========================<br>
+      Terima kasih<br>
+      ${KODE_LISENSI}
+    </div>
+  `;
+  
+  document.getElementById('strukArea').innerHTML = struk;
+  window.print();
+  resetKeranjang();
+}
+
+function resetKeranjang(){
   keranjang = [];
   document.getElementById('namaPelanggan').value = '';
+  document.getElementById('noMeja').value = '';
+  document.getElementById('waPelanggan').value = '';
   renderKeranjang();
+  renderMenu();
   updateLaporan();
 }
 
