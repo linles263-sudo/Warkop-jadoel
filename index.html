@@ -10,7 +10,7 @@
     .container{max-width:500px;margin:0 auto}
     .header{background:#2e7d32;padding:15px;border-radius:10px;text-align:center;margin-bottom:15px;color:#fff;box-shadow:0 2px 5px rgba(0,0,0,0.2)}
     .card{background:#ffffff;padding:15px;border-radius:10px;margin-bottom:15px;border:1px solid #c8e6c9;box-shadow:0 1px 3px rgba(0,0,0,0.1)}
-    .btn{background:#2e7d32;border:none;padding:12px 15px;border-radius:8px;color:#fff;font-weight:bold;cursor:pointer;width:100%;margin:5px 0}
+    .btn{background:#2e7d32;border:none;padding:14px 15px;border-radius:8px;color:#fff;font-weight:bold;cursor:pointer;width:100%;margin:5px 0;font-size:16px}
     .btn:active{background:#1b5e20}
     .btn-danger{background:#d32f2f}
     .btn-blue{background:#1976d2}
@@ -41,12 +41,12 @@
     .search-item:active{background:#e8f5e9}
     .footer-license{position:fixed;bottom:5px;left:0;width:100%;text-align:center;font-size:10px;color:#81c784;opacity:0.7}
     .payment-method{display:flex;gap:8px;margin:10px 0}
-    .payment-method label{flex:1;padding:12px;border:2px solid #c8e6c9;border-radius:8px;text-align:center;cursor:pointer}
+    .payment-method label{flex:1;padding:12px;border:2px solid #c8e6c9;border-radius:8px;text-align:center;cursor:pointer;font-weight:bold}
     .payment-method input{display:none}
     .payment-method input:checked+label{background:#2e7d32;color:#fff;border-color:#2e7d32}
     .qris-img{width:120px;height:120px;background:#fff;border:1px solid #000;margin:5px auto;display:block}
-    .cash-box{background:#fff3cd;border:1px solid #ffe69c;padding:10px;border-radius:8px;margin:10px 0;display:none}
-    .kembalian{font-size:18px;font-weight:bold;color:#2e7d32;text-align:center;margin-top:5px}
+    .cash-box{background:#fff3cd;border:1px solid #ffe69c;padding:12px;border-radius:8px;margin:10px 0;display:none}
+    .kembalian{font-size:18px;font-weight:bold;color:#2e7d32;text-align:center;margin-top:8px}
     @media print {
       body *{visibility:hidden}
       #strukArea, #strukArea *{visibility:visible}
@@ -102,13 +102,12 @@
         <label for="qris">📱 QRIS</label>
       </div>
       
-      <!-- BOX CASH KEMBALIAN -->
       <div class="cash-box" id="cashBox">
-        <input type="number" id="uangBayar" placeholder="Uang Bayar" oninput="hitungKembalian()">
+        <input type="number" id="uangBayar" placeholder="Uang Bayar Pelanggan" oninput="hitungKembalian()">
         <div class="kembalian">Kembalian: Rp <span id="jumlahKembalian">0</span></div>
       </div>
       
-      <button class="btn btn-blue" onclick="cetakStruk()">🖨️ CETAK STRUK</button>
+      <button class="btn btn-blue" onclick="prosesBayar()">💰 BAYAR & CETAK STRUK</button>
     </div>
   </div>
 
@@ -130,6 +129,7 @@
       <h3>Laporan Hari Ini</h3>
       <p>Total Transaksi: <b id="totalTrx">0</b></p>
       <p>Total Omset: <b>Rp <span id="totalOmset">0</span></b></p>
+      <p>CASH: <b>Rp <span id="omsetCash">0</span></b> | QRIS: <b>Rp <span id="omsetQris">0</span></b></p>
       <button class="btn btn-danger" onclick="resetLaporan()">Hapus Semua Laporan</button>
     </div>
     <div class="card">
@@ -254,7 +254,15 @@ function tambahKeKeranjang(){
   if(jumlah < 1) return alert('Jumlah minimal 1');
   if(jumlah > menuTerpilih.stok) return alert(`Stok ${menuTerpilih.nama} cuma ${menuTerpilih.stok}`);
   
-  keranjang.push({...menuTerpilih,jumlah,subtotal:menuTerpilih.harga*jumlah});
+  const existing = keranjang.find(k => k.id === menuTerpilih.id);
+  if(existing){
+    if(existing.jumlah + jumlah > menuTerpilih.stok) return alert(`Total melebihi stok! Stok: ${menuTerpilih.stok}`);
+    existing.jumlah += jumlah;
+    existing.subtotal = existing.harga * existing.jumlah;
+  } else {
+    keranjang.push({...menuTerpilih,jumlah,subtotal:menuTerpilih.harga*jumlah});
+  }
+  
   document.getElementById('jumlah').value = 1;
   document.getElementById('cariMenu').value = '';
   menuTerpilih = null;
@@ -314,31 +322,53 @@ function hitungKembalian(){
   return {bayar,kembalian,total};
 }
 
-function simpanTransaksi(){
-  if(keranjang.length === 0) return false;
+function prosesBayar(){
+  if(keranjang.length === 0) return alert('Keranjang masih kosong!');
+  const total = keranjang.reduce((a,b) => a+b.subtotal,0);
   const metodeBayar = document.querySelector('input[name="bayar"]:checked').value;
-  const {bayar,kembalian,total} = hitungKembalian();
+  let bayar = 0, kembalian = 0;
   
-  if(metodeBayar === 'CASH' && bayar < total){
-    alert('Uang bayar kurang!');
-    return false;
+  if(metodeBayar === 'CASH'){
+    const cashData = hitungKembalian();
+    bayar = cashData.bayar;
+    kembalian = cashData.kembalian;
+    if(bayar < total){
+      alert(`Uang kurang! Total: Rp ${total.toLocaleString('id-ID')}`);
+      return;
+    }
   }
   
+  // Potong stok
   keranjang.forEach(k => {
     const item = menu.find(m => m.id === k.id);
     if(item) item.stok -= k.jumlah;
   });
   localStorage.setItem('menuWarkop',JSON.stringify(menu));
   
-  transaksi.push({tanggal:new Date().toISOString(),items:keranjang,total,metodeBayar,bayar,kembalian});
+  // Simpan transaksi - INI YANG BIKIN MASUK LAPORAN
+  transaksi.push({
+    tanggal:new Date().toISOString(),
+    items:[...keranjang],
+    total,
+    metodeBayar,
+    bayar,
+    kembalian
+  });
   localStorage.setItem('trxWarkop',JSON.stringify(transaksi));
-  return {total,metodeBayar,bayar,kembalian};
+  
+  // Cetak struk
+  cetakStrukInternal({total,metodeBayar,bayar,kembalian});
+  
+  // Reset
+  keranjang = [];
+  document.getElementById('uangBayar').value = '';
+  renderKeranjang();
+  renderMenu();
+  updateLaporan();
+  alert('Transaksi berhasil!');
 }
 
-function cetakStruk(){
-  const data = simpanTransaksi();
-  if(!data) return alert('Keranjang masih kosong');
-  
+function cetakStrukInternal(data){
   let bayarSection = '';
   if(data.metodeBayar === 'CASH'){
     bayarSection = `
@@ -379,23 +409,19 @@ function cetakStruk(){
   
   document.getElementById('strukArea').innerHTML = struk;
   window.print();
-  resetKeranjang();
-}
-
-function resetKeranjang(){
-  keranjang = [];
-  document.getElementById('uangBayar').value = '';
-  renderKeranjang();
-  renderMenu();
-  updateLaporan();
 }
 
 function updateLaporan(){
   const hariIni = new Date().toDateString();
   const trxHariIni = transaksi.filter(t => new Date(t.tanggal).toDateString() === hariIni);
   const omset = trxHariIni.reduce((a,b) => a+b.total,0);
+  const omsetCash = trxHariIni.filter(t=>t.metodeBayar==='CASH').reduce((a,b)=>a+b.total,0);
+  const omsetQris = trxHariIni.filter(t=>t.metodeBayar==='QRIS').reduce((a,b)=>a+b.total,0);
+  
   document.getElementById('totalTrx').innerText = trxHariIni.length;
   document.getElementById('totalOmset').innerText = omset.toLocaleString('id-ID');
+  document.getElementById('omsetCash').innerText = omsetCash.toLocaleString('id-ID');
+  document.getElementById('omsetQris').innerText = omsetQris.toLocaleString('id-ID');
   
   const menuTerjual = {};
   trxHariIni.forEach(t => {
@@ -408,7 +434,7 @@ function updateLaporan(){
   
   const tbody = document.querySelector('#tabelLaporan tbody');
   tbody.innerHTML = '';
-  Object.keys(menuTerjual).forEach(nama => {
+  Object.keys(menuTerjual).sort((a,b)=>menuTerjual[b].qty-menuTerjual[a].qty).forEach(nama => {
     const data = menuTerjual[nama];
     tbody.innerHTML += `<tr><td>${nama}</td><td>${data.qty}</td><td>Rp ${data.omset.toLocaleString('id-ID')}</td></tr>`;
   });
@@ -439,7 +465,7 @@ document.addEventListener('click',function(e){
 cekLisensi();
 renderMenu();
 updateLaporan();
-gantiMetodeBayar(); // Munculin box cash default
+gantiMetodeBayar();
 </script>
 </body>
       </html>
