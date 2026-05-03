@@ -45,6 +45,8 @@
     .payment-method input{display:none}
     .payment-method input:checked+label{background:#2e7d32;color:#fff;border-color:#2e7d32}
     .qris-img{width:120px;height:120px;background:#fff;border:1px solid #000;margin:5px auto;display:block}
+    .cash-box{background:#fff3cd;border:1px solid #ffe69c;padding:10px;border-radius:8px;margin:10px 0;display:none}
+    .kembalian{font-size:18px;font-weight:bold;color:#2e7d32;text-align:center;margin-top:5px}
     @media print {
       body *{visibility:hidden}
       #strukArea, #strukArea *{visibility:visible}
@@ -92,13 +94,18 @@
       </table>
       <h3>Total: Rp <span id="total">0</span></h3>
       
-      <!-- METODE BAYAR -->
       <p style="margin:10px 0 5px 0;font-weight:bold;color:#2e7d32">Metode Bayar:</p>
       <div class="payment-method">
-        <input type="radio" id="cash" name="bayar" value="CASH" checked>
+        <input type="radio" id="cash" name="bayar" value="CASH" checked onchange="gantiMetodeBayar()">
         <label for="cash">💵 CASH</label>
-        <input type="radio" id="qris" name="bayar" value="QRIS">
+        <input type="radio" id="qris" name="bayar" value="QRIS" onchange="gantiMetodeBayar()">
         <label for="qris">📱 QRIS</label>
+      </div>
+      
+      <!-- BOX CASH KEMBALIAN -->
+      <div class="cash-box" id="cashBox">
+        <input type="number" id="uangBayar" placeholder="Uang Bayar" oninput="hitungKembalian()">
+        <div class="kembalian">Kembalian: Rp <span id="jumlahKembalian">0</span></div>
       </div>
       
       <button class="btn btn-blue" onclick="cetakStruk()">🖨️ CETAK STRUK</button>
@@ -135,9 +142,7 @@
   </div>
 </div>
 
-<!-- AREA STRUK BUAT PRINT -->
 <div id="strukArea" style="display:none"></div>
-
 <div class="footer-license" id="footerLicense">KSR-WKP-01</div>
 
 <script>
@@ -147,7 +152,7 @@ const NAMA_WARKOP = 'Warkop Jadoel';
 const KODE_LISENSI = 'KSR-WKP-01';
 const NO_WA_ADMIN = '6281234567890';
 const ALAMAT_WARKOP = 'Jl. Jadoel No. 45, Tulungagung';
-const QRIS_CODE = '00020101021226650014ID.CO.QRIS.WWW01189360091400012345670208QRISWARKOP52045814'; // GANTI QRIS LU
+const QRIS_CODE = '00020101021226650014ID.CO.QRIS.WWW01189360091400012345670208QRISWARKOP52045814';
 // ========================
 
 let menu = JSON.parse(localStorage.getItem('menuWarkop')) || [];
@@ -254,6 +259,7 @@ function tambahKeKeranjang(){
   document.getElementById('cariMenu').value = '';
   menuTerpilih = null;
   renderKeranjang();
+  hitungKembalian();
 }
 
 function tambahMenu(){
@@ -286,6 +292,7 @@ function renderKeranjang(){
     tbody.innerHTML += `<tr><td>${k.nama}</td><td>${k.jumlah}</td><td>Rp ${k.subtotal.toLocaleString('id-ID')}</td><td><button class="btn-danger" style="padding:5px" onclick="hapusItem(${i})">X</button></td></tr>`;
   });
   document.getElementById('total').innerText = total.toLocaleString('id-ID');
+  hitungKembalian();
 }
 
 function hapusItem(i){
@@ -293,33 +300,58 @@ function hapusItem(i){
   renderKeranjang();
 }
 
+function gantiMetodeBayar(){
+  const metode = document.querySelector('input[name="bayar"]:checked').value;
+  document.getElementById('cashBox').style.display = metode === 'CASH' ? 'block' : 'none';
+  if(metode === 'CASH') hitungKembalian();
+}
+
+function hitungKembalian(){
+  const total = keranjang.reduce((a,b) => a+b.subtotal,0);
+  const bayar = parseInt(document.getElementById('uangBayar').value) || 0;
+  const kembalian = bayar - total;
+  document.getElementById('jumlahKembalian').innerText = kembalian > 0 ? kembalian.toLocaleString('id-ID') : '0';
+  return {bayar,kembalian,total};
+}
+
 function simpanTransaksi(){
   if(keranjang.length === 0) return false;
-  const total = keranjang.reduce((a,b) => a+b.subtotal,0);
   const metodeBayar = document.querySelector('input[name="bayar"]:checked').value;
+  const {bayar,kembalian,total} = hitungKembalian();
   
-  // Kurangi stok
+  if(metodeBayar === 'CASH' && bayar < total){
+    alert('Uang bayar kurang!');
+    return false;
+  }
+  
   keranjang.forEach(k => {
     const item = menu.find(m => m.id === k.id);
     if(item) item.stok -= k.jumlah;
   });
   localStorage.setItem('menuWarkop',JSON.stringify(menu));
   
-  transaksi.push({tanggal:new Date().toISOString(),items:keranjang,total,metodeBayar});
+  transaksi.push({tanggal:new Date().toISOString(),items:keranjang,total,metodeBayar,bayar,kembalian});
   localStorage.setItem('trxWarkop',JSON.stringify(transaksi));
-  return {total,metodeBayar};
+  return {total,metodeBayar,bayar,kembalian};
 }
 
 function cetakStruk(){
   const data = simpanTransaksi();
   if(!data) return alert('Keranjang masih kosong');
   
-  const qrisSection = data.metodeBayar === 'QRIS' ? `
-    ========================<br>
-    <b>SCAN QRIS UNTUK BAYAR</b><br>
-    <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${QRIS_CODE}" class="qris-img"><br>
-    ========================<br>
-  ` : '';
+  let bayarSection = '';
+  if(data.metodeBayar === 'CASH'){
+    bayarSection = `
+      Bayar: Rp ${data.bayar.toLocaleString('id-ID')}<br>
+      Kembali: Rp ${data.kembalian.toLocaleString('id-ID')}<br>
+    `;
+  } else {
+    bayarSection = `
+      ========================<br>
+      <b>SCAN QRIS UNTUK BAYAR</b><br>
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${QRIS_CODE}" class="qris-img"><br>
+    `;
+  }
   
   const struk = `
     <div style="width:58mm;font-family:monospace;font-size:12px;text-align:center">
@@ -338,7 +370,8 @@ function cetakStruk(){
       ========================<br>
       <b>TOTAL: Rp ${data.total.toLocaleString('id-ID')}</b><br>
       Bayar: ${data.metodeBayar}<br>
-      ${qrisSection}
+      ${bayarSection}
+      ========================<br>
       Terima kasih<br>
       ${KODE_LISENSI}
     </div>
@@ -351,6 +384,7 @@ function cetakStruk(){
 
 function resetKeranjang(){
   keranjang = [];
+  document.getElementById('uangBayar').value = '';
   renderKeranjang();
   renderMenu();
   updateLaporan();
@@ -363,7 +397,6 @@ function updateLaporan(){
   document.getElementById('totalTrx').innerText = trxHariIni.length;
   document.getElementById('totalOmset').innerText = omset.toLocaleString('id-ID');
   
-  // Laporan detail menu
   const menuTerjual = {};
   trxHariIni.forEach(t => {
     t.items.forEach(item => {
@@ -406,6 +439,7 @@ document.addEventListener('click',function(e){
 cekLisensi();
 renderMenu();
 updateLaporan();
+gantiMetodeBayar(); // Munculin box cash default
 </script>
 </body>
-  </html>
+      </html>
