@@ -143,7 +143,7 @@
 
 <script>
 // ====== SISTEM SEWA BULANAN ======
-const TANGGAL_AKTIFASI = '2026-04-05'; // GANTI PAS KLIEN BAYAR
+const TANGGAL_AKTIFASI = '2026-04-03'; // GANTI PAS KLIEN BAYAR
 const MASA_SEWA_HARI = 30; // 1 BULAN
 const NAMA_WARKOP = 'Warkop Jadoel';
 const KODE_LISENSI = 'KSR-WKP-01';
@@ -165,11 +165,12 @@ function cekLisensi(){
   
   const sisaHari = Math.ceil((tglExpired - new Date()) / (1000*60*60*24));
   
-  if(sisaHari <= 3 && sisaHari > 0){
-    const mauBayar = confirm(`⚠️ MASA SEWA TINGGAL ${sisaHari} HARI!\n\nSegera perpanjang Rp 200.000/bulan\nTransfer ke BCA 12345678 a.n Si Prof\n\nKlik OK untuk Chat Admin`);
-    if(mauBayar){
-      window.open(`https://wa.me/62895351432524${NO_WA_ADMIN}?text=Halo%20Admin,%20Saya%20mau%20perpanjang%20sewa%20${KODE_LISENSI}`);
-    }
+ if(sisaHari <= 3 && sisaHari > 0){
+  const mauBayar = confirm(`⚠️ MASA SEWA TINGGAL ${sisaHari} HARI!\n\nAplikasi akan terkunci otomatis.\n\nKlik OK untuk Chat Admin & minta info pembayaran`);
+  if(mauBayar){
+    window.open(`https://wa.me/${NO_WA_ADMIN}?text=Halo%20Admin,%20${NAMA_WARKOP}%20mau%20perpanjang%20sewa%20${KODE_LISENSI}`);
+  }
+  }
   }
   
   if(new Date() > tglExpired){
