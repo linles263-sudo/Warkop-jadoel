@@ -4,49 +4,50 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Warkop Jadoel Digital</title>
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
   <style>
     *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
     body{background:#f0f8f0;color:#1a3d1a;padding:10px;padding-bottom:40px}
-   .container{max-width:500px;margin:0 auto}
-   .header{background:#2e7d32;padding:15px;border-radius:10px;text-align:center;margin-bottom:15px;color:#fff;box-shadow:0 2px 5px rgba(0,0,0,0.2)}
-   .card{background:#ffffff;padding:15px;border-radius:10px;margin-bottom:15px;border:1px solid #c8e6c9;box-shadow:0 1px 3px rgba(0,0,0,0.1)}
-   .btn{background:#2e7d32;border:none;padding:14px 15px;border-radius:8px;color:#fff;font-weight:bold;cursor:pointer;width:100%;margin:5px 0;font-size:16px}
-   .btn:active{background:#1b5e20}
-   .btn:disabled{background:#999;cursor:not-allowed}
-   .btn-danger{background:#d32f2f}
-   .btn-small{padding:8px;font-size:14px;width:auto;margin:3px}
+  .container{max-width:500px;margin:0 auto}
+  .header{background:#2e7d32;padding:15px;border-radius:10px;text-align:center;margin-bottom:15px;color:#fff;box-shadow:0 2px 5px rgba(0,0,0,0.2)}
+  .card{background:#ffffff;padding:15px;border-radius:10px;margin-bottom:15px;border:1px solid #c8e6c9;box-shadow:0 1px 3px rgba(0,0,0,0.1)}
+  .btn{background:#2e7d32;border:none;padding:14px 15px;border-radius:8px;color:#fff;font-weight:bold;cursor:pointer;width:100%;margin:5px 0;font-size:16px}
+  .btn:active{background:#1b5e20}
+  .btn:disabled{background:#999;cursor:not-allowed}
+  .btn-danger{background:#d32f2f}
+  .btn-small{padding:8px;font-size:14px;width:auto;margin:3px}
     input,select{width:100%;padding:12px;margin:5px 0;border-radius:8px;border:1px solid #a5d6a7;background:#fff;color:#1a3d1a}
-   .input-group{display:flex;gap:8px}
-   .input-group input{flex:1}
+  .input-group{display:flex;gap:8px}
+  .input-group input{flex:1}
     table{width:100%;border-collapse:collapse;margin:10px 0;font-size:14px}
     th,td{padding:10px;text-align:left;border-bottom:1px solid #e8f5e9}
     th{background:#e8f5e9}
-   .menu-item{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #e8f5e9}
-   .expired{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);display:none;justify-content:center;align-items:center;text-align:center;padding:20px;z-index:999;color:#fff}
-   .tab{display:flex;margin-bottom:15px;background:#fff;border-radius:10px;overflow:hidden;border:1px solid #c8e6c9}
-   .tab button{flex:1;padding:12px;background:#fff;border:none;color:#2e7d32;font-weight:bold}
-   .tab button.active{background:#2e7d32;color:#fff}
-   .tab-content{display:none}
-   .tab-content.active{display:block}
+  .menu-item{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #e8f5e9}
+  .expired{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);display:none;justify-content:center;align-items:center;text-align:center;padding:20px;z-index:999;color:#fff}
+  .tab{display:flex;margin-bottom:15px;background:#fff;border-radius:10px;overflow:hidden;border:1px solid #c8e6c9}
+  .tab button{flex:1;padding:12px;background:#fff;border:none;color:#2e7d32;font-weight:bold}
+  .tab button.active{background:#2e7d32;color:#fff}
+  .tab-content{display:none}
+  .tab-content.active{display:block}
     h3{color:#2e7d32;margin-bottom:10px}
-   .menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
-   .menu-btn{background:#e8f5e9;border:1px solid #a5d6a7;padding:15px;border-radius:8px;text-align:center;cursor:pointer;position:relative}
-   .menu-btn:active{background:#c8e6c9}
-   .menu-btn b{display:block;color:#1b5e20}
-   .menu-btn.disabled{background:#f5f5f5;color:#999;cursor:not-allowed}
-   .menu-btn.disabled b{color:#999}
-   .stok-badge{position:absolute;top:5px;right:5px;background:#d32f2f;color:#fff;font-size:10px;padding:2px 6px;border-radius:10px}
-   .search-result{background:#fff;border:1px solid #a5d6a7;border-radius:8px;max-height:200px;overflow-y:auto;margin-top:-5px;margin-bottom:10px;display:none}
-   .search-item{padding:12px;border-bottom:1px solid #e8f5e9;cursor:pointer}
-   .search-item:active{background:#e8f5e9}
-   .footer-license{position:fixed;bottom:5px;left:0;width:100%;text-align:center;font-size:10px;color:#81c784;opacity:0.7}
-   .payment-method{display:flex;gap:8px;margin:10px 0}
-   .payment-method label{flex:1;padding:12px;border:2px solid #c8e6c9;border-radius:8px;text-align:center;cursor:pointer;font-weight:bold}
-   .payment-method input{display:none}
-   .payment-method input:checked+label{background:#2e7d32;color:#fff;border-color:#2e7d32}
-   .cash-box{background:#fff3cd;border:1px solid #ffe69c;padding:12px;border-radius:8px;margin:10px 0;display:none}
-   .kembalian{font-size:20px;font-weight:bold;color:#2e7d32;text-align:center;margin-top:8px}
-   .alert-sukses{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#2e7d32;color:#fff;padding:15px 25px;border-radius:8px;z-index:1000;display:none;font-weight:bold}
+  .menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+  .menu-btn{background:#e8f5e9;border:1px solid #a5d6a7;padding:15px;border-radius:8px;text-align:center;cursor:pointer;position:relative}
+  .menu-btn:active{background:#c8e6c9}
+  .menu-btn b{display:block;color:#1b5e20}
+  .menu-btn.disabled{background:#f5f5f5;color:#999;cursor:not-allowed}
+  .menu-btn.disabled b{color:#999}
+  .stok-badge{position:absolute;top:5px;right:5px;background:#d32f2f;color:#fff;font-size:10px;padding:2px 6px;border-radius:10px}
+  .search-result{background:#fff;border:1px solid #a5d6a7;border-radius:8px;max-height:200px;overflow-y:auto;margin-top:-5px;margin-bottom:10px;display:none}
+  .search-item{padding:12px;border-bottom:1px solid #e8f5e9;cursor:pointer}
+  .search-item:active{background:#e8f5e9}
+  .footer-license{position:fixed;bottom:5px;left:0;width:100%;text-align:center;font-size:10px;color:#81c784;opacity:0.7}
+  .payment-method{display:flex;gap:8px;margin:10px 0}
+  .payment-method label{flex:1;padding:12px;border:2px solid #c8e6c9;border-radius:8px;text-align:center;cursor:pointer;font-weight:bold}
+  .payment-method input{display:none}
+  .payment-method input:checked+label{background:#2e7d32;color:#fff;border-color:#2e7d32}
+  .cash-box{background:#fff3cd;border:1px solid #ffe69c;padding:12px;border-radius:8px;margin:10px 0;display:none}
+  .kembalian{font-size:20px;font-weight:bold;color:#2e7d32;text-align:center;margin-top:8px}
+  .alert-sukses{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#2e7d32;color:#fff;padding:15px 25px;border-radius:8px;z-index:1000;display:none;font-weight:bold}
   </style>
 </head>
 <body>
@@ -127,6 +128,9 @@
       <p>Total Transaksi: <b id="totalTrx">0</b></p>
       <p>Total Omset: <b>Rp <span id="totalOmset">0</span></b></p>
       <p>CASH: <b>Rp <span id="omsetCash">0</span></b> | QRIS: <b>Rp <span id="omsetQris">0</span></b></p>
+
+      <button class="btn" style="background:#25D366" onclick="kirimLaporanWA()">📲 Kirim Laporan ke WA Owner</button>
+      <button class="btn" style="background:#1D6F42" onclick="downloadLaporanExcel()">📥 Download Laporan Excel</button>
       <button class="btn btn-danger" onclick="resetLaporan()">Hapus Semua Laporan</button>
     </div>
     <div class="card">
@@ -149,7 +153,6 @@ const NAMA_WARKOP = 'Warkop Jadoel';
 const KODE_LISENSI = 'KSR-WKP-01';
 const NO_WA_ADMIN = '62895351432524'; // NO LU YANG BENER
 // ================================
-// ========================
 
 let menu = JSON.parse(localStorage.getItem('menuWarkop')) || [];
 let keranjang = [];
@@ -158,20 +161,20 @@ let menuTerpilih = null;
 
 function cekLisensi(){
   document.getElementById('footerLicense').innerText = KODE_LISENSI;
-  
+
   const tglAktif = new Date(TANGGAL_AKTIFASI);
   const tglExpired = new Date(tglAktif);
   tglExpired.setDate(tglAktif.getDate() + MASA_SEWA_HARI);
-  
+
   const sisaHari = Math.ceil((tglExpired - new Date()) / (1000*60*60*24));
-  
+
   if(sisaHari <= 3 && sisaHari > 0){
     const mauBayar = confirm(`⚠️ MASA SEWA TINGGAL ${sisaHari} HARI!\n\nAplikasi akan terkunci otomatis.\n\nKlik OK untuk Chat Admin & minta info pembayaran`);
     if(mauBayar){
       window.open(`https://wa.me/${NO_WA_ADMIN}?text=Halo%20Admin,%20${NAMA_WARKOP}%20mau%20perpanjang%20sewa%20${KODE_LISENSI}`);
     }
   }
-  
+
   if(new Date() > tglExpired){
     document.getElementById('expiredScreen').style.display = 'flex';
     document.getElementById('mainApp').style.display = 'none';
@@ -357,14 +360,12 @@ function prosesBayar(){
     if(bayar < total) return alert(`Uang kurang! Total: Rp ${total.toLocaleString('id-ID')}`);
   }
 
-  // Potong stok
   keranjang.forEach(k => {
     const item = menu.find(m => m.id === k.id);
     if(item) item.stok -= k.jumlah;
   });
   localStorage.setItem('menuWarkop',JSON.stringify(menu));
 
-  // Simpan transaksi - MASUK LAPORAN
   transaksi.push({
     tanggal:new Date().toISOString(),
     items:[...keranjang],
@@ -375,7 +376,6 @@ function prosesBayar(){
   });
   localStorage.setItem('trxWarkop',JSON.stringify(transaksi));
 
-  // Reset
   keranjang = [];
   document.getElementById('uangBayar').value = '';
   renderKeranjang();
@@ -413,6 +413,79 @@ function updateLaporan(){
   });
 }
 
+function kirimLaporanWA(){
+  const hariIni = new Date().toDateString();
+  const trxHariIni = transaksi.filter(t => new Date(t.tanggal).toDateString() === hariIni);
+
+  if(trxHariIni.length === 0){
+    return alert('Belum ada transaksi hari ini mas!');
+  }
+
+  const omset = trxHariIni.reduce((a,b) => a+b.total,0);
+  const omsetCash = trxHariIni.filter(t=>t.metodeBayar==='CASH').reduce((a,b)=>a+b.total,0);
+  const omsetQris = trxHariIni.filter(t=>t.metodeBayar==='QRIS').reduce((a,b)=>a+b.total,0);
+  const tgl = new Date().toLocaleDateString('id-ID', {weekday:'long', day:'numeric', month:'long', year:'numeric'});
+
+  const menuTerjual = {};
+  trxHariIni.forEach(t => {
+    t.items.forEach(item => {
+      if(!menuTerjual[item.nama]) menuTerjual[item.nama] = 0;
+      menuTerjual[item.nama] += item.jumlah;
+    });
+  });
+  const itemTerlaris = Object.keys(menuTerjual).sort((a,b)=>menuTerjual[b]-menuTerjual[a])[0] || 'Belum ada';
+
+  let pesan = `*LAPORAN ${NAMA_WARKOP.toUpperCase()}* ☕\n`;
+  pesan += `${tgl}\n`;
+  pesan += `━━━━━━━━━━━━━━\n`;
+  pesan += `Total Transaksi: ${trxHariIni.length}\n`;
+  pesan += `Total Omset: Rp ${omset.toLocaleString('id-ID')}\n`;
+  pesan += `CASH: Rp ${omsetCash.toLocaleString('id-ID')}\n`;
+  pesan += `QRIS: Rp ${omsetQris.toLocaleString('id-ID')}\n`;
+  pesan += `Item Terlaris: ${itemTerlaris}\n`;
+  pesan += `━━━━━━━━━━━━━━\n`;
+  pesan += `_Laporan otomatis dari Kasir Digital Sannin_ 🙏`;
+
+  let url = `https://wa.me/${NO_WA_ADMIN}?text=${encodeURIComponent(pesan)}`;
+  window.open(url, '_blank');
+}
+
+function downloadLaporanExcel(){
+  const hariIni = new Date().toDateString();
+  const trxHariIni = transaksi.filter(t => new Date(t.tanggal).toDateString() === hariIni);
+
+  if(trxHariIni.length === 0){
+    return alert('Belum ada transaksi hari ini mas!');
+  }
+
+  let dataExcel = [];
+  trxHariIni.forEach((t, i) => {
+    const jam = new Date(t.tanggal).toLocaleTimeString('id-ID');
+    t.items.forEach(item => {
+      dataExcel.push({
+        'No': i+1,
+        'Jam': jam,
+        'Menu': item.nama,
+        'Qty': item.jumlah,
+        'Harga': item.harga,
+        'Subtotal': item.subtotal,
+        'Bayar': t.metodeBayar
+      });
+    });
+  });
+
+  const omset = trxHariIni.reduce((a,b) => a+b.total,0);
+  dataExcel.push({});
+  dataExcel.push({'Menu': 'TOTAL OMSET', 'Subtotal': omset});
+
+  let ws = XLSX.utils.json_to_sheet(dataExcel);
+  let wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, "Laporan");
+
+  let tglFile = new Date().toLocaleDateString('id-ID').replace(/\//g, '-');
+  XLSX.writeFile(wb, `Laporan-${NAMA_WARKOP.replace(/\s/g,'')}-${tglFile}.xlsx`);
+}
+
 function resetLaporan(){
   if(confirm('Yakin hapus SEMUA data transaksi?')){
     transaksi = [];
@@ -442,4 +515,4 @@ gantiMetodeBayar();
 renderKeranjang();
 </script>
 </body>
-      </html>
+                                               </html>
