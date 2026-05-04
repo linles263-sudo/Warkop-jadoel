@@ -446,7 +446,8 @@ function kirimLaporanWA(){
   pesan += `━━━━━━━━━━━━━━\n`;
   pesan += `_Laporan otomatis dari Kasir Digital Sannin_ 🙏`;
 
-  let url = `https://wa.me/${NO_WA_ADMIN}?text=${encodeURIComponent(pesan)}`;
+  let noTujuan = localStorage.getItem('noWaOwner') || NO_WA_ADMIN;
+let url = `https://wa.me/${noTujuan}?text=${encodeURIComponent(pesan)}`;
   window.open(url, '_blank');
 }
 
