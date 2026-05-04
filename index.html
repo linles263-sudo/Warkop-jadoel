@@ -107,6 +107,15 @@
 
       <button class="btn" id="btnBayar" onclick="prosesBayar()">💰 BAYAR SELESAI</button>
     </div>
+      <!-- FORM QRIS WARKOP JADOEL -->
+  <div id="formQris" style="display:none; margin-top:15px; text-align:center; border:1px dashed #444; padding:15px; border-radius:8px; background:#1a1a1a">
+    <h4 style="margin:0 0 10px 0">📱 Scan QRIS Warkop</h4>
+    <img id="gambarQris" src="" style="width:200px; max-width:80%; margin:10px 0; border-radius:8px; background:#fff; padding:5px;">
+    <p style="font-weight:bold; margin:10px 0">Total Bayar: Rp <span id="totalQris">0</span></p>
+    <input type="file" id="buktiQris" accept="image/*" style="margin:10px 0; width:100%">
+    <button class="btn" onclick="selesaikanTransaksi('QRIS')" style="width:100%">✓ Konfirmasi Bayar QRIS</button>
+    <p style="font-size:11px; color:#888; margin:10px 0 0 0">*Wajib upload bukti transfer sebelum konfirmasi</p>
+  </div>
   </div>
 
   <div id="Menu" class="tab-content">
@@ -512,7 +521,61 @@ document.addEventListener('click',function(e){
 cekLisensi();
 renderMenu();
 updateLaporan();
-gantiMetodeBayar();
+// HAPUS gantiMetodeBayar(); BARIS 524, GANTI PAKE INI
+renderKeranjang();
+
+// === TEMPEL MULAI DARI SINI ===
+function pilihMetodeBayar(){
+  const cashBox = document.getElementById('cashBox');
+  const qrisBox = document.getElementById('formQris');
+  const total = keranjang.reduce((a,b)=>a+b.harga*b.jumlah,0);
+
+  if(document.getElementById('cash').checked){
+    cashBox.style.display = 'block';
+    qrisBox.style.display = 'none';
+  }
+  else if(document.getElementById('qris').checked){
+    cashBox.style.display = 'none';
+    qrisBox.style.display = 'block';
+    document.getElementById('totalQris').innerText = total.toLocaleString('id-ID');
+    const qrWarkop = localStorage.getItem('qrWarkop');
+    document.getElementById('gambarQris').src = qrWarkop || 'https://via.placeholder.com/200x200?text=Upload+QR+di+Menu';
+  }
+}
+
+// UPGRADE selesaikanTransaksi BIAR SIMPEN BUKTI
+function selesaikanTransaksi(metode){
+  if(metode === 'QRIS'){
+    const file = document.getElementById('buktiQris').files[0];
+    if(!file) return alert('Wajib upload bukti QRIS dulu mas!');
+    const reader = new FileReader();
+    reader.onload = function(e){
+      prosesSimpanTrx(metode, e.target.result);
+    }
+    reader.readAsDataURL(file);
+  } else {
+    prosesSimpanTrx(metode, null);
+  }
+}
+
+function prosesSimpanTrx(metode, bukti){
+  const trx = {
+    id: Date.now(),
+    tanggal: new Date().toISOString(),
+    items: [...keranjang],
+    total: keranjang.reduce((a,b)=>a+b.harga*b.jumlah,0),
+    metodeBayar: metode,
+    buktiQris: bukti
+  };
+  transaksi.push(trx);
+  localStorage.setItem('transaksi', JSON.stringify(transaksi));
+  keranjang = [];
+  renderKeranjang();
+  showAlert(`Transaksi ${metode} Berhasil!`);
+}
+// === SAMPE SINI ===
+
+</script>
 renderKeranjang();
 </script>
 </body>
