@@ -8,46 +8,46 @@
   <style>
     *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
     body{background:#f0f8f0;color:#1a3d1a;padding:10px;padding-bottom:40px}
-  .container{max-width:500px;margin:0 auto}
-  .header{background:#2e7d32;padding:15px;border-radius:10px;text-align:center;margin-bottom:15px;color:#fff;box-shadow:0 2px 5px rgba(0,0,0,0.2)}
-  .card{background:#ffffff;padding:15px;border-radius:10px;margin-bottom:15px;border:1px solid #c8e6c9;box-shadow:0 1px 3px rgba(0,0,0,0.1)}
-  .btn{background:#2e7d32;border:none;padding:14px 15px;border-radius:8px;color:#fff;font-weight:bold;cursor:pointer;width:100%;margin:5px 0;font-size:16px}
-  .btn:active{background:#1b5e20}
-  .btn:disabled{background:#999;cursor:not-allowed}
-  .btn-danger{background:#d32f2f}
-  .btn-small{padding:8px;font-size:14px;width:auto;margin:3px}
+ .container{max-width:500px;margin:0 auto}
+ .header{background:#2e7d32;padding:15px;border-radius:10px;text-align:center;margin-bottom:15px;color:#fff;box-shadow:0 2px 5px rgba(0,0,0,0.2)}
+ .card{background:#ffffff;padding:15px;border-radius:10px;margin-bottom:15px;border:1px solid #c8e6c9;box-shadow:0 1px 3px rgba(0,0,0,0.1)}
+ .btn{background:#2e7d32;border:none;padding:14px 15px;border-radius:8px;color:#fff;font-weight:bold;cursor:pointer;width:100%;margin:5px 0;font-size:16px}
+ .btn:active{background:#1b5e20}
+ .btn:disabled{background:#999;cursor:not-allowed}
+ .btn-danger{background:#d32f2f}
+ .btn-small{padding:8px;font-size:14px;width:auto;margin:3px}
     input,select{width:100%;padding:12px;margin:5px 0;border-radius:8px;border:1px solid #a5d6a7;background:#fff;color:#1a3d1a}
-  .input-group{display:flex;gap:8px}
-  .input-group input{flex:1}
+ .input-group{display:flex;gap:8px}
+ .input-group input{flex:1}
     table{width:100%;border-collapse:collapse;margin:10px 0;font-size:14px}
     th,td{padding:10px;text-align:left;border-bottom:1px solid #e8f5e9}
     th{background:#e8f5e9}
-  .menu-item{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #e8f5e9}
-  .expired{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);display:none;justify-content:center;align-items:center;text-align:center;padding:20px;z-index:999;color:#fff}
-  .tab{display:flex;margin-bottom:15px;background:#fff;border-radius:10px;overflow:hidden;border:1px solid #c8e6c9}
-  .tab button{flex:1;padding:12px;background:#fff;border:none;color:#2e7d32;font-weight:bold}
-  .tab button.active{background:#2e7d32;color:#fff}
-  .tab-content{display:none}
-  .tab-content.active{display:block}
+ .menu-item{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #e8f5e9}
+ .expired{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);display:none;justify-content:center;align-items:center;text-align:center;padding:20px;z-index:999;color:#fff}
+ .tab{display:flex;margin-bottom:15px;background:#fff;border-radius:10px;overflow:hidden;border:1px solid #c8e6c9}
+ .tab button{flex:1;padding:12px;background:#fff;border:none;color:#2e7d32;font-weight:bold}
+ .tab button.active{background:#2e7d32;color:#fff}
+ .tab-content{display:none}
+ .tab-content.active{display:block}
     h3{color:#2e7d32;margin-bottom:10px}
-  .menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
-  .menu-btn{background:#e8f5e9;border:1px solid #a5d6a7;padding:15px;border-radius:8px;text-align:center;cursor:pointer;position:relative}
-  .menu-btn:active{background:#c8e6c9}
-  .menu-btn b{display:block;color:#1b5e20}
-  .menu-btn.disabled{background:#f5f5f5;color:#999;cursor:not-allowed}
-  .menu-btn.disabled b{color:#999}
-  .stok-badge{position:absolute;top:5px;right:5px;background:#d32f2f;color:#fff;font-size:10px;padding:2px 6px;border-radius:10px}
-  .search-result{background:#fff;border:1px solid #a5d6a7;border-radius:8px;max-height:200px;overflow-y:auto;margin-top:-5px;margin-bottom:10px;display:none}
-  .search-item{padding:12px;border-bottom:1px solid #e8f5e9;cursor:pointer}
-  .search-item:active{background:#e8f5e9}
-  .footer-license{position:fixed;bottom:5px;left:0;width:100%;text-align:center;font-size:10px;color:#81c784;opacity:0.7}
-  .payment-method{display:flex;gap:8px;margin:10px 0}
-  .payment-method label{flex:1;padding:12px;border:2px solid #c8e6c9;border-radius:8px;text-align:center;cursor:pointer;font-weight:bold}
-  .payment-method input{display:none}
-  .payment-method input:checked+label{background:#2e7d32;color:#fff;border-color:#2e7d32}
-  .cash-box{background:#fff3cd;border:1px solid #ffe69c;padding:12px;border-radius:8px;margin:10px 0;display:none}
-  .kembalian{font-size:20px;font-weight:bold;color:#2e7d32;text-align:center;margin-top:8px}
-  .alert-sukses{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#2e7d32;color:#fff;padding:15px 25px;border-radius:8px;z-index:1000;display:none;font-weight:bold}
+ .menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+ .menu-btn{background:#e8f5e9;border:1px solid #a5d6a7;padding:15px;border-radius:8px;text-align:center;cursor:pointer;position:relative}
+ .menu-btn:active{background:#c8e6c9}
+ .menu-btn b{display:block;color:#1b5e20}
+ .menu-btn.disabled{background:#f5f5f5;color:#999;cursor:not-allowed}
+ .menu-btn.disabled b{color:#999}
+ .stok-badge{position:absolute;top:5px;right:5px;background:#d32f2f;color:#fff;font-size:10px;padding:2px 6px;border-radius:10px}
+ .search-result{background:#fff;border:1px solid #a5d6a7;border-radius:8px;max-height:200px;overflow-y:auto;margin-top:-5px;margin-bottom:10px;display:none}
+ .search-item{padding:12px;border-bottom:1px solid #e8f5e9;cursor:pointer}
+ .search-item:active{background:#e8f5e9}
+ .footer-license{position:fixed;bottom:5px;left:0;width:100%;text-align:center;font-size:10px;color:#81c784;opacity:0.7}
+ .payment-method{display:flex;gap:8px;margin:10px 0}
+ .payment-method label{flex:1;padding:12px;border:2px solid #c8e6c9;border-radius:8px;text-align:center;cursor:pointer;font-weight:bold}
+ .payment-method input{display:none}
+ .payment-method input:checked+label{background:#2e7d32;color:#fff;border-color:#2e7d32}
+ .cash-box{background:#fff3cd;border:1px solid #ffe69c;padding:12px;border-radius:8px;margin:10px 0;display:none}
+ .kembalian{font-size:20px;font-weight:bold;color:#2e7d32;text-align:center;margin-top:8px}
+ .alert-sukses{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#2e7d32;color:#fff;padding:15px 25px;border-radius:8px;z-index:1000;display:none;font-weight:bold}
   </style>
 </head>
 <body>
@@ -94,28 +94,28 @@
 
       <p style="margin:10px 0 5px 0;font-weight:bold;color:#2e7d32">Metode Bayar:</p>
       <div class="payment-method">
-        <input type="radio" id="cash" name="bayar" value="CASH" checked onchange="gantiMetodeBayar()">
+        <input type="radio" id="cash" name="bayar" value="CASH" checked onchange="pilihMetodeBayar()">
         <label for="cash">💵 CASH</label>
-        <input type="radio" id="qris" name="bayar" value="QRIS" onchange="gantiMetodeBayar()">
+        <input type="radio" id="qris" name="bayar" value="QRIS" onchange="pilihMetodeBayar()">
         <label for="qris">📱 QRIS</label>
       </div>
 
-      <div class="cash-box" id="cashBox">
+      <div class="cash-box" id="cashBox" style="display:block">
         <input type="number" id="uangBayar" placeholder="Uang Bayar Pelanggan" oninput="hitungKembalian()">
         <div class="kembalian">Kembalian: Rp <span id="jumlahKembalian">0</span></div>
+        <button class="btn" onclick="selesaikanTransaksi('CASH')">💰 BAYAR CASH SELESAI</button>
       </div>
 
-      <button class="btn" id="btnBayar" onclick="prosesBayar()">💰 BAYAR SELESAI</button>
-    </div>
       <!-- FORM QRIS WARKOP JADOEL -->
-  <div id="formQris" style="display:none; margin-top:15px; text-align:center; border:1px dashed #444; padding:15px; border-radius:8px; background:#1a1a1a">
-    <h4 style="margin:0 0 10px 0">📱 Scan QRIS Warkop</h4>
-    <img id="gambarQris" src="" style="width:200px; max-width:80%; margin:10px 0; border-radius:8px; background:#fff; padding:5px;">
-    <p style="font-weight:bold; margin:10px 0">Total Bayar: Rp <span id="totalQris">0</span></p>
-    <input type="file" id="buktiQris" accept="image/*" style="margin:10px 0; width:100%">
-    <button class="btn" onclick="selesaikanTransaksi('QRIS')" style="width:100%">✓ Konfirmasi Bayar QRIS</button>
-    <p style="font-size:11px; color:#888; margin:10px 0 0 0">*Wajib upload bukti transfer sebelum konfirmasi</p>
-  </div>
+      <div id="formQris" style="display:none; margin-top:15px; text-align:center; border:1px dashed #444; padding:15px; border-radius:8px; background:#1a1a1a">
+        <h4 style="margin:0 0 10px 0">📱 Scan QRIS Warkop</h4>
+        <img id="gambarQris" src="" style="width:200px; max-width:80%; margin:10px 0; border-radius:8px; background:#fff; padding:5px;">
+        <p style="font-weight:bold; margin:10px 0; color:#fff">Total Bayar: Rp <span id="totalQris">0</span></p>
+        <input type="file" id="buktiQris" accept="image/*" style="margin:10px 0; width:100%">
+        <button class="btn" onclick="selesaikanTransaksi('QRIS')" style="width:100%">✓ Konfirmasi Bayar QRIS</button>
+        <p style="font-size:11px; color:#888; margin:10px 0 0 0">*Wajib upload bukti transfer sebelum konfirmasi</p>
+      </div>
+    </div>
   </div>
 
   <div id="Menu" class="tab-content">
@@ -128,6 +128,11 @@
       </div>
       <button class="btn" onclick="tambahMenu()">+ Tambah Menu Baru</button>
       <div id="daftarMenu" style="margin-top:15px"></div>
+
+      <hr style="margin:20px 0">
+      <h3>⚙️ Setting QRIS</h3>
+      <input type="file" id="uploadQr" accept="image/*">
+      <button class="btn" onclick="simpanQr()">💾 Simpan Gambar QRIS</button>
     </div>
   </div>
 
@@ -156,11 +161,11 @@
 
 <script>
 // ====== SISTEM SEWA BULANAN ======
-const TANGGAL_AKTIFASI = '2026-05-04'; // GANTI PAS KLIEN BAYAR
-const MASA_SEWA_HARI = 30; // 1 BULAN
+const TANGGAL_AKTIFASI = '2026-05-04';
+const MASA_SEWA_HARI = 30;
 const NAMA_WARKOP = 'Warkop Jadoel';
 const KODE_LISENSI = 'KSR-WKP-01';
-const NO_WA_ADMIN = '62895351432524'; // NO LU YANG BENER
+const NO_WA_ADMIN = '62895351432524';
 // ================================
 
 let menu = JSON.parse(localStorage.getItem('menuWarkop')) || [];
@@ -170,11 +175,9 @@ let menuTerpilih = null;
 
 function cekLisensi(){
   document.getElementById('footerLicense').innerText = KODE_LISENSI;
-
   const tglAktif = new Date(TANGGAL_AKTIFASI);
   const tglExpired = new Date(tglAktif);
   tglExpired.setDate(tglAktif.getDate() + MASA_SEWA_HARI);
-
   const sisaHari = Math.ceil((tglExpired - new Date()) / (1000*60*60*24));
 
   if(sisaHari <= 3 && sisaHari > 0){
@@ -323,7 +326,7 @@ function renderKeranjang(){
   });
   document.getElementById('total').innerText = total.toLocaleString('id-ID');
   hitungKembalian();
-  document.getElementById('btnBayar').disabled = total === 0;
+  document.getElementById('totalQris').innerText = total.toLocaleString('id-ID');
 }
 
 function hapusItem(i){
@@ -331,12 +334,23 @@ function hapusItem(i){
   renderKeranjang();
 }
 
-function gantiMetodeBayar(){
-  const metode = document.querySelector('input[name="bayar"]:checked').value;
-  document.getElementById('cashBox').style.display = metode === 'CASH'? 'block' : 'none';
-  if(metode === 'CASH') {
+// === FUNGSI QRIS + CASH BARU - UDAH JBLEG ===
+function pilihMetodeBayar(){
+  const cashBox = document.getElementById('cashBox');
+  const qrisBox = document.getElementById('formQris');
+  const total = keranjang.reduce((a,b)=>a+b.subtotal,0);
+
+  if(document.getElementById('cash').checked){
+    cashBox.style.display = 'block';
+    qrisBox.style.display = 'none';
     document.getElementById('uangBayar').focus();
-    hitungKembalian();
+  }
+  else if(document.getElementById('qris').checked){
+    cashBox.style.display = 'none';
+    qrisBox.style.display = 'block';
+    document.getElementById('totalQris').innerText = total.toLocaleString('id-ID');
+    const qrWarkop = localStorage.getItem('qrWarkop');
+    document.getElementById('gambarQris').src = qrWarkop || 'https://via.placeholder.com/200x200?text=Upload+QR+di+Menu';
   }
 }
 
@@ -355,42 +369,72 @@ function showAlert(msg){
   setTimeout(() => { alert.style.display = 'none'; }, 2000);
 }
 
-function prosesBayar(){
+// GANTIIN prosesBayar LAMA - INI YG DIPAKE CASH + QRIS
+function selesaikanTransaksi(metode){
   if(keranjang.length === 0) return alert('Keranjang masih kosong!');
-  const total = keranjang.reduce((a,b) => a+b.subtotal,0);
-  const metodeBayar = document.querySelector('input[name="bayar"]:checked').value;
-  let bayar = 0, kembalian = 0;
 
-  if(metodeBayar === 'CASH'){
+  const total = keranjang.reduce((a,b) => a+b.subtotal,0);
+
+  if(metode === 'CASH'){
     const cashData = hitungKembalian();
-    bayar = cashData.bayar;
-    kembalian = cashData.kembalian;
-    if(bayar === 0) return alert('Isi uang bayar dulu!');
-    if(bayar < total) return alert(`Uang kurang! Total: Rp ${total.toLocaleString('id-ID')}`);
+    if(cashData.bayar === 0) return alert('Isi uang bayar dulu!');
+    if(cashData.bayar < total) return alert(`Uang kurang! Total: Rp ${total.toLocaleString('id-ID')}`);
+    prosesSimpanTrx(metode, null, cashData.bayar, cashData.kembalian);
   }
 
+  else if(metode === 'QRIS'){
+    const file = document.getElementById('buktiQris').files[0];
+    if(!file) return alert('Wajib upload bukti QRIS dulu mas!');
+    const reader = new FileReader();
+    reader.onload = function(e){
+      prosesSimpanTrx(metode, e.target.result, 0, 0);
+    }
+    reader.readAsDataURL(file);
+  }
+}
+
+function prosesSimpanTrx(metode, bukti, bayar, kembalian){
+  const total = keranjang.reduce((a,b) => a+b.subtotal,0);
+
+  // Kurangin stok
   keranjang.forEach(k => {
     const item = menu.find(m => m.id === k.id);
     if(item) item.stok -= k.jumlah;
   });
   localStorage.setItem('menuWarkop',JSON.stringify(menu));
 
+  // Simpen transaksi
   transaksi.push({
-    tanggal:new Date().toISOString(),
-    items:[...keranjang],
+    id: Date.now(),
+    tanggal: new Date().toISOString(),
+    items: [...keranjang],
     total,
-    metodeBayar,
+    metodeBayar: metode,
     bayar,
-    kembalian
+    kembalian,
+    buktiQris: bukti
   });
   localStorage.setItem('trxWarkop',JSON.stringify(transaksi));
 
+  // Reset
   keranjang = [];
   document.getElementById('uangBayar').value = '';
+  document.getElementById('buktiQris').value = '';
   renderKeranjang();
   renderMenu();
   updateLaporan();
-  showAlert('✓ Pembayaran Berhasil!');
+  showAlert(`✓ Transaksi ${metode} Berhasil!`);
+}
+
+function simpanQr(){
+  const file = document.getElementById('uploadQr').files[0];
+  if(!file) return alert('Pilih gambar QR dulu mas!');
+  const reader = new FileReader();
+  reader.onload = function(e){
+    localStorage.setItem('qrWarkop', e.target.result);
+    showAlert('✓ Gambar QRIS Disimpan!');
+  }
+  reader.readAsDataURL(file);
 }
 
 function updateLaporan(){
@@ -456,7 +500,7 @@ function kirimLaporanWA(){
   pesan += `_Laporan otomatis dari Kasir Digital Sannin_ 🙏`;
 
   let noTujuan = localStorage.getItem('noWaOwner') || NO_WA_ADMIN;
-let url = `https://wa.me/${noTujuan}?text=${encodeURIComponent(pesan)}`;
+  let url = `https://wa.me/${noTujuan}?text=${encodeURIComponent(pesan)}`;
   window.open(url, '_blank');
 }
 
@@ -521,62 +565,8 @@ document.addEventListener('click',function(e){
 cekLisensi();
 renderMenu();
 updateLaporan();
-// HAPUS gantiMetodeBayar(); BARIS 524, GANTI PAKE INI
 renderKeranjang();
-
-// === TEMPEL MULAI DARI SINI ===
-function pilihMetodeBayar(){
-  const cashBox = document.getElementById('cashBox');
-  const qrisBox = document.getElementById('formQris');
-  const total = keranjang.reduce((a,b)=>a+b.harga*b.jumlah,0);
-
-  if(document.getElementById('cash').checked){
-    cashBox.style.display = 'block';
-    qrisBox.style.display = 'none';
-  }
-  else if(document.getElementById('qris').checked){
-    cashBox.style.display = 'none';
-    qrisBox.style.display = 'block';
-    document.getElementById('totalQris').innerText = total.toLocaleString('id-ID');
-    const qrWarkop = localStorage.getItem('qrWarkop');
-    document.getElementById('gambarQris').src = qrWarkop || 'https://via.placeholder.com/200x200?text=Upload+QR+di+Menu';
-  }
-}
-
-// UPGRADE selesaikanTransaksi BIAR SIMPEN BUKTI
-function selesaikanTransaksi(metode){
-  if(metode === 'QRIS'){
-    const file = document.getElementById('buktiQris').files[0];
-    if(!file) return alert('Wajib upload bukti QRIS dulu mas!');
-    const reader = new FileReader();
-    reader.onload = function(e){
-      prosesSimpanTrx(metode, e.target.result);
-    }
-    reader.readAsDataURL(file);
-  } else {
-    prosesSimpanTrx(metode, null);
-  }
-}
-
-function prosesSimpanTrx(metode, bukti){
-  const trx = {
-    id: Date.now(),
-    tanggal: new Date().toISOString(),
-    items: [...keranjang],
-    total: keranjang.reduce((a,b)=>a+b.harga*b.jumlah,0),
-    metodeBayar: metode,
-    buktiQris: bukti
-  };
-  transaksi.push(trx);
-  localStorage.setItem('transaksi', JSON.stringify(transaksi));
-  keranjang = [];
-  renderKeranjang();
-  showAlert(`Transaksi ${metode} Berhasil!`);
-}
-// === SAMPE SINI ===
-
-</script>
-renderKeranjang();
+pilihMetodeBayar(); // INI PENTING BIAR CASH MUNCUL PERTAMA
 </script>
 </body>
   </html>
