@@ -165,19 +165,18 @@ function cekLisensi(){
   
   const sisaHari = Math.ceil((tglExpired - new Date()) / (1000*60*60*24));
   
- if(sisaHari <= 3 && sisaHari > 0){
-  const mauBayar = confirm(`⚠️ MASA SEWA TINGGAL ${sisaHari} HARI!\n\nAplikasi akan terkunci otomatis.\n\nKlik OK untuk Chat Admin & minta info pembayaran`);
-  if(mauBayar){
-    window.open(`https://wa.me/${NO_WA_ADMIN}?text=Halo%20Admin,%20${NAMA_WARKOP}%20mau%20perpanjang%20sewa%20${KODE_LISENSI}`);
-  }
-  }
+  if(sisaHari <= 3 && sisaHari > 0){
+    const mauBayar = confirm(`⚠️ MASA SEWA TINGGAL ${sisaHari} HARI!\n\nAplikasi akan terkunci otomatis.\n\nKlik OK untuk Chat Admin & minta info pembayaran`);
+    if(mauBayar){
+      window.open(`https://wa.me/${NO_WA_ADMIN}?text=Halo%20Admin,%20${NAMA_WARKOP}%20mau%20perpanjang%20sewa%20${KODE_LISENSI}`);
+    }
   }
   
   if(new Date() > tglExpired){
     document.getElementById('expiredScreen').style.display = 'flex';
     document.getElementById('mainApp').style.display = 'none';
   }
-  }
+}
 
 if(menu.length === 0){
   menu = [
