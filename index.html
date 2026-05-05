@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Warkop Jadoel Digital</title>
+  <title>Warkop SINGO</title>
   <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
   <style>
     *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
@@ -65,7 +65,7 @@
 
 <div class="container" id="mainApp">
   <div class="header">
-    <h2>☕ WARKOP JADOEL</h2>
+    <h2>☕ WARKOP SINGO</h2>
     <p style="font-size:14px;opacity:0.9">Sistem Kasir Digital</p>
   </div>
 
@@ -163,8 +163,8 @@
 // ====== SISTEM SEWA BULANAN ======
 const TANGGAL_AKTIFASI = '2026-05-04';
 const MASA_SEWA_HARI = 30;
-const NAMA_WARKOP = 'Warkop Jadoel';
-const KODE_LISENSI = 'KSR-WKP-01';
+const NAMA_WARKOP = 'Warkop SINGO';
+const KODE_LISENSI = 'WKP-SGO-01';
 const NO_WA_ADMIN = '62895351432524';
 // ================================
 
@@ -195,14 +195,14 @@ function cekLisensi(){
 
 if(menu.length === 0){
   menu = [
-    {id:1,nama:'Kopi hitam',harga:5000,stok:50},
-    {id:2,nama:'Kopi susu',harga:6000,stok:50},
+    {id:1,nama:'Kopi hijau',harga:5000,stok:50},
+    {id:2,nama:'Kopi hijau susu',harga:6000,stok:50},
     {id:3,nama:'Good day panas',harga:6000,stok:25},
     {id:4,nama:'Good day dingin',harga:7000,stok:25},
-    {id:5,nama:'Pop mie',harga:8000,stok:30},
+    {id:5,nama:'Mie instan',harga:8000,stok:30},
     {id:6,nama:'Kuku bima',harga:5000,stok:40},
     {id:7,nama:'Kuku bima susu',harga:7000,stok:20},
-    {id:8,nama:'Xtra joss',harga:5000,stok:30},
+    {id:8,nama:'Xtrajoss',harga:5000,stok:30},
     {id:9,nama:'Xtrajoss susu',harga:7000,stok:20}
   ];
   localStorage.setItem('menuWarkop',JSON.stringify(menu));
