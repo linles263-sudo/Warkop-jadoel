@@ -494,16 +494,33 @@ function simpanQr(){
 
 function updateLaporan(){
   const hariIni = new Date().toDateString();
-  const trxHariIni = transaksi.filter(t => new Date(t.tanggal).toDateString() === hariIni);
-  const omset = trxHariIni.reduce((a,b) => a+b.total,0);
-  const omsetCash = trxHariIni.filter(t=>t.metodeBayar==='CASH').reduce((a,b)=>a+b.total,0);
-  const omsetQris = trxHariIni.filter(t=>t.metodeBayar==='QRIS').reduce((a,b)=>a+b.total,0);
-  document.getElementById('totalTrx').innerText = trxHariIni.length;
+  const shiftAktif = localStorage.getItem('shiftAktif');
+  const kasirAktif = localStorage.getItem('namaKasir');
+
+  // FILTER KERAS: Cuma transaksi shift + kasir yg login
+  const trxShiftIni = transaksi.filter(t =>
+    new Date(t.tanggal).toDateString() === hariIni &&
+    t.shift === shiftAktif &&
+    t.kasir === kasirAktif
+  );
+
+  const omset = trxShiftIni.reduce((a,b) => a + b.total, 0);
+  const omsetCash = trxShiftIni.filter(t=>t.metode=='CASH').reduce((a,b)=>a+b.total,0);
+  const omsetQris = trxShiftIni.filter(t=>t.metode=='QRIS').reduce((a,b)=>a+b.total,0);
+
+  document.getElementById('totalTrx').innerText = trxShiftIni.length;
   document.getElementById('totalOmset').innerText = omset.toLocaleString('id-ID');
   document.getElementById('omsetCash').innerText = omsetCash.toLocaleString('id-ID');
   document.getElementById('omsetQris').innerText = omsetQris.toLocaleString('id-ID');
+
   const menuTerjual = {};
-  trxHariIni.forEach(t => {
+  trxShiftIni.forEach(t => { // GANTI trxHariIni -> trxShiftIni
+    t.items.forEach(item => {
+      if(!menuTerjual[item.nama]) menuTerjual[item.nama] = 0;
+      menuTerjual[item.nama] += item.jumlah;
+    });
+  });
+  // ...lanjutan kode menu terlaris biarin aja
     t.items.forEach(item => {
       if(!menuTerjual[item.nama]) menuTerjual[item.nama] = {qty:0,omset:0};
       menuTerjual[item.nama].qty += item.jumlah;
