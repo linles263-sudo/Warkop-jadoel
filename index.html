@@ -604,11 +604,44 @@ document.addEventListener('click',function(e){
 });
 
 // INIT APP - JALANIN PAS BUKA
+cekLoginShift(); // PINDAHIN KE PALING ATAS
 cekLisensi();
 renderMenu();
 updateLaporan();
 renderKeranjang();
-pilihMetodeBayar(); // INI PENTING BIAR CASH MUNCUL PERTAMA
+pilihMetodeBayar(); // INI PENTING BIAR CASH MUNCUL
+
+// TAMBAH 3 FUNGSI LOGIN SHIFT DI SINI
+function cekLoginShift(){
+  const shift = localStorage.getItem('shiftAktif');
+  const kasir = localStorage.getItem('namaKasir');
+  if(!shift ||!kasir){
+    document.getElementById('popupLogin').style.display = 'flex';
+    document.getElementById('mainApp').style.display = 'none';
+  } else {
+    document.getElementById('infoShift').innerText = shift;
+    document.getElementById('infoKasir').innerText = kasir;
+    document.getElementById('popupLogin').style.display = 'none';
+    document.getElementById('mainApp').style.display = 'block';
+  }
+}
+
+function loginShift(){
+  const shift = document.getElementById('pilihShift').value;
+  const kasir = document.getElementById('namaKasir').value.trim();
+  if(!shift ||!kasir) return alert('Pilih shift + isi nama kasir dulu!');
+  localStorage.setItem('shiftAktif', shift);
+  localStorage.setItem('namaKasir', kasir);
+  location.reload();
+}
+
+function logoutShift(){
+  if(confirm('Yakin logout? Pastikan laporan sudah di-download')){
+    localStorage.removeItem('shiftAktif');
+    localStorage.removeItem('namaKasir');
+    location.reload();
+  }
+}
 </script>
 </body>
 </html>
