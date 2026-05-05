@@ -6,38 +6,50 @@
   <title>Warkop Singo Kasir</title>
   <style>
     * {margin:0;padding:0;box-sizing:border-box;font-family:sans-serif}
-    body {background:#f5f5f5}
-  .container {max-width:480px;margin:0 auto;background:#fff;min-height:100vh}
-  .header {background:#8B4513;color:#fff;padding:15px;text-align:center;font-weight:bold}
-  .tabs {display:flex;background:#eee}
-  .tab {flex:1;padding:12px;text-align:center;cursor:pointer;border-bottom:3px solid transparent}
-  .tab.active {background:#fff;border-bottom:3px solid #8B4513;font-weight:bold}
-  .content {padding:15px}
-  .section {display:none}
-  .section.active {display:block}
-  .menu-grid {display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:15px}
-  .menu-item {border:1px solid #ddd;padding:10px;border-radius:8px;text-align:center;cursor:pointer}
-  .menu-item:hover {background:#f9f9f9}
-  .cart {border-top:2px dashed #ddd;margin-top:15px;padding-top:15px}
-  .cart-item {display:flex;justify-content:space-between;margin-bottom:8px}
-  .total {font-size:18px;font-weight:bold;text-align:right;margin:15px 0}
-  .btn {width:100%;padding:12px;border:none;border-radius:8px;font-weight:bold;cursor:pointer;margin-top:8px}
-  .btn-primary {background:#8B4513;color:#fff}
-  .btn-success {background:#25D366;color:#fff}
-  .btn-danger {background:#dc3545;color:#fff}
-    input,select {width:100%;padding:10px;margin:8px 0;border:1px solid #ddd;border-radius:8px}
+    body {background:#f0f2f5}
+   .container {max-width:480px;margin:0 auto;background:#fff;min-height:100vh}
+   .header {background:#2e7d32;color:#fff;padding:12px;text-align:center;border-radius:0 0 12px 12px}
+   .header h3 {margin:0}
+   .header p {margin:4px 0 0 0;font-size:14px;opacity:0.9}
+   .tabs {display:flex;background:#fff;margin:10px;border-radius:8px;overflow:hidden;border:1px solid #e0e0e0}
+   .tab {flex:1;padding:12px;text-align:center;cursor:pointer;background:#f5f5f5;font-weight:600;color:#666}
+   .tab.active {background:#2e7d32;color:#fff}
+   .content {padding:10px}
+   .section {display:none}
+   .section.active {display:block}
+   .card {background:#fff;border:1px solid #e0e0e0;border-radius:12px;padding:15px;margin-bottom:10px}
+   .card h4 {color:#2e7d32;margin-bottom:10px}
+   .menu-grid {display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}
+   .menu-item {border:1px solid #c8e6c9;padding:10px;border-radius:8px;text-align:center;cursor:pointer;background:#f1f8e9}
+   .menu-item:hover {background:#dcedc8}
+   .menu-item b {display:block;color:#1b5e20}
+   .cart-table {width:100%;border-collapse:collapse;margin:10px 0}
+   .cart-table th {background:#e8f5e9;padding:8px;text-align:left;color:#2e7d32}
+   .cart-table td {padding:8px;border-bottom:1px solid #eee}
+   .total {font-size:18px;font-weight:bold;color:#1b5e20;margin:10px 0}
+   .btn {width:100%;padding:12px;border:none;border-radius:8px;font-weight:bold;cursor:pointer;margin-top:8px}
+   .btn-primary {background:#2e7d32;color:#fff}
+   .btn-cash {background:#2e7d32;color:#fff}
+   .btn-qris {background:#fff;color:#2e7d32;border:2px solid #2e7d32}
+   .btn-danger {background:#d32f2f;color:#fff}
+   .btn-group {display:flex;gap:8px}
+   .btn-group.btn {margin-top:0}
+    input,select {width:100%;padding:12px;margin:8px 0;border:1px solid #c8e6c9;border-radius:8px}
+   .info-box {background:#e8f5e9;padding:10px;border-radius:8px;margin-bottom:10px;font-size:14px;color:#1b5e20}
+   .login-box {padding:20px}
+   .hidden {display:none}
+   .kembalian-box {background:#fff3e0;padding:15px;border-radius:8px;text-align:center;margin:10px 0}
+   .kembalian-box h3 {color:#e65100;margin:0}
     table {width:100%;border-collapse:collapse;margin-top:10px}
     th,td {border:1px solid #ddd;padding:8px;text-align:left;font-size:14px}
-  .info-box {background:#f0f0f0;padding:10px;border-radius:8px;margin-bottom:10px;font-size:14px}
-  .login-box {padding:20px}
-  .hidden {display:none}
+    th {background:#e8f5e9}
+   .footer-text {text-align:center;font-size:12px;color:#999;margin-top:20px}
   </style>
 </head>
 <body>
 <div class="container">
-  <div class="header" id="judulApp">WARKOP SINGO</div>
   <div id="loginSection" class="login-box">
-    <h3>Login Kasir</h3>
+    <h3>Login Kasir Warkop Singo</h3>
     <select id="pilihShift">
       <option value="">Pilih Shift</option>
       <option value="PAGI">PAGI</option>
@@ -47,58 +59,126 @@
     <input type="text" id="namaKasir" placeholder="Nama Kasir">
     <button class="btn btn-primary" onclick="loginKasir()">MASUK</button>
   </div>
+
   <div id="appSection" class="hidden">
+    <div class="header">
+      <h3>☕ WARKOP</h3>
+      <p>Shift: <span id="infoShift">-</span> | Kasir: <span id="infoKasir">-</span></p>
+    </div>
+
     <div class="tabs">
       <div class="tab active" onclick="gantiTab('kasir')">Kasir</div>
+      <div class="tab" onclick="gantiTab('minuman')">Minuman</div>
+      <div class="tab" onclick="gantiTab('rokok')">Rokok</div>
       <div class="tab" onclick="gantiTab('laporan')">Laporan</div>
     </div>
+
     <div class="content">
       <div class="info-box">
-        Shift: <b id="infoShift">-</b> | Kasir: <b id="infoKasir">-</b>
-        <button class="btn" style="padding:5px;margin-top:5px" onclick="logoutKasir()">Logout / Ganti Kasir</button>
+        <button class="btn" style="padding:6px;background:#fff;color:#2e7d32;border:1px solid #2e7d32" onclick="logoutKasir()">Logout / Ganti Kasir</button>
       </div>
+
+      <!-- TAB KASIR -->
       <div id="kasir" class="section active">
-        <div class="menu-grid" id="menuGrid"></div>
-        <div class="cart">
-          <h4>Keranjang:</h4>
-          <div id="listKeranjang"></div>
+        <div class="card">
+          <h4>Transaksi Baru</h4>
+          <input type="text" id="cariMenu" placeholder="🔍 Ketik nama menu..." onkeyup="cariMenu()">
+          <h4 style="margin-top:15px">Menu Cepat:</h4>
+          <div class="menu-grid" id="menuCepat"></div>
+          
+          <table class="cart-table">
+            <thead><tr><th>Item</th><th>Qty</th><th>Subtotal</th><th></th></tr></thead>
+            <tbody id="listKeranjang"></tbody>
+          </table>
+          
           <div class="total">Total: Rp <span id="totalHarga">0</span></div>
-          <select id="metodeBayar">
-            <option value="CASH">CASH</option>
-            <option value="QRIS">QRIS</option>
-          </select>
-          <input type="number" id="uangBayar" placeholder="Uang Bayar" onkeyup="hitungKembalian()">
-          <div>Kembalian: Rp <span id="kembalian">0</span></div>
-          <button class="btn btn-primary" onclick="prosesSimpanTrx()">SIMPAN TRANSAKSI</button>
+          
+          <h4>Metode Bayar:</h4>
+          <div class="btn-group">
+            <button class="btn btn-cash" id="btnCash" onclick="pilihMetode('CASH')">💵 CASH</button>
+            <button class="btn btn-qris" id="btnQris" onclick="pilihMetode('QRIS')">📱 QRIS</button>
+          </div>
+          
+          <div id="boxCash">
+            <input type="number" id="uangBayar" placeholder="Uang Bayar Pelanggan" onkeyup="hitungKembalian()">
+            <div class="kembalian-box">
+              <h3>Kembalian: Rp <span id="kembalian">0</span></h3>
+            </div>
+            <button class="btn btn-primary" onclick="prosesSimpanTrx()">💰 BAYAR CASH SELESAI</button>
+          </div>
+          
+          <div id="boxQris" class="hidden">
+            <input type="text" id="buktiQris" placeholder="No. Ref / Bukti QRIS">
+            <button class="btn btn-primary" onclick="prosesSimpanTrx()">📱 BAYAR QRIS SELESAI</button>
+          </div>
         </div>
       </div>
+
+      <!-- TAB MINUMAN -->
+      <div id="minuman" class="section">
+        <div class="card">
+          <h4>Daftar Minuman</h4>
+          <div class="menu-grid" id="menuMinuman"></div>
+        </div>
+      </div>
+
+      <!-- TAB ROKOK -->
+      <div id="rokok" class="section">
+        <div class="card">
+          <h4>Daftar Rokok</h4>
+          <div class="menu-grid" id="menuRokok"></div>
+        </div>
+      </div>
+
+      <!-- TAB LAPORAN -->
       <div id="laporan" class="section">
-        <div class="info-box">
-          Total Transaksi: <b id="totalTrx">0</b><br>
-          Total Omset: <b>Rp <span id="totalOmset">0</span></b><br>
-          CASH: Rp <span id="omsetCash">0</span> | QRIS: Rp <span id="omsetQris">0</span>
+        <div class="card">
+          <h4>Laporan Shift <span id="lapShift">-</span></h4>
+          <div class="info-box">
+            Total Transaksi: <b id="totalTrx">0</b><br>
+            Total Omset: <b>Rp <span id="totalOmset">0</span></b><br>
+            CASH: Rp <span id="omsetCash">0</span> | QRIS: Rp <span id="omsetQris">0</span>
+          </div>
+          <table>
+            <thead><tr><th>Menu</th><th>Qty</th><th>Omset</th></tr></thead>
+            <tbody id="tabelLaporan"></tbody>
+          </table>
+          <button class="btn btn-primary" onclick="kirimLaporanWA()">Kirim Laporan ke WA Owner</button>
+          <button class="btn btn-danger" onclick="hapusSemuaLaporan()">Hapus Semua Laporan</button>
         </div>
-        <table id="tabelLaporan">
-          <thead><tr><th>Menu</th><th>Qty</th><th>Omset</th></tr></thead>
-          <tbody></tbody>
-        </table>
-        <button class="btn btn-success" onclick="kirimLaporanWA()">Kirim Laporan ke WA Owner</button>
-        <button class="btn btn-danger" onclick="hapusSemuaLaporan()">Hapus Semua Laporan</button>
       </div>
+      
+      <div class="footer-text">KSR-WKP-01</div>
     </div>
   </div>
 </div>
+
 <script>
 const NAMA_WARKOP = "Warkop Singo";
-let menu = [
+let menuMinuman = [
   {nama:"Kopi Tubruk",harga:4000},
   {nama:"Kopi Susu",harga:5000},
   {nama:"Teh Panas",harga:3000},
   {nama:"Es Teh",harga:4000},
+  {nama:"Jeruk Panas",harga:5000},
+  {nama:"Es Jeruk",harga:6000}
+];
+let menuRokok = [
+  {nama:"Surya 12",harga:25000},
+  {nama:"Gudang Garam",harga:22000},
+  {nama:"Sampoerna",harga:23000},
+  {nama:"Marlboro",harga:32000},
+  {nama:"Djarum Super",harga:24000},
+  {nama:"LA Bold",harga:26000}
+];
+let menuCepat = [
+  {nama:"Kopi Tubruk",harga:4000},
+  {nama:"Es Teh",harga:4000},
   {nama:"Indomie Rebus",harga:7000},
-  {nama:"Indomie Goreng",harga:8000}
+  {nama:"Surya 12",harga:25000}
 ];
 let keranjang = [];
+let metodeBayar = 'CASH';
 let transaksi = JSON.parse(localStorage.getItem('transaksiWarkop')||'[]');
 
 function loginKasir(){
@@ -111,7 +191,8 @@ function loginKasir(){
   document.getElementById('appSection').classList.remove('hidden');
   document.getElementById('infoShift').innerText = shift;
   document.getElementById('infoKasir').innerText = kasir;
-  tampilMenu();
+  document.getElementById('lapShift').innerText = shift;
+  tampilSemuaMenu();
   updateLaporan();
 }
 
@@ -131,6 +212,7 @@ function cekLogin(){
     document.getElementById('appSection').classList.remove('hidden');
     document.getElementById('infoShift').innerText = shiftAktif;
     document.getElementById('infoKasir').innerText = kasirAktif;
+    document.getElementById('lapShift').innerText = shiftAktif;
   }
 }
 
@@ -142,12 +224,25 @@ function gantiTab(tab){
   if(tab=='laporan') updateLaporan();
 }
 
-function tampilMenu(){
-  const grid = document.getElementById('menuGrid');
+function tampilSemuaMenu(){
+  tampilMenuGrid('menuCepat',menuCepat);
+  tampilMenuGrid('menuMinuman',menuMinuman);
+  tampilMenuGrid('menuRokok',menuRokok);
+}
+
+function tampilMenuGrid(id,data){
+  const grid = document.getElementById(id);
   grid.innerHTML = '';
-  menu.forEach(m=>{
-    grid.innerHTML += `<div class="menu-item" onclick="tambahKeranjang('${m.nama}',${m.harga})"><b>${m.nama}</b><br>Rp ${m.harga.toLocaleString('id-ID')}</div>`;
+  data.forEach(m=>{
+    grid.innerHTML += `<div class="menu-item" onclick="tambahKeranjang('${m.nama}',${m.harga})"><b>${m.nama}</b>Rp ${m.harga.toLocaleString('id-ID')}</div>`;
   });
+}
+
+function cariMenu(){
+  const keyword = document.getElementById('cariMenu').value.toLowerCase();
+  const semuaMenu = [...menuMinuman,...menuRokok];
+  const hasil = semuaMenu.filter(m=>m.nama.toLowerCase().includes(keyword));
+  tampilMenuGrid('menuCepat',hasil.slice(0,4));
 }
 
 function tambahKeranjang(nama,harga){
@@ -164,7 +259,7 @@ function updateKeranjang(){
   keranjang.forEach((k,i)=>{
     const subtotal = k.harga * k.jumlah;
     total += subtotal;
-    list.innerHTML += `<div class="cart-item"><span>${k.nama} x${k.jumlah}</span><span>Rp ${subtotal.toLocaleString('id-ID')} <button onclick="hapusItem(${i})">x</button></span></div>`;
+    list.innerHTML += `<tr><td>${k.nama}</td><td>${k.jumlah}</td><td>Rp ${subtotal.toLocaleString('id-ID')}</td><td><button onclick="hapusItem(${i})" style="color:red;border:none;background:none;font-weight:bold">x</button></td></tr>`;
   });
   document.getElementById('totalHarga').innerText = total.toLocaleString('id-ID');
   hitungKembalian();
@@ -173,6 +268,14 @@ function updateKeranjang(){
 function hapusItem(i){
   keranjang.splice(i,1);
   updateKeranjang();
+}
+
+function pilihMetode(metode){
+  metodeBayar = metode;
+  document.getElementById('btnCash').className = metode=='CASH'?'btn btn-cash':'btn btn-qris';
+  document.getElementById('btnQris').className = metode=='QRIS'?'btn btn-cash':'btn btn-qris';
+  document.getElementById('boxCash').classList.toggle('hidden',metode!='CASH');
+  document.getElementById('boxQris').classList.toggle('hidden',metode!='QRIS');
 }
 
 function hitungKembalian(){
@@ -185,19 +288,21 @@ function hitungKembalian(){
 function prosesSimpanTrx(){
   if(keranjang.length==0) return alert('Keranjang kosong!');
   const total = keranjang.reduce((a,b)=>a+(b.harga*b.jumlah),0);
-  const metode = document.getElementById('metodeBayar').value;
-  const bayar = parseInt(document.getElementById('uangBayar').value)||0;
-  if(metode=='CASH' && bayar<total) return alert('Uang kurang!');
-  const kembalian = metode=='CASH'?bayar-total:0;
-  const bukti = metode=='QRIS'?prompt('Masukkan bukti/no.ref QRIS:'):'';
+  const bayar = metodeBayar=='CASH'?parseInt(document.getElementById('uangBayar').value)||0:total;
+  if(metodeBayar=='CASH' && bayar<total) return alert('Uang kurang!');
+  const kembalian = metodeBayar=='CASH'?bayar-total:0;
+  const bukti = metodeBayar=='QRIS'?document.getElementById('buktiQris').value:'';
+  if(metodeBayar=='QRIS' &&!bukti) return alert('Isi bukti QRIS!');
+  
   const shiftAktif = localStorage.getItem('shiftAktif');
   const kasirAktif = localStorage.getItem('namaKasir');
+  
   transaksi.push({
     id: Date.now(),
     tanggal: new Date().toISOString(),
     items: keranjang.map(k=>({...k,subtotal:k.harga*k.jumlah})),
     total,
-    metodeBayar: metode,
+    metodeBayar,
     bayar,
     kembalian,
     buktiQris: bukti,
@@ -205,9 +310,10 @@ function prosesSimpanTrx(){
     kasir: kasirAktif
   });
   localStorage.setItem('transaksiWarkop',JSON.stringify(transaksi));
-  alert('Transaksi berhasil disimpan!');
+  alert('Transaksi berhasil!');
   keranjang = [];
   document.getElementById('uangBayar').value = '';
+  document.getElementById('buktiQris').value = '';
   updateKeranjang();
   updateLaporan();
 }
@@ -215,21 +321,18 @@ function prosesSimpanTrx(){
 function updateLaporan(){
   const hariIni = new Date().toDateString();
   const shiftAktif = localStorage.getItem('shiftAktif') || '-';
-  const kasirAktif = localStorage.getItem('namaKasir') || '-';
-  document.getElementById('infoShift').innerText = shiftAktif;
-  document.getElementById('infoKasir').innerText = kasirAktif;
-  const trxShiftIni = (shiftAktif==='-'||kasirAktif==='-')?[]:transaksi.filter(t=>
-    new Date(t.tanggal).toDateString()===hariIni &&
-    t.shift===shiftAktif &&
-    t.kasir===kasirAktif
+  const trxShiftIni = shiftAktif==='-'?[]:transaksi.filter(t=>
+    new Date(t.tanggal).toDateString()===hariIni && t.shift===shiftAktif
   );
   const omset = trxShiftIni.reduce((a,b)=>a+b.total,0);
   const omsetCash = trxShiftIni.filter(t=>t.metodeBayar=='CASH').reduce((a,b)=>a+b.total,0);
   const omsetQris = trxShiftIni.filter(t=>t.metodeBayar=='QRIS').reduce((a,b)=>a+b.total,0);
+  
   document.getElementById('totalTrx').innerText = trxShiftIni.length;
   document.getElementById('totalOmset').innerText = omset.toLocaleString('id-ID');
   document.getElementById('omsetCash').innerText = omsetCash.toLocaleString('id-ID');
   document.getElementById('omsetQris').innerText = omsetQris.toLocaleString('id-ID');
+  
   const menuTerjual = {};
   trxShiftIni.forEach(t => {
     t.items.forEach(item => {
@@ -238,7 +341,8 @@ function updateLaporan(){
       menuTerjual[item.nama].omset += item.subtotal;
     });
   });
-  const tbody = document.querySelector('#tabelLaporan tbody');
+  
+  const tbody = document.getElementById('tabelLaporan');
   tbody.innerHTML = '';
   Object.keys(menuTerjual).sort((a,b)=>menuTerjual[b].qty-menuTerjual[a].qty).forEach(nama => {
     const data = menuTerjual[nama];
@@ -256,14 +360,14 @@ function kirimLaporanWA(){
     t.shift===shiftAktif &&
     t.kasir===kasirAktif
   );
-  if(trxShiftIni.length === 0){
-    return alert('Belum ada transaksi di shift ' + shiftAktif);
-  }
+  if(trxShiftIni.length === 0) return alert('Belum ada transaksi di shift ' + shiftAktif);
+  
   const omset = trxShiftIni.reduce((a,b)=>a+b.total,0);
   const omsetCash = trxShiftIni.filter(t=>t.metodeBayar=='CASH').reduce((a,b)=>a+b.total,0);
   const omsetQris = trxShiftIni.filter(t=>t.metodeBayar=='QRIS').reduce((a,b)=>a+b.total,0);
   const tgl = new Date().toLocaleDateString('id-ID');
   const jam = new Date().toLocaleTimeString('id-ID');
+  
   const menuTerjual = {};
   trxShiftIni.forEach(t => {
     t.items.forEach(item => {
@@ -273,6 +377,7 @@ function kirimLaporanWA(){
     });
   });
   const itemTerlaris = Object.keys(menuTerjual).sort((a,b)=>menuTerjual[b].qty-menuTerjual[a].qty)[0] || '-';
+  
   let pesan = `*LAPORAN SHIFT ${shiftAktif} - ${NAMA_WARKOP.toUpperCase()}*%0A`;
   pesan += `Kasir: ${kasirAktif}%0A`;
   pesan += `Tanggal: ${tgl} ${jam}%0A`;
@@ -284,6 +389,7 @@ function kirimLaporanWA(){
   pesan += `Item Terlaris: ${itemTerlaris}%0A`;
   pesan += `________________________%0A`;
   pesan += `_Laporan per shift. Privasi terjaga_`;
+  
   let noTujuan = localStorage.getItem('noWaOwner') || '628123456789';
   let url = `https://wa.me/${noTujuan}?text=${pesan}`;
   window.open(url, '_blank');
@@ -299,7 +405,7 @@ function hapusSemuaLaporan(){
 }
 
 cekLogin();
-tampilMenu();
+tampilSemuaMenu();
 updateLaporan();
 </script>
 </body>
