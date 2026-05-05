@@ -40,6 +40,8 @@
 .btn-group.btn {margin-top:0}
     input,select {width:100%;padding:12px;margin:8px 0;border:1px solid #c8e6c9;border-radius:8px}
 .info-box {background:#e8f5e9;padding:10px;border-radius:8px;margin-bottom:10px;font-size:14px;color:#1b5e20}
+.login-box {padding:20px;background:#fff;margin:20px;border-radius:12px;border:2px solid #2e7d32}
+.login-box h3 {color:#2e7d32;text-align:center;margin-bottom:20px}
 .hidden {display:none}
 .kembalian-box {background:#fff3e0;padding:15px;border-radius:8px;text-align:center;margin:10px 0}
 .kembalian-box h3 {color:#e65100;margin:0}
@@ -56,108 +58,123 @@
 </head>
 <body>
 <div class="container">
-  <div class="header">
-    <h3>☕ <span id="namaWarkopHeader">WARKOP SINGO</span></h3>
-    <p>Shift: <span id="infoShift">PAGI</span> | Kasir: <span id="infoKasir">KASIR</span></p>
+  <div id="loginSection" class="login-box">
+    <h3>☕ LOGIN KASIR WARKOP SINGO</h3>
+    <select id="pilihShift">
+      <option value="">Pilih Shift</option>
+      <option value="PAGI">PAGI</option>
+      <option value="SIANG">SIANG</option>
+      <option value="MALAM">MALAM</option>
+    </select>
+    <input type="text" id="namaKasir" placeholder="Nama Kasir">
+    <button class="btn btn-primary" onclick="loginKasir()">MASUK APLIKASI</button>
+    <p style="text-align:center;font-size:12px;color:#666;margin-top:15px">Login ulang setiap buka aplikasi</p>
   </div>
 
-  <div class="tabs">
-    <div class="tab active" onclick="gantiTab('kasir')">Kasir</div>
-    <div class="tab" onclick="gantiTab('minuman')">Minuman</div>
-    <div class="tab" onclick="gantiTab('rokok')">Rokok</div>
-    <div class="tab" onclick="gantiTab('laporan')">Laporan</div>
-  </div>
+  <div id="appSection" class="hidden">
+    <div class="header">
+      <h3>☕ <span id="namaWarkopHeader">WARKOP SINGO</span></h3>
+      <p>Shift: <span id="infoShift">-</span> | Kasir: <span id="infoKasir">-</span></p>
+    </div>
 
-  <div class="content">
-    <!-- TAB KASIR -->
-    <div id="kasir" class="section active">
-      <div class="card">
-        <h4>Transaksi Baru</h4>
-        <input type="text" id="cariMenu" placeholder="🔍 Ketik nama menu..." onkeyup="cariMenu()">
-        <h4 style="margin-top:15px">Menu Cepat:</h4>
-        <div class="menu-grid" id="menuCepat"></div>
-        
-        <table class="cart-table">
-          <thead><tr><th>Item</th><th>Qty</th><th>Subtotal</th><th></th></tr></thead>
-          <tbody id="listKeranjang"></tbody>
-        </table>
-        
-        <div class="total">Total: Rp <span id="totalHarga">0</span></div>
-        
-        <h4>Metode Bayar:</h4>
-        <div class="btn-group">
-          <button class="btn btn-cash" id="btnCash" onclick="pilihMetode('CASH')">💵 CASH</button>
-          <button class="btn btn-qris" id="btnQris" onclick="pilihMetode('QRIS')">📱 QRIS</button>
-        </div>
-        
-        <div id="boxCash">
-          <input type="number" id="uangBayar" placeholder="Uang Bayar Pelanggan" onkeyup="hitungKembalian()">
-          <div class="kembalian-box">
-            <h3>Kembalian: Rp <span id="kembalian">0</span></h3>
+    <div class="tabs">
+      <div class="tab active" onclick="gantiTab('kasir')">Kasir</div>
+      <div class="tab" onclick="gantiTab('minuman')">Minuman</div>
+      <div class="tab" onclick="gantiTab('rokok')">Rokok</div>
+      <div class="tab" onclick="gantiTab('laporan')">Laporan</div>
+    </div>
+
+    <div class="content">
+      <!-- TAB KASIR -->
+      <div id="kasir" class="section active">
+        <div class="card">
+          <h4>Transaksi Baru</h4>
+          <input type="text" id="cariMenu" placeholder="🔍 Ketik nama menu..." onkeyup="cariMenu()">
+          <h4 style="margin-top:15px">Menu Cepat:</h4>
+          <div class="menu-grid" id="menuCepat"></div>
+          
+          <table class="cart-table">
+            <thead><tr><th>Item</th><th>Qty</th><th>Subtotal</th><th></th></tr></thead>
+            <tbody id="listKeranjang"></tbody>
+          </table>
+          
+          <div class="total">Total: Rp <span id="totalHarga">0</span></div>
+          
+          <h4>Metode Bayar:</h4>
+          <div class="btn-group">
+            <button class="btn btn-cash" id="btnCash" onclick="pilihMetode('CASH')">💵 CASH</button>
+            <button class="btn btn-qris" id="btnQris" onclick="pilihMetode('QRIS')">📱 QRIS</button>
           </div>
-          <button class="btn btn-primary" onclick="prosesSimpanTrx()">💰 BAYAR CASH SELESAI</button>
+          
+          <div id="boxCash">
+            <input type="number" id="uangBayar" placeholder="Uang Bayar Pelanggan" onkeyup="hitungKembalian()">
+            <div class="kembalian-box">
+              <h3>Kembalian: Rp <span id="kembalian">0</span></h3>
+            </div>
+            <button class="btn btn-primary" onclick="prosesSimpanTrx()">💰 BAYAR CASH SELESAI</button>
+          </div>
+          
+          <div id="boxQris" class="hidden">
+            <img id="gambarQris" src="" style="width:100%;max-width:200px;margin:10px auto;display:block;border:1px solid #ddd">
+            <input type="text" id="buktiQris" placeholder="No. Ref / Bukti QRIS">
+            <button class="btn btn-primary" onclick="prosesSimpanTrx()">📱 BAYAR QRIS SELESAI</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB MINUMAN -->
+      <div id="minuman" class="section">
+        <div class="card">
+          <h4>Daftar Minuman</h4>
+          <button class="btn btn-add" onclick="bukaModal('minuman')">+ Tambah Menu Baru</button>
+          <div class="menu-grid" id="menuMinuman"></div>
+        </div>
+      </div>
+
+      <!-- TAB ROKOK -->
+      <div id="rokok" class="section">
+        <div class="card">
+          <h4>Daftar Rokok</h4>
+          <button class="btn btn-add" onclick="bukaModal('rokok')">+ Tambah Menu Baru</button>
+          <div class="menu-grid" id="menuRokok"></div>
+        </div>
+      </div>
+
+      <!-- TAB LAPORAN -->
+      <div id="laporan" class="section">
+        <div class="card">
+          <h4>Laporan Hari Ini</h4>
+          <div class="info-box">
+            Total Transaksi: <b id="totalTrx">0</b><br>
+            Total Omset: <b>Rp <span id="totalOmset">0</span></b><br>
+            CASH: Rp <span id="omsetCash">0</span> | QRIS: Rp <span id="omsetQris">0</span>
+          </div>
+          <button class="btn btn-primary" onclick="kirimLaporanWA()">📱 Kirim Laporan ke WA Owner</button>
+          <button class="btn btn-primary" onclick="downloadExcel()">💾 Download Laporan Excel</button>
+          <button class="btn btn-danger" onclick="hapusSemuaLaporan()">Hapus Semua Laporan</button>
+          <button class="btn btn-danger" onclick="logoutKasir()">🚪 LOGOUT / GANTI KASIR</button>
+          
+          <hr>
+          <h4>⚙️ Setting</h4>
+          <div class="setting-row">
+            <label>Upload Gambar QRIS:</label>
+            <input type="file" id="uploadQris" accept="image/*" onchange="previewQris(event)">
+          </div>
+          <button class="btn btn-primary" onclick="simpanGambarQris()">💾 Simpan Gambar QRIS</button>
+          <button class="btn btn-orange" onclick="bukaModalWarkop()">🔄 Ganti Data Warkop</button>
         </div>
         
-        <div id="boxQris" class="hidden">
-          <img id="gambarQris" src="" style="width:100%;max-width:200px;margin:10px auto;display:block;border:1px solid #ddd">
-          <input type="text" id="buktiQris" placeholder="No. Ref / Bukti QRIS">
-          <button class="btn btn-primary" onclick="prosesSimpanTrx()">📱 BAYAR QRIS SELESAI</button>
+        <div class="card">
+          <h4>Detail Menu Terjual</h4>
+          <table>
+            <thead><tr><th>Menu</th><th>Terjual</th><th>Omset</th></tr></thead>
+            <tbody id="tabelLaporan"></tbody>
+          </table>
         </div>
-      </div>
-    </div>
-
-    <!-- TAB MINUMAN -->
-    <div id="minuman" class="section">
-      <div class="card">
-        <h4>Daftar Minuman</h4>
-        <button class="btn btn-add" onclick="bukaModal('minuman')">+ Tambah Menu Baru</button>
-        <div class="menu-grid" id="menuMinuman"></div>
-      </div>
-    </div>
-
-    <!-- TAB ROKOK -->
-    <div id="rokok" class="section">
-      <div class="card">
-        <h4>Daftar Rokok</h4>
-        <button class="btn btn-add" onclick="bukaModal('rokok')">+ Tambah Menu Baru</button>
-        <div class="menu-grid" id="menuRokok"></div>
-      </div>
-    </div>
-
-    <!-- TAB LAPORAN -->
-    <div id="laporan" class="section">
-      <div class="card">
-        <h4>Laporan Hari Ini</h4>
-        <div class="info-box">
-          Total Transaksi: <b id="totalTrx">0</b><br>
-          Total Omset: <b>Rp <span id="totalOmset">0</span></b><br>
-          CASH: Rp <span id="omsetCash">0</span> | QRIS: Rp <span id="omsetQris">0</span>
-        </div>
-        <button class="btn btn-primary" onclick="kirimLaporanWA()">📱 Kirim Laporan ke WA Owner</button>
-        <button class="btn btn-primary" onclick="downloadExcel()">💾 Download Laporan Excel</button>
-        <button class="btn btn-danger" onclick="hapusSemuaLaporan()">Hapus Semua Laporan</button>
-        <button class="btn btn-orange" onclick="bukaModalKasir()">⚙️ Ganti Shift/Kasir</button>
-        
-        <hr>
-        <h4>⚙️ Setting</h4>
-        <div class="setting-row">
-          <label>Upload Gambar QRIS:</label>
-          <input type="file" id="uploadQris" accept="image/*" onchange="previewQris(event)">
-        </div>
-        <button class="btn btn-primary" onclick="simpanGambarQris()">💾 Simpan Gambar QRIS</button>
-        <button class="btn btn-orange" onclick="bukaModalWarkop()">🔄 Ganti Data Warkop</button>
       </div>
       
-      <div class="card">
-        <h4>Detail Menu Terjual</h4>
-        <table>
-          <thead><tr><th>Menu</th><th>Terjual</th><th>Omset</th></tr></thead>
-          <tbody id="tabelLaporan"></tbody>
-        </table>
-      </div>
+      <div class="footer-text" id="kodeWarkop">WKP-SGO-01</div>
     </div>
-    
-    <div class="footer-text" id="kodeWarkop">WKP-SGO-01</div>
   </div>
 </div>
 
@@ -169,21 +186,6 @@
     <input type="number" id="hargaMenuBaru" placeholder="Harga">
     <button class="btn btn-primary" onclick="simpanMenuBaru()">SIMPAN</button>
     <button class="btn" style="background:#999;color:#fff" onclick="tutupModal()">BATAL</button>
-  </div>
-</div>
-
-<!-- MODAL GANTI KASIR -->
-<div id="modalKasir" class="modal">
-  <div class="modal-content">
-    <h4>Ganti Shift/Kasir</h4>
-    <select id="pilihShiftModal">
-      <option value="PAGI">PAGI</option>
-      <option value="SIANG">SIANG</option>
-      <option value="MALAM">MALAM</option>
-    </select>
-    <input type="text" id="namaKasirModal" placeholder="Nama Kasir">
-    <button class="btn btn-primary" onclick="simpanKasir()">SIMPAN</button>
-    <button class="btn" style="background:#999;color:#fff" onclick="tutupModalKasir()">BATAL</button>
   </div>
 </div>
 
@@ -205,10 +207,7 @@ let KODE_WARKOP = localStorage.getItem('kodeWarkop') || "WKP-SGO-01";
 let NO_WA_OWNER = localStorage.getItem('noWaOwner') || "628123456789";
 let GAMBAR_QRIS = localStorage.getItem('gambarQris') || "";
 
-// AUTO LOGIN - Default kalo kosong
-if(!localStorage.getItem('shiftAktif')) localStorage.setItem('shiftAktif','PAGI');
-if(!localStorage.getItem('namaKasir')) localStorage.setItem('namaKasir','KASIR');
-
+// PAKE SESSIONSTORAGE BIAR ILANG PAS TUTUP APP
 let menuMinuman = JSON.parse(localStorage.getItem('menuMinuman')) || [
   {nama:"Kopi Tubruk",harga:4000},
   {nama:"Es Teh Manis",harga:3000},
@@ -228,29 +227,38 @@ let transaksi = JSON.parse(localStorage.getItem('transaksiWarkop')||'[]');
 document.getElementById('namaWarkopHeader').innerText = NAMA_WARKOP;
 document.getElementById('kodeWarkop').innerText = KODE_WARKOP;
 document.getElementById('gambarQris').src = GAMBAR_QRIS;
-document.getElementById('infoShift').innerText = localStorage.getItem('shiftAktif');
-document.getElementById('infoKasir').innerText = localStorage.getItem('namaKasir');
 
-function bukaModalKasir(){
-  document.getElementById('pilihShiftModal').value = localStorage.getItem('shiftAktif');
-  document.getElementById('namaKasirModal').value = localStorage.getItem('namaKasir');
-  document.getElementById('modalKasir').style.display = 'block';
-}
-
-function tutupModalKasir(){
-  document.getElementById('modalKasir').style.display = 'none';
-}
-
-function simpanKasir(){
-  const shift = document.getElementById('pilihShiftModal').value;
-  const kasir = document.getElementById('namaKasirModal').value;
+function loginKasir(){
+  const shift = document.getElementById('pilihShift').value;
+  const kasir = document.getElementById('namaKasir').value;
   if(!shift ||!kasir) return alert('Isi shift dan nama kasir!');
-  localStorage.setItem('shiftAktif',shift);
-  localStorage.setItem('namaKasir',kasir);
+  sessionStorage.setItem('shiftAktif',shift);
+  sessionStorage.setItem('namaKasir',kasir);
+  document.getElementById('loginSection').classList.add('hidden');
+  document.getElementById('appSection').classList.remove('hidden');
   document.getElementById('infoShift').innerText = shift;
   document.getElementById('infoKasir').innerText = kasir;
-  tutupModalKasir();
+  tampilSemuaMenu();
   updateLaporan();
+}
+
+function logoutKasir(){
+  if(confirm('Yakin logout? Data transaksi tetap aman.')){
+    sessionStorage.removeItem('shiftAktif');
+    sessionStorage.removeItem('namaKasir');
+    location.reload();
+  }
+}
+
+function cekLogin(){
+  const shiftAktif = sessionStorage.getItem('shiftAktif');
+  const kasirAktif = sessionStorage.getItem('namaKasir');
+  if(shiftAktif && kasirAktif){
+    document.getElementById('loginSection').classList.add('hidden');
+    document.getElementById('appSection').classList.remove('hidden');
+    document.getElementById('infoShift').innerText = shiftAktif;
+    document.getElementById('infoKasir').innerText = kasirAktif;
+  }
 }
 
 function gantiTab(tab){
@@ -415,8 +423,8 @@ function prosesSimpanTrx(){
   const bukti = metodeBayar=='QRIS'?document.getElementById('buktiQris').value:'';
   if(metodeBayar=='QRIS' &&!bukti) return alert('Isi bukti QRIS!');
   
-  const shiftAktif = localStorage.getItem('shiftAktif');
-  const kasirAktif = localStorage.getItem('namaKasir');
+  const shiftAktif = sessionStorage.getItem('shiftAktif');
+  const kasirAktif = sessionStorage.getItem('namaKasir');
   
   transaksi.push({
     id: Date.now(),
@@ -441,7 +449,7 @@ function prosesSimpanTrx(){
 
 function updateLaporan(){
   const hariIni = new Date().toDateString();
-  const shiftAktif = localStorage.getItem('shiftAktif');
+  const shiftAktif = sessionStorage.getItem('shiftAktif');
   const trxShiftIni = transaksi.filter(t=>
     new Date(t.tanggal).toDateString()===hariIni && t.shift===shiftAktif
   );
@@ -473,8 +481,8 @@ function updateLaporan(){
 
 function kirimLaporanWA(){
   const hariIni = new Date().toDateString();
-  const shiftAktif = localStorage.getItem('shiftAktif');
-  const kasirAktif = localStorage.getItem('namaKasir');
+  const shiftAktif = sessionStorage.getItem('shiftAktif');
+  const kasirAktif = sessionStorage.getItem('namaKasir');
   const trxShiftIni = transaksi.filter(t=>
     new Date(t.tanggal).toDateString()===hariIni &&
     t.shift===shiftAktif &&
@@ -516,7 +524,7 @@ function kirimLaporanWA(){
 
 function downloadExcel(){
   const hariIni = new Date().toDateString();
-  const shiftAktif = localStorage.getItem('shiftAktif');
+  const shiftAktif = sessionStorage.getItem('shiftAktif');
   const trxShiftIni = transaksi.filter(t=>
     new Date(t.tanggal).toDateString()===hariIni && t.shift===shiftAktif
   );
@@ -555,8 +563,9 @@ function hapusSemuaLaporan(){
   }
 }
 
+cekLogin();
 tampilSemuaMenu();
 updateLaporan();
 </script>
 </body>
-      </html>
+  </html>
