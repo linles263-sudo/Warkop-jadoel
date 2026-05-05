@@ -54,6 +54,8 @@
 .setting-row {margin:15px 0}
 .setting-row label {font-weight:bold;color:#2e7d32;display:block;margin-bottom:5px}
   hr {border:none;border-top:1px solid #e0e0e0;margin:15px 0}
+.preview-bukti {max-width:150px;margin:10px auto;display:block;border:2px solid #2e7d32;border-radius:8px}
+.bukti-label {background:#e8f5e9;padding:8px;border-radius:8px;font-size:12px;color:#1b5e20;margin-top:5px}
   </style>
 </head>
 <body>
@@ -89,6 +91,7 @@
       <div id="kasir" class="section active">
         <div class="card">
           <h4>Transaksi Baru</h4>
+          <button class="btn btn-add" onclick="bukaModalMenuCepat()">+ Tambah Menu Cepat</button>
           <input type="text" id="cariMenu" placeholder="🔍 Ketik nama menu..." onkeyup="cariMenu()">
           <h4 style="margin-top:15px">Menu Cepat:</h4>
           <div class="menu-grid" id="menuCepat"></div>
@@ -116,7 +119,10 @@
           
           <div id="boxQris" class="hidden">
             <img id="gambarQris" src="" style="width:100%;max-width:200px;margin:10px auto;display:block;border:1px solid #ddd">
-            <input type="text" id="buktiQris" placeholder="No. Ref / Bukti QRIS">
+            <div class="bukti-label">📸 <b>Upload Bukti Transfer:</b> Foto layar HP pembeli</div>
+            <input type="file" id="uploadBukti" accept="image/*" onchange="previewBukti(event)">
+            <img id="previewBukti" class="preview-bukti hidden" src="">
+            <input type="text" id="buktiQris" placeholder="No. Ref / Nama Pembeli">
             <button class="btn btn-primary" onclick="prosesSimpanTrx()">📱 BAYAR QRIS SELESAI</button>
           </div>
         </div>
@@ -189,6 +195,18 @@
   </div>
 </div>
 
+<!-- MODAL TAMBAH MENU CEPAT -->
+<div id="modalMenuCepat" class="modal">
+  <div class="modal-content">
+    <h4>Tambah Menu Cepat</h4>
+    <select id="pilihMenuCepat" style="width:100%;padding:12px;margin:8px 0">
+      <option value="">Pilih Menu</option>
+    </select>
+    <button class="btn btn-primary" onclick="tambahMenuCepat()">TAMBAH KE MENU CEPAT</button>
+    <button class="btn" style="background:#999;color:#fff" onclick="tutupModalMenuCepat()">BATAL</button>
+  </div>
+</div>
+
 <!-- MODAL GANTI DATA WARKOP -->
 <div id="modalWarkop" class="modal">
   <div class="modal-content">
@@ -207,7 +225,6 @@ let KODE_WARKOP = localStorage.getItem('kodeWarkop') || "WKP-SGO-01";
 let NO_WA_OWNER = localStorage.getItem('noWaOwner') || "628123456789";
 let GAMBAR_QRIS = localStorage.getItem('gambarQris') || "";
 
-// PAKE SESSIONSTORAGE BIAR ILANG PAS TUTUP APP
 let menuMinuman = JSON.parse(localStorage.getItem('menuMinuman')) || [
   {nama:"Kopi Tubruk",harga:4000},
   {nama:"Es Teh Manis",harga:3000},
@@ -218,10 +235,11 @@ let menuRokok = JSON.parse(localStorage.getItem('menuRokok')) || [
   {nama:"Gudang Garam Filter",harga:22000},
   {nama:"Sampoerna Mild",harga:30000}
 ];
-let menuCepat = [...menuMinuman.slice(0,2),...menuRokok.slice(0,2)];
+let menuCepat = JSON.parse(localStorage.getItem('menuCepat')) || [...menuMinuman.slice(0,2),...menuRokok.slice(0,2)];
 let keranjang = [];
 let metodeBayar = 'CASH';
 let jenisMenuAktif = '';
+let buktiFotoBase64 = '';
 let transaksi = JSON.parse(localStorage.getItem('transaksiWarkop')||'[]');
 
 document.getElementById('namaWarkopHeader').innerText = NAMA_WARKOP;
@@ -270,7 +288,6 @@ function gantiTab(tab){
 }
 
 function tampilSemuaMenu(){
-  menuCepat = [...menuMinuman.slice(0,2),...menuRokok.slice(0,2)];
   tampilMenuGrid('menuCepat',menuCepat,false);
   tampilMenuGrid('menuMinuman',menuMinuman,true);
   tampilMenuGrid('menuRokok',menuRokok,true);
@@ -295,6 +312,31 @@ function bukaModal(jenis){
 
 function tutupModal(){
   document.getElementById('modalTambah').style.display = 'none';
+}
+
+function bukaModalMenuCepat(){
+  const select = document.getElementById('pilihMenuCepat');
+  select.innerHTML = '<option value="">Pilih Menu</option>';
+  [...menuMinuman,...menuRokok].forEach(m=>{
+    select.innerHTML += `<option value='${JSON.stringify(m)}'>${m.nama} - Rp ${m.harga.toLocaleString('id-ID')}</option>`;
+  });
+  document.getElementById('modalMenuCepat').style.display = 'block';
+}
+
+function tutupModalMenuCepat(){
+  document.getElementById('modalMenuCepat').style.display = 'none';
+}
+
+function tambahMenuCepat(){
+  const val = document.getElementById('pilihMenuCepat').value;
+  if(!val) return alert('Pilih menu dulu!');
+  const menu = JSON.parse(val);
+  if(menuCepat.find(m=>m.nama==menu.nama)) return alert('Menu udah ada di Menu Cepat!');
+  if(menuCepat.length>=4) return alert('Menu Cepat maksimal 4 item!');
+  menuCepat.push(menu);
+  localStorage.setItem('menuCepat',JSON.stringify(menuCepat));
+  tampilMenuGrid('menuCepat',menuCepat,false);
+  tutupModalMenuCepat();
 }
 
 function bukaModalWarkop(){
@@ -408,6 +450,17 @@ function previewQris(event){
   reader.readAsDataURL(file);
 }
 
+function previewBukti(event){
+  const file = event.target.files[0];
+  const reader = new FileReader();
+  reader.onload = function(e){
+    buktiFotoBase64 = e.target.result;
+    document.getElementById('previewBukti').src = buktiFotoBase64;
+    document.getElementById('previewBukti').classList.remove('hidden');
+  }
+  reader.readAsDataURL(file);
+}
+
 function simpanGambarQris(){
   if(!GAMBAR_QRIS) return alert('Upload gambar dulu!');
   localStorage.setItem('gambarQris',GAMBAR_QRIS);
@@ -420,8 +473,8 @@ function prosesSimpanTrx(){
   const bayar = metodeBayar=='CASH'?parseInt(document.getElementById('uangBayar').value)||0:total;
   if(metodeBayar=='CASH' && bayar<total) return alert('Uang kurang!');
   const kembalian = metodeBayar=='CASH'?bayar-total:0;
-  const bukti = metodeBayar=='QRIS'?document.getElementById('buktiQris').value:'';
-  if(metodeBayar=='QRIS' &&!bukti) return alert('Isi bukti QRIS!');
+  const bukti = document.getElementById('buktiQris').value;
+  if(metodeBayar=='QRIS' &&!buktiFotoBase64) return alert('Upload bukti foto QRIS dulu!');
   
   const shiftAktif = sessionStorage.getItem('shiftAktif');
   const kasirAktif = sessionStorage.getItem('namaKasir');
@@ -435,14 +488,18 @@ function prosesSimpanTrx(){
     bayar,
     kembalian,
     buktiQris: bukti,
+    buktiFoto: buktiFotoBase64,
     shift: shiftAktif,
     kasir: kasirAktif
   });
   localStorage.setItem('transaksiWarkop',JSON.stringify(transaksi));
   alert('Transaksi berhasil!');
   keranjang = [];
+  buktiFotoBase64 = '';
   document.getElementById('uangBayar').value = '';
   document.getElementById('buktiQris').value = '';
+  document.getElementById('uploadBukti').value = '';
+  document.getElementById('previewBukti').classList.add('hidden');
   updateKeranjang();
   updateLaporan();
 }
@@ -530,7 +587,9 @@ function downloadExcel(){
   );
   if(trxShiftIni.length === 0) return alert('Belum ada transaksi!');
   
-  let data = [['Tanggal','Jam','Item','Qty','Harga','Subtotal','Metode','Kasir','Shift']];
+  let data = [['Tanggal','Jam','Item','Qty','Harga','Subtotal','Metode','Kasir','Shift','
+               
+ ,'No Ref','Ada Foto Bukti']];
   trxShiftIni.forEach(t=>{
     const tgl = new Date(t.tanggal);
     t.items.forEach(item=>{
@@ -543,7 +602,9 @@ function downloadExcel(){
         item.subtotal,
         t.metodeBayar,
         t.kasir,
-        t.shift
+        t.shift,
+        t.buktiQris || '-',
+        t.buktiFoto ? 'Ya' : 'Tidak'
       ]);
     });
   });
@@ -568,4 +629,4 @@ tampilSemuaMenu();
 updateLaporan();
 </script>
 </body>
-  </html>
+</html>              
