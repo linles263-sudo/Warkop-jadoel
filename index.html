@@ -3,524 +3,235 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kasir Digital Warkop</title>
-  <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+  <title>Warkop Singo Kasir</title>
   <style>
-    *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
-    body{background:#f0f8f0;color:#1a3d1a;padding:10px;padding-bottom:40px}
-.container{max-width:500px;margin:0 auto}
-.header{background:#2e7d32;padding:15px;border-radius:10px;text-align:center;margin-bottom:15px;color:#fff;box-shadow:0 2px 5px rgba(0,0,0,0.2)}
-.card{background:#ffffff;padding:15px;border-radius:10px;margin-bottom:15px;border:1px solid #c8e6c9;box-shadow:0 1px 3px rgba(0,0,0,0.1)}
-.btn{background:#2e7d32;border:none;padding:14px 15px;border-radius:8px;color:#fff;font-weight:bold;cursor:pointer;width:100%;margin:5px 0;font-size:16px}
-.btn:active{background:#1b5e20}
-.btn:disabled{background:#999;cursor:not-allowed}
-.btn-danger{background:#d32f2f}
-.btn-small{padding:8px;font-size:14px;width:auto;margin:3px}
-    input,select,textarea{width:100%;padding:12px;margin:5px 0;border-radius:8px;border:1px solid #a5d6a7;background:#fff;color:#1a3d1a}
-.input-group{display:flex;gap:8px}
-.input-group input{flex:1}
-    table{width:100%;border-collapse:collapse;margin:10px 0;font-size:14px}
-    th,td{padding:10px;text-align:left;border-bottom:1px solid #e8f5e9}
-    th{background:#e8f5e9}
-.menu-item{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #e8f5e9}
-.expired{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);display:none;justify-content:center;align-items:center;text-align:center;padding:20px;z-index:999;color:#fff}
-.tab{display:flex;margin-bottom:15px;background:#fff;border-radius:10px;overflow:hidden;border:1px solid #c8e6c9}
-.tab button{flex:1;padding:12px;background:#fff;border:none;color:#2e7d32;font-weight:bold}
-.tab button.active{background:#2e7d32;color:#fff}
-.tab-content{display:none}
-.tab-content.active{display:block}
-    h3{color:#2e7d32;margin-bottom:10px}
-.menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
-.menu-btn{background:#e8f5e9;border:1px solid #a5d6a7;padding:15px;border-radius:8px;text-align:center;cursor:pointer;position:relative}
-.menu-btn:active{background:#c8e6c9}
-.menu-btn b{display:block;color:#1b5e20}
-.menu-btn.disabled{background:#f5f5f5;color:#999;cursor:not-allowed}
-.menu-btn.disabled b{color:#999}
-.stok-badge{position:absolute;top:5px;right:5px;background:#d32f2f;color:#fff;font-size:10px;padding:2px 6px;border-radius:10px}
-.search-result{background:#fff;border:1px solid #a5d6a7;border-radius:8px;max-height:200px;overflow-y:auto;margin-top:-5px;margin-bottom:10px;display:none}
-.search-item{padding:12px;border-bottom:1px solid #e8f5e9;cursor:pointer}
-.search-item:active{background:#e8f5e9}
-.footer-license{position:fixed;bottom:5px;left:0;width:100%;text-align:center;font-size:10px;color:#81c784;opacity:0.7}
-.payment-method{display:flex;gap:8px;margin:10px 0}
-.payment-method label{flex:1;padding:12px;border:2px solid #c8e6c9;border-radius:8px;text-align:center;cursor:pointer;font-weight:bold}
-.payment-method input{display:none}
-.payment-method input:checked+label{background:#2e7d32;color:#fff;border-color:#2e7d32}
-.cash-box{background:#fff3cd;border:1px solid #ffe69c;padding:12px;border-radius:8px;margin:10px 0;display:none}
-.kembalian{font-size:20px;font-weight:bold;color:#2e7d32;text-align:center;margin-top:8px}
-.alert-sukses{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#2e7d32;color:#fff;padding:15px 25px;border-radius:8px;z-index:1000;display:none;font-weight:bold}
-.popup-install{position:fixed;inset:0;background:#000c;z-index:9999;align-items:center;justify-content:center;display:none}
-.popup-box{background:#1a1a1a;padding:20px;border-radius:12px;width:90%;max-width:400px;border:2px solid #00ff88;color:#fff}
+    * {margin:0;padding:0;box-sizing:border-box;font-family:sans-serif}
+    body {background:#f5f5f5}
+  .container {max-width:480px;margin:0 auto;background:#fff;min-height:100vh}
+  .header {background:#8B4513;color:#fff;padding:15px;text-align:center;font-weight:bold}
+  .tabs {display:flex;background:#eee}
+  .tab {flex:1;padding:12px;text-align:center;cursor:pointer;border-bottom:3px solid transparent}
+  .tab.active {background:#fff;border-bottom:3px solid #8B4513;font-weight:bold}
+  .content {padding:15px}
+  .section {display:none}
+  .section.active {display:block}
+  .menu-grid {display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:15px}
+  .menu-item {border:1px solid #ddd;padding:10px;border-radius:8px;text-align:center;cursor:pointer}
+  .menu-item:hover {background:#f9f9f9}
+  .cart {border-top:2px dashed #ddd;margin-top:15px;padding-top:15px}
+  .cart-item {display:flex;justify-content:space-between;margin-bottom:8px}
+  .total {font-size:18px;font-weight:bold;text-align:right;margin:15px 0}
+  .btn {width:100%;padding:12px;border:none;border-radius:8px;font-weight:bold;cursor:pointer;margin-top:8px}
+  .btn-primary {background:#8B4513;color:#fff}
+  .btn-success {background:#25D366;color:#fff}
+  .btn-danger {background:#dc3545;color:#fff}
+    input,select {width:100%;padding:10px;margin:8px 0;border:1px solid #ddd;border-radius:8px}
+    table {width:100%;border-collapse:collapse;margin-top:10px}
+    th,td {border:1px solid #ddd;padding:8px;text-align:left;font-size:14px}
+  .info-box {background:#f0f0f0;padding:10px;border-radius:8px;margin-bottom:10px;font-size:14px}
+  .login-box {padding:20px}
+  .hidden {display:none}
   </style>
 </head>
 <body>
-<div class="alert-sukses" id="alertSukses">✓ Pembayaran Berhasil!</div>
-
-<div class="popup-install" id="popupInstall">
-  <div class="popup-box">
-    <h3 style="color:#00ff88;margin:0 0 15px 0">🚀 Setup Warkop Baru</h3>
-    <input id="inputNamaWarkop" placeholder="Nama Warkop">
-    <input id="inputKodeLisensi" placeholder="Kode Lisensi, contoh: WKP-001">
-    <p style="font-size:12px;margin:10px 0 5px 0">Menu Minuman: Nama|Harga|Stok</p>
-    <textarea id="inputMenuMinuman" rows="4" placeholder="Kopi Tubruk|4000|50&#10;Es Teh Manis|3000|100">Kopi Tubruk|4000|50
-Es Teh Manis|3000|100
-Good Day|7000|30</textarea>
-    <p style="font-size:12px;margin:10px 0 5px 0">Menu Rokok: Nama|Harga|Stok</p>
-    <textarea id="inputMenuRokok" rows="4" placeholder="Surya 16|32000|10&#10;Gudang Garam|22000|15">Surya 16|32000|10
-Gudang Garam Filter|22000|15
-Sampoerna Mild|30000|10</textarea>
-    <button class="btn" onclick="simpanSetupWarkop()">✅ SIMPAN & MULAI</button>
-  </div>
-</div>
-
-<div class="expired" id="expiredScreen">
-  <div>
-    <h2>⚠️ APLIKASI TERKUNCI</h2>
-    <p style="margin:15px 0">Lisensi aplikasi telah berakhir</p>
-    <p>Hubungi developer untuk aktivasi ulang:</p>
-    <p style="margin:10px 0"><b>WA: 0895351432524</b></p>
-    <button class="btn" onclick="window.open('https://wa.me/62895351432524?text=Saya%20mau%20aktivasi%20ulang%20'+KODE_LISENSI)">Chat WA Sekarang</button>
-  </div>
-</div>
-    </div>
-  </div>
-
-<!-- PASTE MULAI DARI SINI -->
-<div class="popup-install" id="popupLogin" style="display:none">
-  <div class="popup-box">
-    <h3 style="color:#00ff88;margin:0 0 15px 0">🔐 Login Shift</h3>
+<div class="container">
+  <div class="header" id="judulApp">WARKOP SINGO</div>
+  <div id="loginSection" class="login-box">
+    <h3>Login Kasir</h3>
     <select id="pilihShift">
-      <option value="">-- Pilih Shift --</option>
-      <option value="PAGI">Shift PAGI</option>
-      <option value="SORE">Shift SORE</option>
-      <option value="MALAM">Shift MALAM</option>
+      <option value="">Pilih Shift</option>
+      <option value="PAGI">PAGI</option>
+      <option value="SIANG">SIANG</option>
+      <option value="MALAM">MALAM</option>
     </select>
-    <input id="namaKasir" placeholder="Nama Kasir, contoh: Budi">
-    <button class="btn" onclick="loginShift()">✅ MULAI KERJA</button>
-    <p style="font-size:11px;color:#888;margin:10px 0 0 0">*Wajib login tiap ganti kasir</p>
+    <input type="text" id="namaKasir" placeholder="Nama Kasir">
+    <button class="btn btn-primary" onclick="loginKasir()">MASUK</button>
   </div>
-</div>
-<!-- SAMPE SINI -->
-
-
-<div class="container" id="mainApp">
-  <div class="header">
-    <h2>☕ <span id="judulWarkop">WARKOP</span></h2>
-    <p style="font-size:14px;opacity:0.9">Shift: <span id="infoShift">-</span> | Kasir: <span id="infoKasir">-</span></p>
-  </div>
-
-  <div class="tab">
-    <button class="tablinks active" onclick="openTab(event,'Kasir')">Kasir</button>
-    <button class="tablinks" onclick="openTab(event,'Minuman')">Minuman</button>
-    <button class="tablinks" onclick="openTab(event,'Rokok')">Rokok</button>
-    <button class="tablinks" onclick="openTab(event,'Laporan')">Laporan</button>
-  </div>
-
-  <div id="Kasir" class="tab-content active">
-    <div class="card">
-      <h3>Transaksi Baru</h3>
-      <input type="text" id="cariMenu" placeholder="🔍 Ketik nama menu..." oninput="cariMenuRealTime()">
-      <div class="search-result" id="hasilCari"></div>
-      <p style="margin:10px 0 5px 0;font-weight:bold;color:#2e7d32">Menu Cepat:</p>
-      <div class="menu-grid" id="menuCepat"></div>
-      <input type="number" id="jumlah" placeholder="Jumlah" value="1" min="1">
-      <table id="keranjang">
-        <thead><tr><th>Item</th><th>Qty</th><th>Subtotal</th><th></th></tr></thead>
-        <tbody></tbody>
-      </table>
-      <h3>Total: Rp <span id="total">0</span></h3>
-      <p style="margin:10px 0 5px 0;font-weight:bold;color:#2e7d32">Metode Bayar:</p>
-      <div class="payment-method">
-        <input type="radio" id="cash" name="bayar" value="CASH" checked onchange="pilihMetodeBayar()">
-        <label for="cash">💵 CASH</label>
-        <input type="radio" id="qris" name="bayar" value="QRIS" onchange="pilihMetodeBayar()">
-        <label for="qris">📱 QRIS</label>
-      </div>
-      <div class="cash-box" id="cashBox" style="display:block">
-        <input type="number" id="uangBayar" placeholder="Uang Bayar Pelanggan" oninput="hitungKembalian()">
-        <div class="kembalian">Kembalian: Rp <span id="jumlahKembalian">0</span></div>
-        <button class="btn" onclick="selesaikanTransaksi('CASH')">💰 BAYAR CASH SELESAI</button>
-      </div>
-      <div id="formQris" style="display:none; margin-top:15px; text-align:center; border:1px dashed #444; padding:15px; border-radius:8px; background:#1a1a1a">
-        <h4 style="margin:0 0 10px 0">📱 Scan QRIS Warkop</h4>
-        <img id="gambarQris" src="" style="width:200px; max-width:80%; margin:10px 0; border-radius:8px; background:#fff; padding:5px;">
-        <p style="font-weight:bold; margin:10px 0; color:#fff">Total Bayar: Rp <span id="totalQris">0</span></p>
-        <input type="file" id="buktiQris" accept="image/*" style="margin:10px 0; width:100%">
-        <button class="btn" onclick="selesaikanTransaksi('QRIS')" style="width:100%">✓ Konfirmasi Bayar QRIS</button>
-        <p style="font-size:11px; color:#888; margin:10px 0 0 0">*Wajib upload bukti transfer sebelum konfirmasi</p>
-      </div>
+  <div id="appSection" class="hidden">
+    <div class="tabs">
+      <div class="tab active" onclick="gantiTab('kasir')">Kasir</div>
+      <div class="tab" onclick="gantiTab('laporan')">Laporan</div>
     </div>
-  </div>
-
-  <div id="Minuman" class="tab-content">
-    <div class="card">
-      <h3>Kelola Menu Minuman</h3>
-      <input type="text" id="namaMenuMinuman" placeholder="Nama Minuman">
-      <div class="input-group">
-        <input type="number" id="hargaMenuMinuman" placeholder="Harga">
-        <input type="number" id="stokMenuMinuman" placeholder="Stok" value="100">
+    <div class="content">
+      <div class="info-box">
+        Shift: <b id="infoShift">-</b> | Kasir: <b id="infoKasir">-</b>
+        <button class="btn" style="padding:5px;margin-top:5px" onclick="logoutKasir()">Logout / Ganti Kasir</button>
       </div>
-      <button class="btn" onclick="tambahMenu('minuman')">+ Tambah Minuman</button>
-      <div id="daftarMenuMinuman" style="margin-top:15px"></div>
-    </div>
-  </div>
-
-  <div id="Rokok" class="tab-content">
-    <div class="card">
-      <h3>Kelola Menu Rokok</h3>
-      <input type="text" id="namaMenuRokok" placeholder="Nama Rokok">
-      <div class="input-group">
-        <input type="number" id="hargaMenuRokok" placeholder="Harga">
-        <input type="number" id="stokMenuRokok" placeholder="Stok" value="10">
+      <div id="kasir" class="section active">
+        <div class="menu-grid" id="menuGrid"></div>
+        <div class="cart">
+          <h4>Keranjang:</h4>
+          <div id="listKeranjang"></div>
+          <div class="total">Total: Rp <span id="totalHarga">0</span></div>
+          <select id="metodeBayar">
+            <option value="CASH">CASH</option>
+            <option value="QRIS">QRIS</option>
+          </select>
+          <input type="number" id="uangBayar" placeholder="Uang Bayar" onkeyup="hitungKembalian()">
+          <div>Kembalian: Rp <span id="kembalian">0</span></div>
+          <button class="btn btn-primary" onclick="prosesSimpanTrx()">SIMPAN TRANSAKSI</button>
+        </div>
       </div>
-      <button class="btn" onclick="tambahMenu('rokok')">+ Tambah Rokok</button>
-      <div id="daftarMenuRokok" style="margin-top:15px"></div>
-    </div>
-  </div>
-
-  <div id="Laporan" class="tab-content">
-    <div class="card">
-      <h3>Laporan Hari Ini</h3>
-      <p>Total Transaksi: <b id="totalTrx">0</b></p>
-      <p>Total Omset: <b>Rp <span id="totalOmset">0</span></b></p>
-      <p>CASH: <b>Rp <span id="omsetCash">0</span></b> | QRIS: <b>Rp <span id="omsetQris">0</span></b></p>
-      <button class="btn" style="background:#25D366" onclick="kirimLaporanWA()">📲 Kirim Laporan ke WA Owner</button>
-      <button class="btn" style="background:#1D6F42" onclick="downloadLaporanExcel()">📥 Download Laporan Excel</button>
-      <button class="btn btn-danger" onclick="resetLaporan()">Hapus Semua Laporan</button>
-      <button class="btn btn-danger" onclick="logoutShift()" style="width:100%;margin:10px 0">🚪 LOGOUT / GANTI KASIR</button>
-      <hr style="margin:20px 0">
-      <h3>⚙️ Setting</h3>
-      <input type="file" id="uploadQr" accept="image/*">
-      <button class="btn" onclick="simpanQr()">💾 Simpan Gambar QRIS</button>
-      <button class="btn" style="background:#ff9800" onclick="gantiDataWarkop()">🔄 Ganti Data Warkop</button>
-    </div>
-    <div class="card">
-      <h3>Detail Menu Terjual</h3>
-      <table id="tabelLaporan">
-        <thead><tr><th>Menu</th><th>Terjual</th><th>Omset</th></tr></thead>
-        <tbody></tbody>
-      </table>
+      <div id="laporan" class="section">
+        <div class="info-box">
+          Total Transaksi: <b id="totalTrx">0</b><br>
+          Total Omset: <b>Rp <span id="totalOmset">0</span></b><br>
+          CASH: Rp <span id="omsetCash">0</span> | QRIS: Rp <span id="omsetQris">0</span>
+        </div>
+        <table id="tabelLaporan">
+          <thead><tr><th>Menu</th><th>Qty</th><th>Omset</th></tr></thead>
+          <tbody></tbody>
+        </table>
+        <button class="btn btn-success" onclick="kirimLaporanWA()">Kirim Laporan ke WA Owner</button>
+        <button class="btn btn-danger" onclick="hapusSemuaLaporan()">Hapus Semua Laporan</button>
+      </div>
     </div>
   </div>
 </div>
-
-<div class="footer-license" id="footerLicense">KSR-WKP-01</div>
-
 <script>
-let NAMA_WARKOP = localStorage.getItem('namaWarkop') || 'Warkop Demo';
-let KODE_LISENSI = localStorage.getItem('kodeLisensi') || 'DEMO-001';
-const TANGGAL_AKTIFASI = '2026-05-04';
-const MASA_SEWA_HARI = 30;
-const NO_WA_ADMIN = '62895351432524';
-let menu = JSON.parse(localStorage.getItem('menuWarkop')) || [];
+const NAMA_WARKOP = "Warkop Singo";
+let menu = [
+  {nama:"Kopi Tubruk",harga:4000},
+  {nama:"Kopi Susu",harga:5000},
+  {nama:"Teh Panas",harga:3000},
+  {nama:"Es Teh",harga:4000},
+  {nama:"Indomie Rebus",harga:7000},
+  {nama:"Indomie Goreng",harga:8000}
+];
 let keranjang = [];
-let transaksi = JSON.parse(localStorage.getItem('trxWarkop')) || [];
-let menuTerpilih = null;
+let transaksi = JSON.parse(localStorage.getItem('transaksiWarkop')||'[]');
 
-if(!localStorage.getItem('sudahSetup')){
-  document.getElementById('popupInstall').style.display = 'flex';
+function loginKasir(){
+  const shift = document.getElementById('pilihShift').value;
+  const kasir = document.getElementById('namaKasir').value;
+  if(!shift ||!kasir) return alert('Isi shift dan nama kasir!');
+  localStorage.setItem('shiftAktif',shift);
+  localStorage.setItem('namaKasir',kasir);
+  document.getElementById('loginSection').classList.add('hidden');
+  document.getElementById('appSection').classList.remove('hidden');
+  document.getElementById('infoShift').innerText = shift;
+  document.getElementById('infoKasir').innerText = kasir;
+  tampilMenu();
+  updateLaporan();
 }
 
-function simpanSetupWarkop(){
-  const nama = document.getElementById('inputNamaWarkop').value.trim();
-  const kode = document.getElementById('inputKodeLisensi').value.trim();
-  const menuMinuman = document.getElementById('inputMenuMinuman').value.trim();
-  const menuRokok = document.getElementById('inputMenuRokok').value.trim();
-  if(!nama ||!kode){ return alert('Nama Warkop + Kode Lisensi wajib diisi prof!'); }
-  localStorage.setItem('namaWarkop', nama);
-  localStorage.setItem('kodeLisensi', kode);
-  NAMA_WARKOP = nama;
-  KODE_LISENSI = kode;
-  let menuBaru = [];
-  let idCounter = Date.now();
-  menuMinuman.split('\n').forEach(baris => {
-    if(baris){
-      const [namaMenu, harga, stok] = baris.split('|');
-      menuBaru.push({id:idCounter++, nama:namaMenu.trim(), harga:parseInt(harga)||0, stok:parseInt(stok)||0, kategori:'minuman'});
-    }
-  });
-  menuRokok.split('\n').forEach(baris => {
-    if(baris){
-      const [namaMenu, harga, stok] = baris.split('|');
-      menuBaru.push({id:idCounter++, nama:namaMenu.trim(), harga:parseInt(harga)||0, stok:parseInt(stok)||0, kategori:'rokok'});
-    }
-  });
-  localStorage.setItem('menuWarkop', JSON.stringify(menuBaru));
-  localStorage.setItem('sudahSetup', '1');
-  location.reload();
-}
-
-function gantiDataWarkop(){
-  if(confirm('Yakin mau ganti data warkop? Menu & transaksi akan dihapus!')){
-    localStorage.clear();
+function logoutKasir(){
+  if(confirm('Yakin logout?')){
+    localStorage.removeItem('shiftAktif');
+    localStorage.removeItem('namaKasir');
     location.reload();
   }
 }
 
-function cekLisensi(){
-  document.getElementById('footerLicense').innerText = KODE_LISENSI;
-  document.getElementById('judulWarkop').innerText = NAMA_WARKOP.toUpperCase();
-  const tglAktif = new Date(TANGGAL_AKTIFASI);
-  const tglExpired = new Date(tglAktif);
-  tglExpired.setDate(tglAktif.getDate() + MASA_SEWA_HARI);
-  const sisaHari = Math.ceil((tglExpired - new Date()) / (1000*60*60*24));
-  if(sisaHari <= 3 && sisaHari > 0){
-    const mauBayar = confirm(`⚠️ MASA SEWA TINGGAL ${sisaHari} HARI!\n\nAplikasi akan terkunci otomatis.\n\nKlik OK untuk Chat Admin & minta info pembayaran`);
-    if(mauBayar){
-      window.open(`https://wa.me/${NO_WA_ADMIN}?text=Halo%20Admin,%20${NAMA_WARKOP}%20mau%20perpanjang%20sewa%20${KODE_LISENSI}`);
-    }
-  }
-  if(new Date() > tglExpired){
-    document.getElementById('expiredScreen').style.display = 'flex';
-    document.getElementById('mainApp').style.display = 'none';
+function cekLogin(){
+  const shiftAktif = localStorage.getItem('shiftAktif');
+  const kasirAktif = localStorage.getItem('namaKasir');
+  if(shiftAktif && kasirAktif){
+    document.getElementById('loginSection').classList.add('hidden');
+    document.getElementById('appSection').classList.remove('hidden');
+    document.getElementById('infoShift').innerText = shiftAktif;
+    document.getElementById('infoKasir').innerText = kasirAktif;
   }
 }
 
-function renderMenu(){
-  const daftarMinuman = document.getElementById('daftarMenuMinuman');
-  const daftarRokok = document.getElementById('daftarMenuRokok');
-  const menuCepat = document.getElementById('menuCepat');
-  daftarMinuman.innerHTML = '';
-  daftarRokok.innerHTML = '';
-  menuCepat.innerHTML = '';
-  menu.forEach(m => {
-    const htmlMenu = `
-      <div class="menu-item">
-        <span><b>${m.nama}</b><br>Rp ${m.harga.toLocaleString('id-ID')} | Stok: ${m.stok}</span>
-        <div>
-          <button class="btn-small" onclick="tambahStok(${m.id})">+Stok</button>
-          <button class="btn-danger btn-small" onclick="hapusMenu(${m.id})">Hapus</button>
-        </div>
-      </div>`;
-    if(m.kategori === 'minuman') daftarMinuman.innerHTML += htmlMenu;
-    else if(m.kategori === 'rokok') daftarRokok.innerHTML += htmlMenu;
-    const disabled = m.stok <= 0? 'disabled' : '';
-    const stokBadge = m.stok <= 5 && m.stok > 0? `<span class="stok-badge">${m.stok}</span>` : '';
-    menuCepat.innerHTML += `
-      <div class="menu-btn ${disabled}" onclick="${m.stok > 0? `pilihMenuCepat(${m.id})` : ''}">
-        ${stokBadge}
-        <b>${m.nama}</b>Rp ${m.harga.toLocaleString('id-ID')}
-      </div>`;
+function gantiTab(tab){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById(tab).classList.add('active');
+  if(tab=='laporan') updateLaporan();
+}
+
+function tampilMenu(){
+  const grid = document.getElementById('menuGrid');
+  grid.innerHTML = '';
+  menu.forEach(m=>{
+    grid.innerHTML += `<div class="menu-item" onclick="tambahKeranjang('${m.nama}',${m.harga})"><b>${m.nama}</b><br>Rp ${m.harga.toLocaleString('id-ID')}</div>`;
   });
 }
 
-function tambahStok(id){
-  const tambah = prompt('Tambah stok berapa?');
-  if(tambah &&!isNaN(tambah)){
-    const item = menu.find(m => m.id === id);
-    item.stok += parseInt(tambah);
-    localStorage.setItem('menuWarkop',JSON.stringify(menu));
-    renderMenu();
-  }
+function tambahKeranjang(nama,harga){
+  const idx = keranjang.findIndex(k=>k.nama==nama);
+  if(idx>=0) keranjang[idx].jumlah++;
+  else keranjang.push({nama,harga,jumlah:1});
+  updateKeranjang();
 }
 
-function cariMenuRealTime(){
-  const keyword = document.getElementById('cariMenu').value.toLowerCase().trim();
-  const hasil = document.getElementById('hasilCari');
-  if(keyword.length === 0){ hasil.style.display = 'none'; return; }
-  const filtered = menu.filter(m => m.nama.toLowerCase().includes(keyword) && m.stok > 0);
-  hasil.innerHTML = '';
-  if(filtered.length === 0){
-    hasil.innerHTML = '<div class="search-item">Menu tidak ada / Stok habis</div>';
-  } else {
-    filtered.forEach(m => {
-      hasil.innerHTML += `<div class="search-item" onclick="pilihDariSearch(${m.id})"><b>${m.nama}</b><br>Rp ${m.harga.toLocaleString('id-ID')} | Stok: ${m.stok}</div>`;
-    });
-  }
-  hasil.style.display = 'block';
-}
-
-function pilihDariSearch(id){
-  menuTerpilih = menu.find(m => m.id === id);
-  document.getElementById('cariMenu').value = menuTerpilih.nama;
-  document.getElementById('hasilCari').style.display = 'none';
-  tambahKeKeranjang();
-}
-
-function pilihMenuCepat(id){
-  menuTerpilih = menu.find(m => m.id === id);
-  if(menuTerpilih.stok <= 0) return alert('Stok habis!');
-  tambahKeKeranjang();
-}
-
-function tambahKeKeranjang(){
-  if(!menuTerpilih) return alert('Pilih menu dulu');
-  const jumlah = parseInt(document.getElementById('jumlah').value) || 1;
-  if(jumlah < 1) return alert('Jumlah minimal 1');
-  if(jumlah > menuTerpilih.stok) return alert(`Stok ${menuTerpilih.nama} cuma ${menuTerpilih.stok}`);
-  const existing = keranjang.find(k => k.id === menuTerpilih.id);
-  if(existing){
-    if(existing.jumlah + jumlah > menuTerpilih.stok) return alert(`Total melebihi stok! Stok: ${menuTerpilih.stok}`);
-    existing.jumlah += jumlah;
-    existing.subtotal = existing.harga * existing.jumlah;
-  } else {
-    keranjang.push({...menuTerpilih,jumlah,subtotal:menuTerpilih.harga*jumlah});
-  }
-  document.getElementById('jumlah').value = 1;
-  document.getElementById('cariMenu').value = '';
-  menuTerpilih = null;
-  renderKeranjang();
-  hitungKembalian();
-}
-
-function tambahMenu(kategori){
-  const nama = document.getElementById(`namaMenu${kategori.charAt(0).toUpperCase()+kategori.slice(1)}`).value.trim();
-  const harga = parseInt(document.getElementById(`hargaMenu${kategori.charAt(0).toUpperCase()+kategori.slice(1)}`).value);
-  const stok = parseInt(document.getElementById(`stokMenu${kategori.charAt(0).toUpperCase()+kategori.slice(1)}`).value) || 0;
-  if(!nama ||!harga || harga < 1) return alert('Isi nama & harga yang bener');
-  menu.push({id:Date.now(),nama,harga,stok,kategori});
-  localStorage.setItem('menuWarkop',JSON.stringify(menu));
-  document.getElementById(`namaMenu${kategori.charAt(0).toUpperCase()+kategori.slice(1)}`).value = '';
-  document.getElementById(`hargaMenu${kategori.charAt(0).toUpperCase()+kategori.slice(1)}`).value = '';
-  document.getElementById(`stokMenu${kategori.charAt(0).toUpperCase()+kategori.slice(1)}`).value = kategori==='minuman'?'100':'10';
-  renderMenu();
-}
-
-function hapusMenu(id){
-  if(confirm('Yakin hapus menu ini?')){
-    menu = menu.filter(m => m.id!== id);
-    localStorage.setItem('menuWarkop',JSON.stringify(menu));
-    renderMenu();
-  }
-}
-
-function renderKeranjang(){
-  const tbody = document.querySelector('#keranjang tbody');
-  tbody.innerHTML = '';
+function updateKeranjang(){
+  const list = document.getElementById('listKeranjang');
+  list.innerHTML = '';
   let total = 0;
-  keranjang.forEach((k,i) => {
-    total += k.subtotal;
-    tbody.innerHTML += `<tr><td>${k.nama}</td><td>${k.jumlah}</td><td>Rp ${k.subtotal.toLocaleString('id-ID')}</td><td><button class="btn-danger" style="padding:5px" onclick="hapusItem(${i})">X</button></td></tr>`;
+  keranjang.forEach((k,i)=>{
+    const subtotal = k.harga * k.jumlah;
+    total += subtotal;
+    list.innerHTML += `<div class="cart-item"><span>${k.nama} x${k.jumlah}</span><span>Rp ${subtotal.toLocaleString('id-ID')} <button onclick="hapusItem(${i})">x</button></span></div>`;
   });
-  document.getElementById('total').innerText = total.toLocaleString('id-ID');
+  document.getElementById('totalHarga').innerText = total.toLocaleString('id-ID');
   hitungKembalian();
-  document.getElementById('totalQris').innerText = total.toLocaleString('id-ID');
 }
 
 function hapusItem(i){
   keranjang.splice(i,1);
-  renderKeranjang();
-}
-
-function pilihMetodeBayar(){
-  const cashBox = document.getElementById('cashBox');
-  const qrisBox = document.getElementById('formQris');
-  const total = keranjang.reduce((a,b)=>a+b.subtotal,0);
-  if(document.getElementById('cash').checked){
-    cashBox.style.display = 'block';
-    qrisBox.style.display = 'none';
-    document.getElementById('uangBayar').focus();
-  }
-  else if(document.getElementById('qris').checked){
-    cashBox.style.display = 'none';
-    qrisBox.style.display = 'block';
-    document.getElementById('totalQris').innerText = total.toLocaleString('id-ID');
-    const qrWarkop = localStorage.getItem('qrWarkop');
-    document.getElementById('gambarQris').src = qrWarkop || 'https://via.placeholder.com/200x200?text=Upload+QR+di+Menu';
-  }
+  updateKeranjang();
 }
 
 function hitungKembalian(){
-  const total = keranjang.reduce((a,b) => a+b.subtotal,0);
-  const bayar = parseInt(document.getElementById('uangBayar').value) || 0;
+  const total = keranjang.reduce((a,b)=>a+(b.harga*b.jumlah),0);
+  const bayar = parseInt(document.getElementById('uangBayar').value)||0;
   const kembalian = bayar - total;
-  document.getElementById('jumlahKembalian').innerText = kembalian > 0? kembalian.toLocaleString('id-ID') : '0';
-  return {bayar,kembalian,total};
+  document.getElementById('kembalian').innerText = kembalian>0?kembalian.toLocaleString('id-ID'):0;
 }
 
-function showAlert(msg){
-  const alert = document.getElementById('alertSukses');
-  alert.innerText = msg;
-  alert.style.display = 'block';
-  setTimeout(() => { alert.style.display = 'none'; }, 2000);
-}
-
-function selesaikanTransaksi(metode){
-  if(keranjang.length === 0) return alert('Keranjang masih kosong!');
-  const total = keranjang.reduce((a,b) => a+b.subtotal,0);
-  if(metode === 'CASH'){
-    const cashData = hitungKembalian();
-    if(cashData.bayar === 0) return alert('Isi uang bayar dulu!');
-    if(cashData.bayar < total) return alert(`Uang kurang! Total: Rp ${total.toLocaleString('id-ID')}`);
-    prosesSimpanTrx(metode, null, cashData.bayar, cashData.kembalian);
-  }
-  else if(metode === 'QRIS'){
-    const file = document.getElementById('buktiQris').files[0];
-    if(!file) return alert('Wajib upload bukti QRIS dulu mas!');
-    const reader = new FileReader();
-    reader.onload = function(e){
-      prosesSimpanTrx(metode, e.target.result, 0, 0);
-    }
-    reader.readAsDataURL(file);
-  }
-}
-
-function prosesSimpanTrx(metode, bukti, bayar, kembalian){
-  const total = keranjang.reduce((a,b) => a+b.subtotal,0);
-  keranjang.forEach(k => {
-    const item = menu.find(m => m.id === k.id);
-    if(item) item.stok -= k.jumlah;
-  });
-  localStorage.setItem('menuWarkop',JSON.stringify(menu));
+function prosesSimpanTrx(){
+  if(keranjang.length==0) return alert('Keranjang kosong!');
+  const total = keranjang.reduce((a,b)=>a+(b.harga*b.jumlah),0);
+  const metode = document.getElementById('metodeBayar').value;
+  const bayar = parseInt(document.getElementById('uangBayar').value)||0;
+  if(metode=='CASH' && bayar<total) return alert('Uang kurang!');
+  const kembalian = metode=='CASH'?bayar-total:0;
+  const bukti = metode=='QRIS'?prompt('Masukkan bukti/no.ref QRIS:'):'';
+  const shiftAktif = localStorage.getItem('shiftAktif');
+  const kasirAktif = localStorage.getItem('namaKasir');
   transaksi.push({
     id: Date.now(),
     tanggal: new Date().toISOString(),
-    items: [...keranjang],
+    items: keranjang.map(k=>({...k,subtotal:k.harga*k.jumlah})),
     total,
     metodeBayar: metode,
     bayar,
     kembalian,
-    buktiQris: bukti
+    buktiQris: bukti,
+    shift: shiftAktif,
+    kasir: kasirAktif
   });
-  localStorage.setItem('trxWarkop',JSON.stringify(transaksi));
+  localStorage.setItem('transaksiWarkop',JSON.stringify(transaksi));
+  alert('Transaksi berhasil disimpan!');
   keranjang = [];
   document.getElementById('uangBayar').value = '';
-  document.getElementById('buktiQris').value = '';
-  renderKeranjang();
-  renderMenu();
+  updateKeranjang();
   updateLaporan();
-  showAlert(`✓ Transaksi ${metode} Berhasil!`);
-}
-
-function simpanQr(){
-  const file = document.getElementById('uploadQr').files[0];
-  if(!file) return alert('Pilih gambar QR dulu mas!');
-  const reader = new FileReader();
-  reader.onload = function(e){
-    localStorage.setItem('qrWarkop', e.target.result);
-    showAlert('✓ Gambar QRIS Disimpan!');
-  }
-  reader.readAsDataURL(file);
 }
 
 function updateLaporan(){
   const hariIni = new Date().toDateString();
-  const shiftAktif = localStorage.getItem('shiftAktif');
-  const kasirAktif = localStorage.getItem('namaKasir');
-
-  // FILTER KERAS: Cuma transaksi shift + kasir yg login
-  const trxShiftIni = transaksi.filter(t =>
-    new Date(t.tanggal).toDateString() === hariIni &&
-    t.shift === shiftAktif &&
-    t.kasir === kasirAktif
+  const shiftAktif = localStorage.getItem('shiftAktif') || '-';
+  const kasirAktif = localStorage.getItem('namaKasir') || '-';
+  document.getElementById('infoShift').innerText = shiftAktif;
+  document.getElementById('infoKasir').innerText = kasirAktif;
+  const trxShiftIni = (shiftAktif==='-'||kasirAktif==='-')?[]:transaksi.filter(t=>
+    new Date(t.tanggal).toDateString()===hariIni &&
+    t.shift===shiftAktif &&
+    t.kasir===kasirAktif
   );
-
-  const omset = trxShiftIni.reduce((a,b) => a + b.total, 0);
-  const omsetCash = trxShiftIni.filter(t=>t.metode=='CASH').reduce((a,b)=>a+b.total,0);
-  const omsetQris = trxShiftIni.filter(t=>t.metode=='QRIS').reduce((a,b)=>a+b.total,0);
-
+  const omset = trxShiftIni.reduce((a,b)=>a+b.total,0);
+  const omsetCash = trxShiftIni.filter(t=>t.metodeBayar=='CASH').reduce((a,b)=>a+b.total,0);
+  const omsetQris = trxShiftIni.filter(t=>t.metodeBayar=='QRIS').reduce((a,b)=>a+b.total,0);
   document.getElementById('totalTrx').innerText = trxShiftIni.length;
   document.getElementById('totalOmset').innerText = omset.toLocaleString('id-ID');
   document.getElementById('omsetCash').innerText = omsetCash.toLocaleString('id-ID');
   document.getElementById('omsetQris').innerText = omsetQris.toLocaleString('id-ID');
-
   const menuTerjual = {};
-  trxShiftIni.forEach(t => { // GANTI trxHariIni -> trxShiftIni
-    t.items.forEach(item => {
-      if(!menuTerjual[item.nama]) menuTerjual[item.nama] = 0;
-      menuTerjual[item.nama] += item.jumlah;
-    });
-  });
-  // ...lanjutan kode menu terlaris biarin aja
+  trxShiftIni.forEach(t => {
     t.items.forEach(item => {
       if(!menuTerjual[item.nama]) menuTerjual[item.nama] = {qty:0,omset:0};
       menuTerjual[item.nama].qty += item.jumlah;
@@ -539,36 +250,30 @@ function kirimLaporanWA(){
   const hariIni = new Date().toDateString();
   const shiftAktif = localStorage.getItem('shiftAktif');
   const kasirAktif = localStorage.getItem('namaKasir');
-
-  // FILTER KERAS: Cuma transaksi shift + kasir yg login
-  const trxShiftIni = transaksi.filter(t =>
-    new Date(t.tanggal).toDateString() === hariIni &&
-    t.shift === shiftAktif &&
-    t.kasir === kasirAktif
+  if(!shiftAktif ||!kasirAktif) return alert('Login dulu prof!');
+  const trxShiftIni = transaksi.filter(t=>
+    new Date(t.tanggal).toDateString()===hariIni &&
+    t.shift===shiftAktif &&
+    t.kasir===kasirAktif
   );
-
   if(trxShiftIni.length === 0){
     return alert('Belum ada transaksi di shift ' + shiftAktif);
   }
-
-  const omset = trxShiftIni.reduce((a,b) => a + b.total, 0);
-  const omsetCash = trxShiftIni.filter(t=>t.metode=='CASH').reduce((a,b)=>a+b.total,0);
-  const omsetQris = trxShiftIni.filter(t=>t.metode=='QRIS').reduce((a,b)=>a+b.total,0);
-
+  const omset = trxShiftIni.reduce((a,b)=>a+b.total,0);
+  const omsetCash = trxShiftIni.filter(t=>t.metodeBayar=='CASH').reduce((a,b)=>a+b.total,0);
+  const omsetQris = trxShiftIni.filter(t=>t.metodeBayar=='QRIS').reduce((a,b)=>a+b.total,0);
   const tgl = new Date().toLocaleDateString('id-ID');
   const jam = new Date().toLocaleTimeString('id-ID');
-
   const menuTerjual = {};
   trxShiftIni.forEach(t => {
     t.items.forEach(item => {
-      if(!menuTerjual[item.nama]) menuTerjual[item.nama] = 0;
-      menuTerjual[item.nama] += item.jumlah;
+      if(!menuTerjual[item.nama]) menuTerjual[item.nama] = {qty:0,omset:0};
+      menuTerjual[item.nama].qty += item.jumlah;
+      menuTerjual[item.nama].omset += item.subtotal;
     });
   });
-
-  const itemTerlaris = Object.keys(menuTerjual).sort((a,b)=>menuTerjual[b]-menuTerjual[a])[0] || '-';
-
-  let pesan = `*LAPORAN SHIFT ${shiftAktif} - WARKOP SINGO*%0A`;
+  const itemTerlaris = Object.keys(menuTerjual).sort((a,b)=>menuTerjual[b].qty-menuTerjual[a].qty)[0] || '-';
+  let pesan = `*LAPORAN SHIFT ${shiftAktif} - ${NAMA_WARKOP.toUpperCase()}*%0A`;
   pesan += `Kasir: ${kasirAktif}%0A`;
   pesan += `Tanggal: ${tgl} ${jam}%0A`;
   pesan += `________________________%0A`;
@@ -579,104 +284,23 @@ function kirimLaporanWA(){
   pesan += `Item Terlaris: ${itemTerlaris}%0A`;
   pesan += `________________________%0A`;
   pesan += `_Laporan per shift. Privasi terjaga_`;
-
-  let noTujuan = localStorage.getItem('noWaOwner') || '628123456789'; // GANTI NO DEFAULT OWNER
-  let url = `https://wa.me/${noTujuan}?text=${encodeURIComponent(pesan)}`;
+  let noTujuan = localStorage.getItem('noWaOwner') || '628123456789';
+  let url = `https://wa.me/${noTujuan}?text=${pesan}`;
   window.open(url, '_blank');
-        }
-
-function downloadLaporanExcel(){
-  const hariIni = new Date().toDateString();
-  const trxHariIni = transaksi.filter(t => new Date(t.tanggal).toDateString() === hariIni);
-  if(trxHariIni.length === 0){
-    return alert('Belum ada transaksi hari ini mas!');
-  }
-  let dataExcel = [];
-  trxHariIni.forEach((t, i) => {
-    const jam = new Date(t.tanggal).toLocaleTimeString('id-ID');
-    t.items.forEach(item => {
-      dataExcel.push({
-        'No': i+1,
-        'Jam': jam,
-        'Menu': item.nama,
-        'Qty': item.jumlah,
-        'Harga': item.harga,
-        'Subtotal': item.subtotal,
-        'Bayar': t.metodeBayar
-      });
-    });
-  });
-  const omset = trxHariIni.reduce((a,b) => a+b.total,0);
-  dataExcel.push({});
-  dataExcel.push({'Menu': 'TOTAL OMSET', 'Subtotal': omset});
-  let ws = XLSX.utils.json_to_sheet(dataExcel);
-  let wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, "Laporan");
-  let tglFile = new Date().toLocaleDateString('id-ID').replace(/\//g, '-');
-  XLSX.writeFile(wb, `Laporan-${NAMA_WARKOP.replace(/\s/g,'')}-${tglFile}.xlsx`);
 }
 
-function resetLaporan(){
-  if(confirm('Yakin hapus SEMUA data transaksi?')){
+function hapusSemuaLaporan(){
+  if(confirm('Yakin hapus semua data transaksi? Data tidak bisa dikembalikan!')){
     transaksi = [];
-    localStorage.setItem('trxWarkop','[]');
+    localStorage.setItem('transaksiWarkop',JSON.stringify(transaksi));
     updateLaporan();
-    alert('Laporan berhasil direset');
+    alert('Semua data berhasil dihapus!');
   }
 }
 
-function openTab(evt,tabName){
-  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.tablinks').forEach(t => t.classList.remove('active'));
-  document.getElementById(tabName).classList.add('active');
-  evt.currentTarget.classList.add('active');
-}
-
-document.addEventListener('click',function(e){
-  if(!e.target.matches('#cariMenu')){
-    document.getElementById('hasilCari').style.display = 'none';
-  }
-});
-
-// INIT APP - JALANIN PAS BUKA
-cekLoginShift(); // PINDAHIN KE PALING ATAS
-cekLisensi();
-renderMenu();
+cekLogin();
+tampilMenu();
 updateLaporan();
-renderKeranjang();
-pilihMetodeBayar(); // INI PENTING BIAR CASH MUNCUL
-
-// TAMBAH 3 FUNGSI LOGIN SHIFT DI SINI
-function cekLoginShift(){
-  const shift = localStorage.getItem('shiftAktif');
-  const kasir = localStorage.getItem('namaKasir');
-  if(!shift ||!kasir){
-    document.getElementById('popupLogin').style.display = 'flex';
-    document.getElementById('mainApp').style.display = 'none';
-  } else {
-    document.getElementById('infoShift').innerText = shift;
-    document.getElementById('infoKasir').innerText = kasir;
-    document.getElementById('popupLogin').style.display = 'none';
-    document.getElementById('mainApp').style.display = 'block';
-  }
-}
-
-function loginShift(){
-  const shift = document.getElementById('pilihShift').value;
-  const kasir = document.getElementById('namaKasir').value.trim();
-  if(!shift ||!kasir) return alert('Pilih shift + isi nama kasir dulu!');
-  localStorage.setItem('shiftAktif', shift);
-  localStorage.setItem('namaKasir', kasir);
-  location.reload();
-}
-
-function logoutShift(){
-  if(confirm('Yakin logout? Pastikan laporan sudah di-download')){
-    localStorage.removeItem('shiftAktif');
-    localStorage.removeItem('namaKasir');
-    location.reload();
-  }
-}
 </script>
 </body>
-</html>
+  </html>
