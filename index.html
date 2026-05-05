@@ -8,171 +8,156 @@
   <style>
     * {margin:0;padding:0;box-sizing:border-box;font-family:sans-serif}
     body {background:#f0f2f5}
- .container {max-width:480px;margin:0 auto;background:#f0f2f5;min-height:100vh}
- .header {background:#2e7d32;color:#fff;padding:12px;text-align:center;border-radius:0 0 12px 12px;margin:0 10px}
- .header h3 {margin:0;font-size:20px}
- .header p {margin:4px 0 0 0;font-size:14px;opacity:0.9}
- .tabs {display:flex;background:#fff;margin:10px;border-radius:8px;overflow:hidden;border:1px solid #e0e0e0}
- .tab {flex:1;padding:12px;text-align:center;cursor:pointer;background:#fff;font-weight:600;color:#666}
- .tab.active {background:#2e7d32;color:#fff}
- .content {padding:10px}
- .section {display:none}
- .section.active {display:block}
- .card {background:#fff;border:1px solid #e0e0e0;border-radius:12px;padding:15px;margin-bottom:10px}
- .card h4 {color:#2e7d32;margin-bottom:10px}
- .menu-grid {display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}
- .menu-item {border:1px solid #c8e6c9;padding:10px;border-radius:8px;text-align:center;cursor:pointer;background:#f1f8e9;position:relative}
- .menu-item:hover {background:#dcedc8}
- .menu-item b {display:block;color:#1b5e20}
- .hapus-menu {position:absolute;top:2px;right:5px;background:red;color:#fff;border:none;border-radius:50%;width:20px;height:20px;font-size:12px;cursor:pointer}
- .cart-table {width:100%;border-collapse:collapse;margin:10px 0}
- .cart-table th {background:#e8f5e9;padding:8px;text-align:left;color:#2e7d32}
- .cart-table td {padding:8px;border-bottom:1px solid #eee}
- .total {font-size:18px;font-weight:bold;color:#1b5e20;margin:10px 0}
- .btn {width:100%;padding:12px;border:none;border-radius:8px;font-weight:bold;cursor:pointer;margin-top:8px}
- .btn-primary {background:#2e7d32;color:#fff}
- .btn-cash {background:#2e7d32;color:#fff}
- .btn-qris {background:#fff;color:#2e7d32;border:2px solid #2e7d32}
- .btn-danger {background:#d32f2f;color:#fff}
- .btn-add {background:#ff9800;color:#fff;margin-bottom:10px}
- .btn-orange {background:#ff9800;color:#fff}
- .btn-group {display:flex;gap:8px}
- .btn-group.btn {margin-top:0}
+.container {max-width:480px;margin:0 auto;background:#f0f2f5;min-height:100vh}
+.header {background:#2e7d32;color:#fff;padding:12px;text-align:center;border-radius:0 0 12px 12px;margin:0 10px}
+.header h3 {margin:0;font-size:20px}
+.header p {margin:4px 0 0 0;font-size:14px;opacity:0.9}
+.tabs {display:flex;background:#fff;margin:10px;border-radius:8px;overflow:hidden;border:1px solid #e0e0e0}
+.tab {flex:1;padding:12px;text-align:center;cursor:pointer;background:#fff;font-weight:600;color:#666}
+.tab.active {background:#2e7d32;color:#fff}
+.content {padding:10px}
+.section {display:none}
+.section.active {display:block}
+.card {background:#fff;border:1px solid #e0e0e0;border-radius:12px;padding:15px;margin-bottom:10px}
+.card h4 {color:#2e7d32;margin-bottom:10px}
+.menu-grid {display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}
+.menu-item {border:1px solid #c8e6c9;padding:10px;border-radius:8px;text-align:center;cursor:pointer;background:#f1f8e9;position:relative}
+.menu-item:hover {background:#dcedc8}
+.menu-item b {display:block;color:#1b5e20}
+.hapus-menu {position:absolute;top:2px;right:5px;background:red;color:#fff;border:none;border-radius:50%;width:20px;height:20px;font-size:12px;cursor:pointer}
+.cart-table {width:100%;border-collapse:collapse;margin:10px 0}
+.cart-table th {background:#e8f5e9;padding:8px;text-align:left;color:#2e7d32}
+.cart-table td {padding:8px;border-bottom:1px solid #eee}
+.total {font-size:18px;font-weight:bold;color:#1b5e20;margin:10px 0}
+.btn {width:100%;padding:12px;border:none;border-radius:8px;font-weight:bold;cursor:pointer;margin-top:8px}
+.btn-primary {background:#2e7d32;color:#fff}
+.btn-cash {background:#2e7d32;color:#fff}
+.btn-qris {background:#fff;color:#2e7d32;border:2px solid #2e7d32}
+.btn-danger {background:#d32f2f;color:#fff}
+.btn-add {background:#ff9800;color:#fff;margin-bottom:10px}
+.btn-orange {background:#ff9800;color:#fff}
+.btn-group {display:flex;gap:8px}
+.btn-group.btn {margin-top:0}
     input,select {width:100%;padding:12px;margin:8px 0;border:1px solid #c8e6c9;border-radius:8px}
- .info-box {background:#e8f5e9;padding:10px;border-radius:8px;margin-bottom:10px;font-size:14px;color:#1b5e20}
- .login-box {padding:20px;background:#fff;margin:20px;border-radius:12px}
- .hidden {display:none}
- .kembalian-box {background:#fff3e0;padding:15px;border-radius:8px;text-align:center;margin:10px 0}
- .kembalian-box h3 {color:#e65100;margin:0}
+.info-box {background:#e8f5e9;padding:10px;border-radius:8px;margin-bottom:10px;font-size:14px;color:#1b5e20}
+.hidden {display:none}
+.kembalian-box {background:#fff3e0;padding:15px;border-radius:8px;text-align:center;margin:10px 0}
+.kembalian-box h3 {color:#e65100;margin:0}
     table {width:100%;border-collapse:collapse;margin-top:10px}
     th,td {border:1px solid #ddd;padding:8px;text-align:left;font-size:14px}
     th {background:#e8f5e9}
- .footer-text {text-align:center;font-size:12px;color:#999;margin-top:20px;padding-bottom:20px}
- .modal {display:none;position:fixed;z-index:100;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.5)}
- .modal-content {background:#fff;margin:20% auto;padding:20px;border-radius:12px;width:90%;max-width:400px}
- .setting-row {margin:15px 0}
- .setting-row label {font-weight:bold;color:#2e7d32;display:block;margin-bottom:5px}
+.footer-text {text-align:center;font-size:12px;color:#999;margin-top:20px;padding-bottom:20px}
+.modal {display:none;position:fixed;z-index:100;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.5)}
+.modal-content {background:#fff;margin:20% auto;padding:20px;border-radius:12px;width:90%;max-width:400px}
+.setting-row {margin:15px 0}
+.setting-row label {font-weight:bold;color:#2e7d32;display:block;margin-bottom:5px}
   hr {border:none;border-top:1px solid #e0e0e0;margin:15px 0}
   </style>
 </head>
 <body>
 <div class="container">
-  <div id="loginSection" class="login-box">
-    <h3>Login Kasir Warkop Singo</h3>
-    <select id="pilihShift">
-      <option value="">Pilih Shift</option>
-      <option value="PAGI">PAGI</option>
-      <option value="SIANG">SIANG</option>
-      <option value="MALAM">MALAM</option>
-    </select>
-    <input type="text" id="namaKasir" placeholder="Nama Kasir">
-    <button class="btn btn-primary" onclick="loginKasir()">MASUK</button>
+  <div class="header">
+    <h3>☕ <span id="namaWarkopHeader">WARKOP SINGO</span></h3>
+    <p>Shift: <span id="infoShift">PAGI</span> | Kasir: <span id="infoKasir">KASIR</span></p>
   </div>
 
-  <div id="appSection" class="hidden">
-    <div class="header">
-      <h3>☕ <span id="namaWarkopHeader">WARKOP SINGO</span></h3>
-      <p>Shift: <span id="infoShift">-</span> | Kasir: <span id="infoKasir">-</span></p>
-    </div>
+  <div class="tabs">
+    <div class="tab active" onclick="gantiTab('kasir')">Kasir</div>
+    <div class="tab" onclick="gantiTab('minuman')">Minuman</div>
+    <div class="tab" onclick="gantiTab('rokok')">Rokok</div>
+    <div class="tab" onclick="gantiTab('laporan')">Laporan</div>
+  </div>
 
-    <div class="tabs">
-      <div class="tab active" onclick="gantiTab('kasir')">Kasir</div>
-      <div class="tab" onclick="gantiTab('minuman')">Minuman</div>
-      <div class="tab" onclick="gantiTab('rokok')">Rokok</div>
-      <div class="tab" onclick="gantiTab('laporan')">Laporan</div>
-    </div>
-
-    <div class="content">
-      <!-- TAB KASIR -->
-      <div id="kasir" class="section active">
-        <div class="card">
-          <h4>Transaksi Baru</h4>
-          <input type="text" id="cariMenu" placeholder="🔍 Ketik nama menu..." onkeyup="cariMenu()">
-          <h4 style="margin-top:15px">Menu Cepat:</h4>
-          <div class="menu-grid" id="menuCepat"></div>
-          
-          <table class="cart-table">
-            <thead><tr><th>Item</th><th>Qty</th><th>Subtotal</th><th></th></tr></thead>
-            <tbody id="listKeranjang"></tbody>
-          </table>
-          
-          <div class="total">Total: Rp <span id="totalHarga">0</span></div>
-          
-          <h4>Metode Bayar:</h4>
-          <div class="btn-group">
-            <button class="btn btn-cash" id="btnCash" onclick="pilihMetode('CASH')">💵 CASH</button>
-            <button class="btn btn-qris" id="btnQris" onclick="pilihMetode('QRIS')">📱 QRIS</button>
-          </div>
-          
-          <div id="boxCash">
-            <input type="number" id="uangBayar" placeholder="Uang Bayar Pelanggan" onkeyup="hitungKembalian()">
-            <div class="kembalian-box">
-              <h3>Kembalian: Rp <span id="kembalian">0</span></h3>
-            </div>
-            <button class="btn btn-primary" onclick="prosesSimpanTrx()">💰 BAYAR CASH SELESAI</button>
-          </div>
-          
-          <div id="boxQris" class="hidden">
-            <img id="gambarQris" src="" style="width:100%;max-width:200px;margin:10px auto;display:block;border:1px solid #ddd">
-            <input type="text" id="buktiQris" placeholder="No. Ref / Bukti QRIS">
-            <button class="btn btn-primary" onclick="prosesSimpanTrx()">📱 BAYAR QRIS SELESAI</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- TAB MINUMAN -->
-      <div id="minuman" class="section">
-        <div class="card">
-          <h4>Daftar Minuman</h4>
-          <button class="btn btn-add" onclick="bukaModal('minuman')">+ Tambah Menu Baru</button>
-          <div class="menu-grid" id="menuMinuman"></div>
-        </div>
-      </div>
-
-      <!-- TAB ROKOK -->
-      <div id="rokok" class="section">
-        <div class="card">
-          <h4>Daftar Rokok</h4>
-          <button class="btn btn-add" onclick="bukaModal('rokok')">+ Tambah Menu Baru</button>
-          <div class="menu-grid" id="menuRokok"></div>
-        </div>
-      </div>
-
-      <!-- TAB LAPORAN -->
-      <div id="laporan" class="section">
-        <div class="card">
-          <h4>Laporan Hari Ini</h4>
-          <div class="info-box">
-            Total Transaksi: <b id="totalTrx">0</b><br>
-            Total Omset: <b>Rp <span id="totalOmset">0</span></b><br>
-            CASH: Rp <span id="omsetCash">0</span> | QRIS: Rp <span id="omsetQris">0</span>
-          </div>
-          <button class="btn btn-primary" onclick="kirimLaporanWA()">📱 Kirim Laporan ke WA Owner</button>
-          <button class="btn btn-primary" onclick="downloadExcel()">💾 Download Laporan Excel</button>
-          <button class="btn btn-danger" onclick="hapusSemuaLaporan()">Hapus Semua Laporan</button>
-          <button class="btn btn-danger" onclick="logoutKasir()">🚪 LOGOUT / GANTI KASIR</button>
-          
-          <hr>
-          <h4>⚙️ Setting</h4>
-          <div class="setting-row">
-            <label>Upload Gambar QRIS:</label>
-            <input type="file" id="uploadQris" accept="image/*" onchange="previewQris(event)">
-          </div>
-          <button class="btn btn-primary" onclick="simpanGambarQris()">💾 Simpan Gambar QRIS</button>
-          <button class="btn btn-orange" onclick="bukaModalWarkop()">🔄 Ganti Data Warkop</button>
+  <div class="content">
+    <!-- TAB KASIR -->
+    <div id="kasir" class="section active">
+      <div class="card">
+        <h4>Transaksi Baru</h4>
+        <input type="text" id="cariMenu" placeholder="🔍 Ketik nama menu..." onkeyup="cariMenu()">
+        <h4 style="margin-top:15px">Menu Cepat:</h4>
+        <div class="menu-grid" id="menuCepat"></div>
+        
+        <table class="cart-table">
+          <thead><tr><th>Item</th><th>Qty</th><th>Subtotal</th><th></th></tr></thead>
+          <tbody id="listKeranjang"></tbody>
+        </table>
+        
+        <div class="total">Total: Rp <span id="totalHarga">0</span></div>
+        
+        <h4>Metode Bayar:</h4>
+        <div class="btn-group">
+          <button class="btn btn-cash" id="btnCash" onclick="pilihMetode('CASH')">💵 CASH</button>
+          <button class="btn btn-qris" id="btnQris" onclick="pilihMetode('QRIS')">📱 QRIS</button>
         </div>
         
-        <div class="card">
-          <h4>Detail Menu Terjual</h4>
-          <table>
-            <thead><tr><th>Menu</th><th>Terjual</th><th>Omset</th></tr></thead>
-            <tbody id="tabelLaporan"></tbody>
-          </table>
+        <div id="boxCash">
+          <input type="number" id="uangBayar" placeholder="Uang Bayar Pelanggan" onkeyup="hitungKembalian()">
+          <div class="kembalian-box">
+            <h3>Kembalian: Rp <span id="kembalian">0</span></h3>
+          </div>
+          <button class="btn btn-primary" onclick="prosesSimpanTrx()">💰 BAYAR CASH SELESAI</button>
+        </div>
+        
+        <div id="boxQris" class="hidden">
+          <img id="gambarQris" src="" style="width:100%;max-width:200px;margin:10px auto;display:block;border:1px solid #ddd">
+          <input type="text" id="buktiQris" placeholder="No. Ref / Bukti QRIS">
+          <button class="btn btn-primary" onclick="prosesSimpanTrx()">📱 BAYAR QRIS SELESAI</button>
         </div>
       </div>
-      
-      <div class="footer-text" id="kodeWarkop">WKP-SGO-01</div>
     </div>
+
+    <!-- TAB MINUMAN -->
+    <div id="minuman" class="section">
+      <div class="card">
+        <h4>Daftar Minuman</h4>
+        <button class="btn btn-add" onclick="bukaModal('minuman')">+ Tambah Menu Baru</button>
+        <div class="menu-grid" id="menuMinuman"></div>
+      </div>
+    </div>
+
+    <!-- TAB ROKOK -->
+    <div id="rokok" class="section">
+      <div class="card">
+        <h4>Daftar Rokok</h4>
+        <button class="btn btn-add" onclick="bukaModal('rokok')">+ Tambah Menu Baru</button>
+        <div class="menu-grid" id="menuRokok"></div>
+      </div>
+    </div>
+
+    <!-- TAB LAPORAN -->
+    <div id="laporan" class="section">
+      <div class="card">
+        <h4>Laporan Hari Ini</h4>
+        <div class="info-box">
+          Total Transaksi: <b id="totalTrx">0</b><br>
+          Total Omset: <b>Rp <span id="totalOmset">0</span></b><br>
+          CASH: Rp <span id="omsetCash">0</span> | QRIS: Rp <span id="omsetQris">0</span>
+        </div>
+        <button class="btn btn-primary" onclick="kirimLaporanWA()">📱 Kirim Laporan ke WA Owner</button>
+        <button class="btn btn-primary" onclick="downloadExcel()">💾 Download Laporan Excel</button>
+        <button class="btn btn-danger" onclick="hapusSemuaLaporan()">Hapus Semua Laporan</button>
+        <button class="btn btn-orange" onclick="bukaModalKasir()">⚙️ Ganti Shift/Kasir</button>
+        
+        <hr>
+        <h4>⚙️ Setting</h4>
+        <div class="setting-row">
+          <label>Upload Gambar QRIS:</label>
+          <input type="file" id="uploadQris" accept="image/*" onchange="previewQris(event)">
+        </div>
+        <button class="btn btn-primary" onclick="simpanGambarQris()">💾 Simpan Gambar QRIS</button>
+        <button class="btn btn-orange" onclick="bukaModalWarkop()">🔄 Ganti Data Warkop</button>
+      </div>
+      
+      <div class="card">
+        <h4>Detail Menu Terjual</h4>
+        <table>
+          <thead><tr><th>Menu</th><th>Terjual</th><th>Omset</th></tr></thead>
+          <tbody id="tabelLaporan"></tbody>
+        </table>
+      </div>
+    </div>
+    
+    <div class="footer-text" id="kodeWarkop">WKP-SGO-01</div>
   </div>
 </div>
 
@@ -184,6 +169,21 @@
     <input type="number" id="hargaMenuBaru" placeholder="Harga">
     <button class="btn btn-primary" onclick="simpanMenuBaru()">SIMPAN</button>
     <button class="btn" style="background:#999;color:#fff" onclick="tutupModal()">BATAL</button>
+  </div>
+</div>
+
+<!-- MODAL GANTI KASIR -->
+<div id="modalKasir" class="modal">
+  <div class="modal-content">
+    <h4>Ganti Shift/Kasir</h4>
+    <select id="pilihShiftModal">
+      <option value="PAGI">PAGI</option>
+      <option value="SIANG">SIANG</option>
+      <option value="MALAM">MALAM</option>
+    </select>
+    <input type="text" id="namaKasirModal" placeholder="Nama Kasir">
+    <button class="btn btn-primary" onclick="simpanKasir()">SIMPAN</button>
+    <button class="btn" style="background:#999;color:#fff" onclick="tutupModalKasir()">BATAL</button>
   </div>
 </div>
 
@@ -200,10 +200,14 @@
 </div>
 
 <script>
-let NAMA_WARKOP = localStorage.getItem('namaWarkop') || "Warkop Singo";
+let NAMA_WARKOP = localStorage.getItem('namaWarkop') || "WARKOP SINGO";
 let KODE_WARKOP = localStorage.getItem('kodeWarkop') || "WKP-SGO-01";
 let NO_WA_OWNER = localStorage.getItem('noWaOwner') || "628123456789";
 let GAMBAR_QRIS = localStorage.getItem('gambarQris') || "";
+
+// AUTO LOGIN - Default kalo kosong
+if(!localStorage.getItem('shiftAktif')) localStorage.setItem('shiftAktif','PAGI');
+if(!localStorage.getItem('namaKasir')) localStorage.setItem('namaKasir','KASIR');
 
 let menuMinuman = JSON.parse(localStorage.getItem('menuMinuman')) || [
   {nama:"Kopi Tubruk",harga:4000},
@@ -224,38 +228,29 @@ let transaksi = JSON.parse(localStorage.getItem('transaksiWarkop')||'[]');
 document.getElementById('namaWarkopHeader').innerText = NAMA_WARKOP;
 document.getElementById('kodeWarkop').innerText = KODE_WARKOP;
 document.getElementById('gambarQris').src = GAMBAR_QRIS;
+document.getElementById('infoShift').innerText = localStorage.getItem('shiftAktif');
+document.getElementById('infoKasir').innerText = localStorage.getItem('namaKasir');
 
-function loginKasir(){
-  const shift = document.getElementById('pilihShift').value;
-  const kasir = document.getElementById('namaKasir').value;
+function bukaModalKasir(){
+  document.getElementById('pilihShiftModal').value = localStorage.getItem('shiftAktif');
+  document.getElementById('namaKasirModal').value = localStorage.getItem('namaKasir');
+  document.getElementById('modalKasir').style.display = 'block';
+}
+
+function tutupModalKasir(){
+  document.getElementById('modalKasir').style.display = 'none';
+}
+
+function simpanKasir(){
+  const shift = document.getElementById('pilihShiftModal').value;
+  const kasir = document.getElementById('namaKasirModal').value;
   if(!shift ||!kasir) return alert('Isi shift dan nama kasir!');
   localStorage.setItem('shiftAktif',shift);
   localStorage.setItem('namaKasir',kasir);
-  document.getElementById('loginSection').classList.add('hidden');
-  document.getElementById('appSection').classList.remove('hidden');
   document.getElementById('infoShift').innerText = shift;
   document.getElementById('infoKasir').innerText = kasir;
-  tampilSemuaMenu();
+  tutupModalKasir();
   updateLaporan();
-}
-
-function logoutKasir(){
-  if(confirm('Yakin logout?')){
-    localStorage.removeItem('shiftAktif');
-    localStorage.removeItem('namaKasir');
-    location.reload();
-  }
-}
-
-function cekLogin(){
-  const shiftAktif = localStorage.getItem('shiftAktif');
-  const kasirAktif = localStorage.getItem('namaKasir');
-  if(shiftAktif && kasirAktif){
-    document.getElementById('loginSection').classList.add('hidden');
-    document.getElementById('appSection').classList.remove('hidden');
-    document.getElementById('infoShift').innerText = shiftAktif;
-    document.getElementById('infoKasir').innerText = kasirAktif;
-  }
 }
 
 function gantiTab(tab){
@@ -267,6 +262,7 @@ function gantiTab(tab){
 }
 
 function tampilSemuaMenu(){
+  menuCepat = [...menuMinuman.slice(0,2),...menuRokok.slice(0,2)];
   tampilMenuGrid('menuCepat',menuCepat,false);
   tampilMenuGrid('menuMinuman',menuMinuman,true);
   tampilMenuGrid('menuRokok',menuRokok,true);
@@ -325,12 +321,11 @@ function simpanMenuBaru(){
   if(jenisMenuAktif=='minuman'){
     menuMinuman.push({nama,harga});
     localStorage.setItem('menuMinuman',JSON.stringify(menuMinuman));
-    tampilMenuGrid('menuMinuman',menuMinuman,true);
   } else {
     menuRokok.push({nama,harga});
     localStorage.setItem('menuRokok',JSON.stringify(menuRokok));
-    tampilMenuGrid('menuRokok',menuRokok,true);
   }
+  tampilSemuaMenu();
   tutupModal();
   alert('Menu berhasil ditambah!');
 }
@@ -341,12 +336,11 @@ function hapusMenu(id,index){
   if(id=='menuMinuman'){
     menuMinuman.splice(index,1);
     localStorage.setItem('menuMinuman',JSON.stringify(menuMinuman));
-    tampilMenuGrid('menuMinuman',menuMinuman,true);
   } else {
     menuRokok.splice(index,1);
     localStorage.setItem('menuRokok',JSON.stringify(menuRokok));
-    tampilMenuGrid('menuRokok',menuRokok,true);
   }
+  tampilSemuaMenu();
 }
 
 function cariMenu(){
@@ -447,8 +441,8 @@ function prosesSimpanTrx(){
 
 function updateLaporan(){
   const hariIni = new Date().toDateString();
-  const shiftAktif = localStorage.getItem('shiftAktif') || '-';
-  const trxShiftIni = shiftAktif==='-'?[]:transaksi.filter(t=>
+  const shiftAktif = localStorage.getItem('shiftAktif');
+  const trxShiftIni = transaksi.filter(t=>
     new Date(t.tanggal).toDateString()===hariIni && t.shift===shiftAktif
   );
   const omset = trxShiftIni.reduce((a,b)=>a+b.total,0);
@@ -481,7 +475,6 @@ function kirimLaporanWA(){
   const hariIni = new Date().toDateString();
   const shiftAktif = localStorage.getItem('shiftAktif');
   const kasirAktif = localStorage.getItem('namaKasir');
-  if(!shiftAktif ||!kasirAktif) return alert('Login dulu prof!');
   const trxShiftIni = transaksi.filter(t=>
     new Date(t.tanggal).toDateString()===hariIni &&
     t.shift===shiftAktif &&
@@ -562,9 +555,8 @@ function hapusSemuaLaporan(){
   }
 }
 
-cekLogin();
 tampilSemuaMenu();
 updateLaporan();
 </script>
 </body>
-                  </html>
+      </html>
