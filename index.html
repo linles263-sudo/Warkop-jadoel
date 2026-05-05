@@ -4,50 +4,55 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Warkop Singo Kasir</title>
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
   <style>
     * {margin:0;padding:0;box-sizing:border-box;font-family:sans-serif}
     body {background:#f0f2f5}
-  .container {max-width:480px;margin:0 auto;background:#fff;min-height:100vh}
-  .header {background:#2e7d32;color:#fff;padding:12px;text-align:center;border-radius:0 0 12px 12px}
-  .header h3 {margin:0}
-  .header p {margin:4px 0 0 0;font-size:14px;opacity:0.9}
-  .tabs {display:flex;background:#fff;margin:10px;border-radius:8px;overflow:hidden;border:1px solid #e0e0e0}
-  .tab {flex:1;padding:12px;text-align:center;cursor:pointer;background:#f5f5f5;font-weight:600;color:#666}
-  .tab.active {background:#2e7d32;color:#fff}
-  .content {padding:10px}
-  .section {display:none}
-  .section.active {display:block}
-  .card {background:#fff;border:1px solid #e0e0e0;border-radius:12px;padding:15px;margin-bottom:10px}
-  .card h4 {color:#2e7d32;margin-bottom:10px}
-  .menu-grid {display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}
-  .menu-item {border:1px solid #c8e6c9;padding:10px;border-radius:8px;text-align:center;cursor:pointer;background:#f1f8e9;position:relative}
-  .menu-item:hover {background:#dcedc8}
-  .menu-item b {display:block;color:#1b5e20}
-  .hapus-menu {position:absolute;top:2px;right:5px;background:red;color:#fff;border:none;border-radius:50%;width:20px;height:20px;font-size:12px;cursor:pointer}
-  .cart-table {width:100%;border-collapse:collapse;margin:10px 0}
-  .cart-table th {background:#e8f5e9;padding:8px;text-align:left;color:#2e7d32}
-  .cart-table td {padding:8px;border-bottom:1px solid #eee}
-  .total {font-size:18px;font-weight:bold;color:#1b5e20;margin:10px 0}
-  .btn {width:100%;padding:12px;border:none;border-radius:8px;font-weight:bold;cursor:pointer;margin-top:8px}
-  .btn-primary {background:#2e7d32;color:#fff}
-  .btn-cash {background:#2e7d32;color:#fff}
-  .btn-qris {background:#fff;color:#2e7d32;border:2px solid #2e7d32}
-  .btn-danger {background:#d32f2f;color:#fff}
-  .btn-add {background:#ff9800;color:#fff;margin-bottom:10px}
-  .btn-group {display:flex;gap:8px}
-  .btn-group.btn {margin-top:0}
+ .container {max-width:480px;margin:0 auto;background:#f0f2f5;min-height:100vh}
+ .header {background:#2e7d32;color:#fff;padding:12px;text-align:center;border-radius:0 0 12px 12px;margin:0 10px}
+ .header h3 {margin:0;font-size:20px}
+ .header p {margin:4px 0 0 0;font-size:14px;opacity:0.9}
+ .tabs {display:flex;background:#fff;margin:10px;border-radius:8px;overflow:hidden;border:1px solid #e0e0e0}
+ .tab {flex:1;padding:12px;text-align:center;cursor:pointer;background:#fff;font-weight:600;color:#666}
+ .tab.active {background:#2e7d32;color:#fff}
+ .content {padding:10px}
+ .section {display:none}
+ .section.active {display:block}
+ .card {background:#fff;border:1px solid #e0e0e0;border-radius:12px;padding:15px;margin-bottom:10px}
+ .card h4 {color:#2e7d32;margin-bottom:10px}
+ .menu-grid {display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}
+ .menu-item {border:1px solid #c8e6c9;padding:10px;border-radius:8px;text-align:center;cursor:pointer;background:#f1f8e9;position:relative}
+ .menu-item:hover {background:#dcedc8}
+ .menu-item b {display:block;color:#1b5e20}
+ .hapus-menu {position:absolute;top:2px;right:5px;background:red;color:#fff;border:none;border-radius:50%;width:20px;height:20px;font-size:12px;cursor:pointer}
+ .cart-table {width:100%;border-collapse:collapse;margin:10px 0}
+ .cart-table th {background:#e8f5e9;padding:8px;text-align:left;color:#2e7d32}
+ .cart-table td {padding:8px;border-bottom:1px solid #eee}
+ .total {font-size:18px;font-weight:bold;color:#1b5e20;margin:10px 0}
+ .btn {width:100%;padding:12px;border:none;border-radius:8px;font-weight:bold;cursor:pointer;margin-top:8px}
+ .btn-primary {background:#2e7d32;color:#fff}
+ .btn-cash {background:#2e7d32;color:#fff}
+ .btn-qris {background:#fff;color:#2e7d32;border:2px solid #2e7d32}
+ .btn-danger {background:#d32f2f;color:#fff}
+ .btn-add {background:#ff9800;color:#fff;margin-bottom:10px}
+ .btn-orange {background:#ff9800;color:#fff}
+ .btn-group {display:flex;gap:8px}
+ .btn-group.btn {margin-top:0}
     input,select {width:100%;padding:12px;margin:8px 0;border:1px solid #c8e6c9;border-radius:8px}
-  .info-box {background:#e8f5e9;padding:10px;border-radius:8px;margin-bottom:10px;font-size:14px;color:#1b5e20}
-  .login-box {padding:20px}
-  .hidden {display:none}
-  .kembalian-box {background:#fff3e0;padding:15px;border-radius:8px;text-align:center;margin:10px 0}
-  .kembalian-box h3 {color:#e65100;margin:0}
+ .info-box {background:#e8f5e9;padding:10px;border-radius:8px;margin-bottom:10px;font-size:14px;color:#1b5e20}
+ .login-box {padding:20px;background:#fff;margin:20px;border-radius:12px}
+ .hidden {display:none}
+ .kembalian-box {background:#fff3e0;padding:15px;border-radius:8px;text-align:center;margin:10px 0}
+ .kembalian-box h3 {color:#e65100;margin:0}
     table {width:100%;border-collapse:collapse;margin-top:10px}
     th,td {border:1px solid #ddd;padding:8px;text-align:left;font-size:14px}
     th {background:#e8f5e9}
-  .footer-text {text-align:center;font-size:12px;color:#999;margin-top:20px}
-  .modal {display:none;position:fixed;z-index:100;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.5)}
-  .modal-content {background:#fff;margin:20% auto;padding:20px;border-radius:12px;width:90%;max-width:400px}
+ .footer-text {text-align:center;font-size:12px;color:#999;margin-top:20px;padding-bottom:20px}
+ .modal {display:none;position:fixed;z-index:100;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.5)}
+ .modal-content {background:#fff;margin:20% auto;padding:20px;border-radius:12px;width:90%;max-width:400px}
+ .setting-row {margin:15px 0}
+ .setting-row label {font-weight:bold;color:#2e7d32;display:block;margin-bottom:5px}
+  hr {border:none;border-top:1px solid #e0e0e0;margin:15px 0}
   </style>
 </head>
 <body>
@@ -66,7 +71,7 @@
 
   <div id="appSection" class="hidden">
     <div class="header">
-      <h3>☕ WARKOP SINGO</h3>
+      <h3>☕ <span id="namaWarkopHeader">WARKOP SINGO</span></h3>
       <p>Shift: <span id="infoShift">-</span> | Kasir: <span id="infoKasir">-</span></p>
     </div>
 
@@ -78,10 +83,6 @@
     </div>
 
     <div class="content">
-      <div class="info-box">
-        <button class="btn" style="padding:6px;background:#fff;color:#2e7d32;border:1px solid #2e7d32" onclick="logoutKasir()">Logout / Ganti Kasir</button>
-      </div>
-
       <!-- TAB KASIR -->
       <div id="kasir" class="section active">
         <div class="card">
@@ -112,6 +113,7 @@
           </div>
           
           <div id="boxQris" class="hidden">
+            <img id="gambarQris" src="" style="width:100%;max-width:200px;margin:10px auto;display:block;border:1px solid #ddd">
             <input type="text" id="buktiQris" placeholder="No. Ref / Bukti QRIS">
             <button class="btn btn-primary" onclick="prosesSimpanTrx()">📱 BAYAR QRIS SELESAI</button>
           </div>
@@ -139,22 +141,37 @@
       <!-- TAB LAPORAN -->
       <div id="laporan" class="section">
         <div class="card">
-          <h4>Laporan Shift <span id="lapShift">-</span></h4>
+          <h4>Laporan Hari Ini</h4>
           <div class="info-box">
             Total Transaksi: <b id="totalTrx">0</b><br>
             Total Omset: <b>Rp <span id="totalOmset">0</span></b><br>
             CASH: Rp <span id="omsetCash">0</span> | QRIS: Rp <span id="omsetQris">0</span>
           </div>
+          <button class="btn btn-primary" onclick="kirimLaporanWA()">📱 Kirim Laporan ke WA Owner</button>
+          <button class="btn btn-primary" onclick="downloadExcel()">💾 Download Laporan Excel</button>
+          <button class="btn btn-danger" onclick="hapusSemuaLaporan()">Hapus Semua Laporan</button>
+          <button class="btn btn-danger" onclick="logoutKasir()">🚪 LOGOUT / GANTI KASIR</button>
+          
+          <hr>
+          <h4>⚙️ Setting</h4>
+          <div class="setting-row">
+            <label>Upload Gambar QRIS:</label>
+            <input type="file" id="uploadQris" accept="image/*" onchange="previewQris(event)">
+          </div>
+          <button class="btn btn-primary" onclick="simpanGambarQris()">💾 Simpan Gambar QRIS</button>
+          <button class="btn btn-orange" onclick="bukaModalWarkop()">🔄 Ganti Data Warkop</button>
+        </div>
+        
+        <div class="card">
+          <h4>Detail Menu Terjual</h4>
           <table>
-            <thead><tr><th>Menu</th><th>Qty</th><th>Omset</th></tr></thead>
+            <thead><tr><th>Menu</th><th>Terjual</th><th>Omset</th></tr></thead>
             <tbody id="tabelLaporan"></tbody>
           </table>
-          <button class="btn btn-primary" onclick="kirimLaporanWA()">Kirim Laporan ke WA Owner</button>
-          <button class="btn btn-danger" onclick="hapusSemuaLaporan()">Hapus Semua Laporan</button>
         </div>
       </div>
       
-      <div class="footer-text">KSR-WKP-01</div>
+      <div class="footer-text" id="kodeWarkop">WKP-SGO-01</div>
     </div>
   </div>
 </div>
@@ -170,34 +187,43 @@
   </div>
 </div>
 
+<!-- MODAL GANTI DATA WARKOP -->
+<div id="modalWarkop" class="modal">
+  <div class="modal-content">
+    <h4>Ganti Data Warkop</h4>
+    <input type="text" id="namaWarkopInput" placeholder="Nama Warkop">
+    <input type="text" id="kodeWarkopInput" placeholder="Kode Warkop (cth: WKP-SGO-01)">
+    <input type="text" id="noWaOwnerInput" placeholder="No WA Owner (628xxx)">
+    <button class="btn btn-primary" onclick="simpanDataWarkop()">SIMPAN</button>
+    <button class="btn" style="background:#999;color:#fff" onclick="tutupModalWarkop()">BATAL</button>
+  </div>
+</div>
+
 <script>
-const NAMA_WARKOP = "Warkop Singo";
+let NAMA_WARKOP = localStorage.getItem('namaWarkop') || "Warkop Singo";
+let KODE_WARKOP = localStorage.getItem('kodeWarkop') || "WKP-SGO-01";
+let NO_WA_OWNER = localStorage.getItem('noWaOwner') || "628123456789";
+let GAMBAR_QRIS = localStorage.getItem('gambarQris') || "";
+
 let menuMinuman = JSON.parse(localStorage.getItem('menuMinuman')) || [
   {nama:"Kopi Tubruk",harga:4000},
-  {nama:"Kopi Susu",harga:5000},
-  {nama:"Teh Panas",harga:3000},
-  {nama:"Es Teh",harga:4000},
-  {nama:"Jeruk Panas",harga:5000},
-  {nama:"Es Jeruk",harga:6000}
+  {nama:"Es Teh Manis",harga:3000},
+  {nama:"Good Day",harga:7000}
 ];
 let menuRokok = JSON.parse(localStorage.getItem('menuRokok')) || [
-  {nama:"Surya 12",harga:25000},
-  {nama:"Gudang Garam",harga:22000},
-  {nama:"Sampoerna",harga:23000},
-  {nama:"Marlboro",harga:32000},
-  {nama:"Djarum Super",harga:24000},
-  {nama:"LA Bold",harga:26000}
+  {nama:"Surya 16",harga:32000},
+  {nama:"Gudang Garam Filter",harga:22000},
+  {nama:"Sampoerna Mild",harga:30000}
 ];
-let menuCepat = [
-  {nama:"Kopi Tubruk",harga:4000},
-  {nama:"Es Teh",harga:4000},
-  {nama:"Indomie Rebus",harga:7000},
-  {nama:"Surya 12",harga:25000}
-];
+let menuCepat = [...menuMinuman.slice(0,2),...menuRokok.slice(0,2)];
 let keranjang = [];
 let metodeBayar = 'CASH';
 let jenisMenuAktif = '';
 let transaksi = JSON.parse(localStorage.getItem('transaksiWarkop')||'[]');
+
+document.getElementById('namaWarkopHeader').innerText = NAMA_WARKOP;
+document.getElementById('kodeWarkop').innerText = KODE_WARKOP;
+document.getElementById('gambarQris').src = GAMBAR_QRIS;
 
 function loginKasir(){
   const shift = document.getElementById('pilihShift').value;
@@ -209,7 +235,6 @@ function loginKasir(){
   document.getElementById('appSection').classList.remove('hidden');
   document.getElementById('infoShift').innerText = shift;
   document.getElementById('infoKasir').innerText = kasir;
-  document.getElementById('lapShift').innerText = shift;
   tampilSemuaMenu();
   updateLaporan();
 }
@@ -230,7 +255,6 @@ function cekLogin(){
     document.getElementById('appSection').classList.remove('hidden');
     document.getElementById('infoShift').innerText = shiftAktif;
     document.getElementById('infoKasir').innerText = kasirAktif;
-    document.getElementById('lapShift').innerText = shiftAktif;
   }
 }
 
@@ -267,6 +291,30 @@ function bukaModal(jenis){
 
 function tutupModal(){
   document.getElementById('modalTambah').style.display = 'none';
+}
+
+function bukaModalWarkop(){
+  document.getElementById('namaWarkopInput').value = NAMA_WARKOP;
+  document.getElementById('kodeWarkopInput').value = KODE_WARKOP;
+  document.getElementById('noWaOwnerInput').value = NO_WA_OWNER;
+  document.getElementById('modalWarkop').style.display = 'block';
+}
+
+function tutupModalWarkop(){
+  document.getElementById('modalWarkop').style.display = 'none';
+}
+
+function simpanDataWarkop(){
+  NAMA_WARKOP = document.getElementById('namaWarkopInput').value || "Warkop Singo";
+  KODE_WARKOP = document.getElementById('kodeWarkopInput').value || "WKP-SGO-01";
+  NO_WA_OWNER = document.getElementById('noWaOwnerInput').value || "628123456789";
+  localStorage.setItem('namaWarkop',NAMA_WARKOP);
+  localStorage.setItem('kodeWarkop',KODE_WARKOP);
+  localStorage.setItem('noWaOwner',NO_WA_OWNER);
+  document.getElementById('namaWarkopHeader').innerText = NAMA_WARKOP;
+  document.getElementById('kodeWarkop').innerText = KODE_WARKOP;
+  tutupModalWarkop();
+  alert('Data warkop berhasil diupdate!');
 }
 
 function simpanMenuBaru(){
@@ -346,6 +394,22 @@ function hitungKembalian(){
   const bayar = parseInt(document.getElementById('uangBayar').value)||0;
   const kembalian = bayar - total;
   document.getElementById('kembalian').innerText = kembalian>0?kembalian.toLocaleString('id-ID'):0;
+}
+
+function previewQris(event){
+  const file = event.target.files[0];
+  const reader = new FileReader();
+  reader.onload = function(e){
+    GAMBAR_QRIS = e.target.result;
+    document.getElementById('gambarQris').src = GAMBAR_QRIS;
+  }
+  reader.readAsDataURL(file);
+}
+
+function simpanGambarQris(){
+  if(!GAMBAR_QRIS) return alert('Upload gambar dulu!');
+  localStorage.setItem('gambarQris',GAMBAR_QRIS);
+  alert('Gambar QRIS berhasil disimpan!');
 }
 
 function prosesSimpanTrx(){
@@ -453,9 +517,40 @@ function kirimLaporanWA(){
   pesan += `________________________%0A`;
   pesan += `_Laporan per shift. Privasi terjaga_`;
   
-  let noTujuan = localStorage.getItem('noWaOwner') || '628123456789';
-  let url = `https://wa.me/${noTujuan}?text=${pesan}`;
+  let url = `https://wa.me/${NO_WA_OWNER}?text=${pesan}`;
   window.open(url, '_blank');
+}
+
+function downloadExcel(){
+  const hariIni = new Date().toDateString();
+  const shiftAktif = localStorage.getItem('shiftAktif');
+  const trxShiftIni = transaksi.filter(t=>
+    new Date(t.tanggal).toDateString()===hariIni && t.shift===shiftAktif
+  );
+  if(trxShiftIni.length === 0) return alert('Belum ada transaksi!');
+  
+  let data = [['Tanggal','Jam','Item','Qty','Harga','Subtotal','Metode','Kasir','Shift']];
+  trxShiftIni.forEach(t=>{
+    const tgl = new Date(t.tanggal);
+    t.items.forEach(item=>{
+      data.push([
+        tgl.toLocaleDateString('id-ID'),
+        tgl.toLocaleTimeString('id-ID'),
+        item.nama,
+        item.jumlah,
+        item.harga,
+        item.subtotal,
+        t.metodeBayar,
+        t.kasir,
+        t.shift
+      ]);
+    });
+  });
+  
+  const ws = XLSX.utils.aoa_to_sheet(data);
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, "Laporan");
+  XLSX.writeFile(wb, `Laporan_${NAMA_WARKOP}_${shiftAktif}_${new Date().toLocaleDateString('id-ID')}.xlsx`);
 }
 
 function hapusSemuaLaporan(){
@@ -472,4 +567,4 @@ tampilSemuaMenu();
 updateLaporan();
 </script>
 </body>
-  </html>
+                  </html>
