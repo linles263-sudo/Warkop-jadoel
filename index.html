@@ -3,55 +3,74 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WARKOP SINGO</title>
+  <title>Kasir Digital Warkop</title>
   <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
   <style>
     *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
     body{background:#f0f8f0;color:#1a3d1a;padding:10px;padding-bottom:40px}
- .container{max-width:500px;margin:0 auto}
- .header{background:#2e7d32;padding:15px;border-radius:10px;text-align:center;margin-bottom:15px;color:#fff;box-shadow:0 2px 5px rgba(0,0,0,0.2)}
- .card{background:#ffffff;padding:15px;border-radius:10px;margin-bottom:15px;border:1px solid #c8e6c9;box-shadow:0 1px 3px rgba(0,0,0,0.1)}
- .btn{background:#2e7d32;border:none;padding:14px 15px;border-radius:8px;color:#fff;font-weight:bold;cursor:pointer;width:100%;margin:5px 0;font-size:16px}
- .btn:active{background:#1b5e20}
- .btn:disabled{background:#999;cursor:not-allowed}
- .btn-danger{background:#d32f2f}
- .btn-small{padding:8px;font-size:14px;width:auto;margin:3px}
-    input,select{width:100%;padding:12px;margin:5px 0;border-radius:8px;border:1px solid #a5d6a7;background:#fff;color:#1a3d1a}
- .input-group{display:flex;gap:8px}
- .input-group input{flex:1}
+.container{max-width:500px;margin:0 auto}
+.header{background:#2e7d32;padding:15px;border-radius:10px;text-align:center;margin-bottom:15px;color:#fff;box-shadow:0 2px 5px rgba(0,0,0,0.2)}
+.card{background:#ffffff;padding:15px;border-radius:10px;margin-bottom:15px;border:1px solid #c8e6c9;box-shadow:0 1px 3px rgba(0,0,0,0.1)}
+.btn{background:#2e7d32;border:none;padding:14px 15px;border-radius:8px;color:#fff;font-weight:bold;cursor:pointer;width:100%;margin:5px 0;font-size:16px}
+.btn:active{background:#1b5e20}
+.btn:disabled{background:#999;cursor:not-allowed}
+.btn-danger{background:#d32f2f}
+.btn-small{padding:8px;font-size:14px;width:auto;margin:3px}
+    input,select,textarea{width:100%;padding:12px;margin:5px 0;border-radius:8px;border:1px solid #a5d6a7;background:#fff;color:#1a3d1a}
+.input-group{display:flex;gap:8px}
+.input-group input{flex:1}
     table{width:100%;border-collapse:collapse;margin:10px 0;font-size:14px}
     th,td{padding:10px;text-align:left;border-bottom:1px solid #e8f5e9}
     th{background:#e8f5e9}
- .menu-item{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #e8f5e9}
- .expired{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);display:none;justify-content:center;align-items:center;text-align:center;padding:20px;z-index:999;color:#fff}
- .tab{display:flex;margin-bottom:15px;background:#fff;border-radius:10px;overflow:hidden;border:1px solid #c8e6c9}
- .tab button{flex:1;padding:12px;background:#fff;border:none;color:#2e7d32;font-weight:bold}
- .tab button.active{background:#2e7d32;color:#fff}
- .tab-content{display:none}
- .tab-content.active{display:block}
+.menu-item{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #e8f5e9}
+.expired{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);display:none;justify-content:center;align-items:center;text-align:center;padding:20px;z-index:999;color:#fff}
+.tab{display:flex;margin-bottom:15px;background:#fff;border-radius:10px;overflow:hidden;border:1px solid #c8e6c9}
+.tab button{flex:1;padding:12px;background:#fff;border:none;color:#2e7d32;font-weight:bold}
+.tab button.active{background:#2e7d32;color:#fff}
+.tab-content{display:none}
+.tab-content.active{display:block}
     h3{color:#2e7d32;margin-bottom:10px}
- .menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
- .menu-btn{background:#e8f5e9;border:1px solid #a5d6a7;padding:15px;border-radius:8px;text-align:center;cursor:pointer;position:relative}
- .menu-btn:active{background:#c8e6c9}
- .menu-btn b{display:block;color:#1b5e20}
- .menu-btn.disabled{background:#f5f5f5;color:#999;cursor:not-allowed}
- .menu-btn.disabled b{color:#999}
- .stok-badge{position:absolute;top:5px;right:5px;background:#d32f2f;color:#fff;font-size:10px;padding:2px 6px;border-radius:10px}
- .search-result{background:#fff;border:1px solid #a5d6a7;border-radius:8px;max-height:200px;overflow-y:auto;margin-top:-5px;margin-bottom:10px;display:none}
- .search-item{padding:12px;border-bottom:1px solid #e8f5e9;cursor:pointer}
- .search-item:active{background:#e8f5e9}
- .footer-license{position:fixed;bottom:5px;left:0;width:100%;text-align:center;font-size:10px;color:#81c784;opacity:0.7}
- .payment-method{display:flex;gap:8px;margin:10px 0}
- .payment-method label{flex:1;padding:12px;border:2px solid #c8e6c9;border-radius:8px;text-align:center;cursor:pointer;font-weight:bold}
- .payment-method input{display:none}
- .payment-method input:checked+label{background:#2e7d32;color:#fff;border-color:#2e7d32}
- .cash-box{background:#fff3cd;border:1px solid #ffe69c;padding:12px;border-radius:8px;margin:10px 0;display:none}
- .kembalian{font-size:20px;font-weight:bold;color:#2e7d32;text-align:center;margin-top:8px}
- .alert-sukses{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#2e7d32;color:#fff;padding:15px 25px;border-radius:8px;z-index:1000;display:none;font-weight:bold}
+.menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+.menu-btn{background:#e8f5e9;border:1px solid #a5d6a7;padding:15px;border-radius:8px;text-align:center;cursor:pointer;position:relative}
+.menu-btn:active{background:#c8e6c9}
+.menu-btn b{display:block;color:#1b5e20}
+.menu-btn.disabled{background:#f5f5f5;color:#999;cursor:not-allowed}
+.menu-btn.disabled b{color:#999}
+.stok-badge{position:absolute;top:5px;right:5px;background:#d32f2f;color:#fff;font-size:10px;padding:2px 6px;border-radius:10px}
+.search-result{background:#fff;border:1px solid #a5d6a7;border-radius:8px;max-height:200px;overflow-y:auto;margin-top:-5px;margin-bottom:10px;display:none}
+.search-item{padding:12px;border-bottom:1px solid #e8f5e9;cursor:pointer}
+.search-item:active{background:#e8f5e9}
+.footer-license{position:fixed;bottom:5px;left:0;width:100%;text-align:center;font-size:10px;color:#81c784;opacity:0.7}
+.payment-method{display:flex;gap:8px;margin:10px 0}
+.payment-method label{flex:1;padding:12px;border:2px solid #c8e6c9;border-radius:8px;text-align:center;cursor:pointer;font-weight:bold}
+.payment-method input{display:none}
+.payment-method input:checked+label{background:#2e7d32;color:#fff;border-color:#2e7d32}
+.cash-box{background:#fff3cd;border:1px solid #ffe69c;padding:12px;border-radius:8px;margin:10px 0;display:none}
+.kembalian{font-size:20px;font-weight:bold;color:#2e7d32;text-align:center;margin-top:8px}
+.alert-sukses{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#2e7d32;color:#fff;padding:15px 25px;border-radius:8px;z-index:1000;display:none;font-weight:bold}
+.popup-install{position:fixed;inset:0;background:#000c;z-index:9999;align-items:center;justify-content:center;display:none}
+.popup-box{background:#1a1a1a;padding:20px;border-radius:12px;width:90%;max-width:400px;border:2px solid #00ff88;color:#fff}
   </style>
 </head>
 <body>
 <div class="alert-sukses" id="alertSukses">✓ Pembayaran Berhasil!</div>
+
+<div class="popup-install" id="popupInstall">
+  <div class="popup-box">
+    <h3 style="color:#00ff88;margin:0 0 15px 0">🚀 Setup Warkop Baru</h3>
+    <input id="inputNamaWarkop" placeholder="Nama Warkop">
+    <input id="inputKodeLisensi" placeholder="Kode Lisensi, contoh: WKP-001">
+    <p style="font-size:12px;margin:10px 0 5px 0">Menu Minuman: Nama|Harga|Stok</p>
+    <textarea id="inputMenuMinuman" rows="4" placeholder="Kopi Tubruk|4000|50&#10;Es Teh Manis|3000|100">Kopi Tubruk|4000|50
+Es Teh Manis|3000|100
+Good Day|7000|30</textarea>
+    <p style="font-size:12px;margin:10px 0 5px 0">Menu Rokok: Nama|Harga|Stok</p>
+    <textarea id="inputMenuRokok" rows="4" placeholder="Surya 16|32000|10&#10;Gudang Garam|22000|15">Surya 16|32000|10
+Gudang Garam Filter|22000|15
+Sampoerna Mild|30000|10</textarea>
+    <button class="btn" onclick="simpanSetupWarkop()">✅ SIMPAN & MULAI</button>
+  </div>
+</div>
 
 <div class="expired" id="expiredScreen">
   <div>
@@ -59,19 +78,20 @@
     <p style="margin:15px 0">Lisensi aplikasi telah berakhir</p>
     <p>Hubungi developer untuk aktivasi ulang:</p>
     <p style="margin:10px 0"><b>WA: 0895351432524</b></p>
-    <button class="btn" onclick="window.open('https://wa.me/62895351432524?text=Saya%20mau%20aktivasi%20ulang%20Warkop%20Jadoel%20KSR-WKP-01')">Chat WA Sekarang</button>
+    <button class="btn" onclick="window.open('https://wa.me/62895351432524?text=Saya%20mau%20aktivasi%20ulang%20'+KODE_LISENSI)">Chat WA Sekarang</button>
   </div>
 </div>
 
 <div class="container" id="mainApp">
   <div class="header">
-    <h2>☕ WARKOP SINGO</h2>
+    <h2>☕ <span id="judulWarkop">WARKOP</span></h2>
     <p style="font-size:14px;opacity:0.9">Sistem Kasir Digital</p>
   </div>
 
   <div class="tab">
     <button class="tablinks active" onclick="openTab(event,'Kasir')">Kasir</button>
-    <button class="tablinks" onclick="openTab(event,'Menu')">Menu</button>
+    <button class="tablinks" onclick="openTab(event,'Minuman')">Minuman</button>
+    <button class="tablinks" onclick="openTab(event,'Rokok')">Rokok</button>
     <button class="tablinks" onclick="openTab(event,'Laporan')">Laporan</button>
   </div>
 
@@ -80,18 +100,14 @@
       <h3>Transaksi Baru</h3>
       <input type="text" id="cariMenu" placeholder="🔍 Ketik nama menu..." oninput="cariMenuRealTime()">
       <div class="search-result" id="hasilCari"></div>
-
       <p style="margin:10px 0 5px 0;font-weight:bold;color:#2e7d32">Menu Cepat:</p>
       <div class="menu-grid" id="menuCepat"></div>
-
       <input type="number" id="jumlah" placeholder="Jumlah" value="1" min="1">
-
       <table id="keranjang">
         <thead><tr><th>Item</th><th>Qty</th><th>Subtotal</th><th></th></tr></thead>
         <tbody></tbody>
       </table>
       <h3>Total: Rp <span id="total">0</span></h3>
-
       <p style="margin:10px 0 5px 0;font-weight:bold;color:#2e7d32">Metode Bayar:</p>
       <div class="payment-method">
         <input type="radio" id="cash" name="bayar" value="CASH" checked onchange="pilihMetodeBayar()">
@@ -99,14 +115,11 @@
         <input type="radio" id="qris" name="bayar" value="QRIS" onchange="pilihMetodeBayar()">
         <label for="qris">📱 QRIS</label>
       </div>
-
       <div class="cash-box" id="cashBox" style="display:block">
         <input type="number" id="uangBayar" placeholder="Uang Bayar Pelanggan" oninput="hitungKembalian()">
         <div class="kembalian">Kembalian: Rp <span id="jumlahKembalian">0</span></div>
         <button class="btn" onclick="selesaikanTransaksi('CASH')">💰 BAYAR CASH SELESAI</button>
       </div>
-
-      <!-- FORM QRIS WARKOP JADOEL -->
       <div id="formQris" style="display:none; margin-top:15px; text-align:center; border:1px dashed #444; padding:15px; border-radius:8px; background:#1a1a1a">
         <h4 style="margin:0 0 10px 0">📱 Scan QRIS Warkop</h4>
         <img id="gambarQris" src="" style="width:200px; max-width:80%; margin:10px 0; border-radius:8px; background:#fff; padding:5px;">
@@ -118,21 +131,29 @@
     </div>
   </div>
 
-  <div id="Menu" class="tab-content">
+  <div id="Minuman" class="tab-content">
     <div class="card">
-      <h3>Kelola Menu & Stok</h3>
-      <input type="text" id="namaMenu" placeholder="Nama Menu">
+      <h3>Kelola Menu Minuman</h3>
+      <input type="text" id="namaMenuMinuman" placeholder="Nama Minuman">
       <div class="input-group">
-        <input type="number" id="hargaMenu" placeholder="Harga">
-        <input type="number" id="stokMenu" placeholder="Stok" value="100">
+        <input type="number" id="hargaMenuMinuman" placeholder="Harga">
+        <input type="number" id="stokMenuMinuman" placeholder="Stok" value="100">
       </div>
-      <button class="btn" onclick="tambahMenu()">+ Tambah Menu Baru</button>
-      <div id="daftarMenu" style="margin-top:15px"></div>
+      <button class="btn" onclick="tambahMenu('minuman')">+ Tambah Minuman</button>
+      <div id="daftarMenuMinuman" style="margin-top:15px"></div>
+    </div>
+  </div>
 
-      <hr style="margin:20px 0">
-      <h3>⚙️ Setting QRIS</h3>
-      <input type="file" id="uploadQr" accept="image/*">
-      <button class="btn" onclick="simpanQr()">💾 Simpan Gambar QRIS</button>
+  <div id="Rokok" class="tab-content">
+    <div class="card">
+      <h3>Kelola Menu Rokok</h3>
+      <input type="text" id="namaMenuRokok" placeholder="Nama Rokok">
+      <div class="input-group">
+        <input type="number" id="hargaMenuRokok" placeholder="Harga">
+        <input type="number" id="stokMenuRokok" placeholder="Stok" value="10">
+      </div>
+      <button class="btn" onclick="tambahMenu('rokok')">+ Tambah Rokok</button>
+      <div id="daftarMenuRokok" style="margin-top:15px"></div>
     </div>
   </div>
 
@@ -142,10 +163,14 @@
       <p>Total Transaksi: <b id="totalTrx">0</b></p>
       <p>Total Omset: <b>Rp <span id="totalOmset">0</span></b></p>
       <p>CASH: <b>Rp <span id="omsetCash">0</span></b> | QRIS: <b>Rp <span id="omsetQris">0</span></b></p>
-
       <button class="btn" style="background:#25D366" onclick="kirimLaporanWA()">📲 Kirim Laporan ke WA Owner</button>
       <button class="btn" style="background:#1D6F42" onclick="downloadLaporanExcel()">📥 Download Laporan Excel</button>
       <button class="btn btn-danger" onclick="resetLaporan()">Hapus Semua Laporan</button>
+      <hr style="margin:20px 0">
+      <h3>⚙️ Setting</h3>
+      <input type="file" id="uploadQr" accept="image/*">
+      <button class="btn" onclick="simpanQr()">💾 Simpan Gambar QRIS</button>
+      <button class="btn" style="background:#ff9800" onclick="gantiDataWarkop()">🔄 Ganti Data Warkop</button>
     </div>
     <div class="card">
       <h3>Detail Menu Terjual</h3>
@@ -160,63 +185,84 @@
 <div class="footer-license" id="footerLicense">KSR-WKP-01</div>
 
 <script>
-// ====== SISTEM SEWA BULANAN ======
+let NAMA_WARKOP = localStorage.getItem('namaWarkop') || 'Warkop Demo';
+let KODE_LISENSI = localStorage.getItem('kodeLisensi') || 'DEMO-001';
 const TANGGAL_AKTIFASI = '2026-05-04';
 const MASA_SEWA_HARI = 30;
-const NAMA_WARKOP = 'Warkop SINGO';
-const KODE_LISENSI = 'WKP-SGO-01';
 const NO_WA_ADMIN = '62895351432524';
-// ================================
-
 let menu = JSON.parse(localStorage.getItem('menuWarkop')) || [];
 let keranjang = [];
 let transaksi = JSON.parse(localStorage.getItem('trxWarkop')) || [];
 let menuTerpilih = null;
 
+if(!localStorage.getItem('sudahSetup')){
+  document.getElementById('popupInstall').style.display = 'flex';
+}
+
+function simpanSetupWarkop(){
+  const nama = document.getElementById('inputNamaWarkop').value.trim();
+  const kode = document.getElementById('inputKodeLisensi').value.trim();
+  const menuMinuman = document.getElementById('inputMenuMinuman').value.trim();
+  const menuRokok = document.getElementById('inputMenuRokok').value.trim();
+  if(!nama ||!kode){ return alert('Nama Warkop + Kode Lisensi wajib diisi prof!'); }
+  localStorage.setItem('namaWarkop', nama);
+  localStorage.setItem('kodeLisensi', kode);
+  NAMA_WARKOP = nama;
+  KODE_LISENSI = kode;
+  let menuBaru = [];
+  let idCounter = Date.now();
+  menuMinuman.split('\n').forEach(baris => {
+    if(baris){
+      const [namaMenu, harga, stok] = baris.split('|');
+      menuBaru.push({id:idCounter++, nama:namaMenu.trim(), harga:parseInt(harga)||0, stok:parseInt(stok)||0, kategori:'minuman'});
+    }
+  });
+  menuRokok.split('\n').forEach(baris => {
+    if(baris){
+      const [namaMenu, harga, stok] = baris.split('|');
+      menuBaru.push({id:idCounter++, nama:namaMenu.trim(), harga:parseInt(harga)||0, stok:parseInt(stok)||0, kategori:'rokok'});
+    }
+  });
+  localStorage.setItem('menuWarkop', JSON.stringify(menuBaru));
+  localStorage.setItem('sudahSetup', '1');
+  location.reload();
+}
+
+function gantiDataWarkop(){
+  if(confirm('Yakin mau ganti data warkop? Menu & transaksi akan dihapus!')){
+    localStorage.clear();
+    location.reload();
+  }
+}
+
 function cekLisensi(){
   document.getElementById('footerLicense').innerText = KODE_LISENSI;
+  document.getElementById('judulWarkop').innerText = NAMA_WARKOP.toUpperCase();
   const tglAktif = new Date(TANGGAL_AKTIFASI);
   const tglExpired = new Date(tglAktif);
   tglExpired.setDate(tglAktif.getDate() + MASA_SEWA_HARI);
   const sisaHari = Math.ceil((tglExpired - new Date()) / (1000*60*60*24));
-
   if(sisaHari <= 3 && sisaHari > 0){
     const mauBayar = confirm(`⚠️ MASA SEWA TINGGAL ${sisaHari} HARI!\n\nAplikasi akan terkunci otomatis.\n\nKlik OK untuk Chat Admin & minta info pembayaran`);
     if(mauBayar){
       window.open(`https://wa.me/${NO_WA_ADMIN}?text=Halo%20Admin,%20${NAMA_WARKOP}%20mau%20perpanjang%20sewa%20${KODE_LISENSI}`);
     }
   }
-
   if(new Date() > tglExpired){
     document.getElementById('expiredScreen').style.display = 'flex';
     document.getElementById('mainApp').style.display = 'none';
   }
 }
 
-if(menu.length === 0){
-  menu = [
-    {id:1,nama:'Kopi hijau',harga:5000,stok:50},
-    {id:2,nama:'Kopi hijau susu',harga:6000,stok:50},
-    {id:3,nama:'Kopi hitam',harga:4000,stok:50},
-    {id:4,nama:'Good day panas',harga:6000,stok:25},
-    {id:5,nama:'Good day dingin',harga:7000,stok:25},
-    {id:6,nama:'Mie instan',harga:8000,stok:30},
-    {id:7,nama:'Kuku bima',harga:5000,stok:40},
-    {id:8,nama:'Kuku bima susu',harga:7000,stok:20},
-    {id:9,nama:'Xtrajoss',harga:5000,stok:30},
-    {id:10,nama:'Xtrajoss susu',harga:7000,stok:20}
-  ];
-  localStorage.setItem('menuWarkop',JSON.stringify(menu));
-}
-
 function renderMenu(){
-  const daftar = document.getElementById('daftarMenu');
+  const daftarMinuman = document.getElementById('daftarMenuMinuman');
+  const daftarRokok = document.getElementById('daftarMenuRokok');
   const menuCepat = document.getElementById('menuCepat');
-  daftar.innerHTML = '';
+  daftarMinuman.innerHTML = '';
+  daftarRokok.innerHTML = '';
   menuCepat.innerHTML = '';
-
   menu.forEach(m => {
-    daftar.innerHTML += `
+    const htmlMenu = `
       <div class="menu-item">
         <span><b>${m.nama}</b><br>Rp ${m.harga.toLocaleString('id-ID')} | Stok: ${m.stok}</span>
         <div>
@@ -224,7 +270,8 @@ function renderMenu(){
           <button class="btn-danger btn-small" onclick="hapusMenu(${m.id})">Hapus</button>
         </div>
       </div>`;
-
+    if(m.kategori === 'minuman') daftarMinuman.innerHTML += htmlMenu;
+    else if(m.kategori === 'rokok') daftarRokok.innerHTML += htmlMenu;
     const disabled = m.stok <= 0? 'disabled' : '';
     const stokBadge = m.stok <= 5 && m.stok > 0? `<span class="stok-badge">${m.stok}</span>` : '';
     menuCepat.innerHTML += `
@@ -279,7 +326,6 @@ function tambahKeKeranjang(){
   const jumlah = parseInt(document.getElementById('jumlah').value) || 1;
   if(jumlah < 1) return alert('Jumlah minimal 1');
   if(jumlah > menuTerpilih.stok) return alert(`Stok ${menuTerpilih.nama} cuma ${menuTerpilih.stok}`);
-
   const existing = keranjang.find(k => k.id === menuTerpilih.id);
   if(existing){
     if(existing.jumlah + jumlah > menuTerpilih.stok) return alert(`Total melebihi stok! Stok: ${menuTerpilih.stok}`);
@@ -288,7 +334,6 @@ function tambahKeKeranjang(){
   } else {
     keranjang.push({...menuTerpilih,jumlah,subtotal:menuTerpilih.harga*jumlah});
   }
-
   document.getElementById('jumlah').value = 1;
   document.getElementById('cariMenu').value = '';
   menuTerpilih = null;
@@ -296,16 +341,16 @@ function tambahKeKeranjang(){
   hitungKembalian();
 }
 
-function tambahMenu(){
-  const nama = document.getElementById('namaMenu').value.trim();
-  const harga = parseInt(document.getElementById('hargaMenu').value);
-  const stok = parseInt(document.getElementById('stokMenu').value) || 0;
+function tambahMenu(kategori){
+  const nama = document.getElementById(`namaMenu${kategori.charAt(0).toUpperCase()+kategori.slice(1)}`).value.trim();
+  const harga = parseInt(document.getElementById(`hargaMenu${kategori.charAt(0).toUpperCase()+kategori.slice(1)}`).value);
+  const stok = parseInt(document.getElementById(`stokMenu${kategori.charAt(0).toUpperCase()+kategori.slice(1)}`).value) || 0;
   if(!nama ||!harga || harga < 1) return alert('Isi nama & harga yang bener');
-  menu.push({id:Date.now(),nama,harga,stok});
+  menu.push({id:Date.now(),nama,harga,stok,kategori});
   localStorage.setItem('menuWarkop',JSON.stringify(menu));
-  document.getElementById('namaMenu').value = '';
-  document.getElementById('hargaMenu').value = '';
-  document.getElementById('stokMenu').value = '100';
+  document.getElementById(`namaMenu${kategori.charAt(0).toUpperCase()+kategori.slice(1)}`).value = '';
+  document.getElementById(`hargaMenu${kategori.charAt(0).toUpperCase()+kategori.slice(1)}`).value = '';
+  document.getElementById(`stokMenu${kategori.charAt(0).toUpperCase()+kategori.slice(1)}`).value = kategori==='minuman'?'100':'10';
   renderMenu();
 }
 
@@ -335,12 +380,10 @@ function hapusItem(i){
   renderKeranjang();
 }
 
-// === FUNGSI QRIS + CASH BARU - UDAH JBLEG ===
 function pilihMetodeBayar(){
   const cashBox = document.getElementById('cashBox');
   const qrisBox = document.getElementById('formQris');
   const total = keranjang.reduce((a,b)=>a+b.subtotal,0);
-
   if(document.getElementById('cash').checked){
     cashBox.style.display = 'block';
     qrisBox.style.display = 'none';
@@ -370,19 +413,15 @@ function showAlert(msg){
   setTimeout(() => { alert.style.display = 'none'; }, 2000);
 }
 
-// GANTIIN prosesBayar LAMA - INI YG DIPAKE CASH + QRIS
 function selesaikanTransaksi(metode){
   if(keranjang.length === 0) return alert('Keranjang masih kosong!');
-
   const total = keranjang.reduce((a,b) => a+b.subtotal,0);
-
   if(metode === 'CASH'){
     const cashData = hitungKembalian();
     if(cashData.bayar === 0) return alert('Isi uang bayar dulu!');
     if(cashData.bayar < total) return alert(`Uang kurang! Total: Rp ${total.toLocaleString('id-ID')}`);
     prosesSimpanTrx(metode, null, cashData.bayar, cashData.kembalian);
   }
-
   else if(metode === 'QRIS'){
     const file = document.getElementById('buktiQris').files[0];
     if(!file) return alert('Wajib upload bukti QRIS dulu mas!');
@@ -396,15 +435,11 @@ function selesaikanTransaksi(metode){
 
 function prosesSimpanTrx(metode, bukti, bayar, kembalian){
   const total = keranjang.reduce((a,b) => a+b.subtotal,0);
-
-  // Kurangin stok
   keranjang.forEach(k => {
     const item = menu.find(m => m.id === k.id);
     if(item) item.stok -= k.jumlah;
   });
   localStorage.setItem('menuWarkop',JSON.stringify(menu));
-
-  // Simpen transaksi
   transaksi.push({
     id: Date.now(),
     tanggal: new Date().toISOString(),
@@ -416,8 +451,6 @@ function prosesSimpanTrx(metode, bukti, bayar, kembalian){
     buktiQris: bukti
   });
   localStorage.setItem('trxWarkop',JSON.stringify(transaksi));
-
-  // Reset
   keranjang = [];
   document.getElementById('uangBayar').value = '';
   document.getElementById('buktiQris').value = '';
@@ -444,12 +477,10 @@ function updateLaporan(){
   const omset = trxHariIni.reduce((a,b) => a+b.total,0);
   const omsetCash = trxHariIni.filter(t=>t.metodeBayar==='CASH').reduce((a,b)=>a+b.total,0);
   const omsetQris = trxHariIni.filter(t=>t.metodeBayar==='QRIS').reduce((a,b)=>a+b.total,0);
-
   document.getElementById('totalTrx').innerText = trxHariIni.length;
   document.getElementById('totalOmset').innerText = omset.toLocaleString('id-ID');
   document.getElementById('omsetCash').innerText = omsetCash.toLocaleString('id-ID');
   document.getElementById('omsetQris').innerText = omsetQris.toLocaleString('id-ID');
-
   const menuTerjual = {};
   trxHariIni.forEach(t => {
     t.items.forEach(item => {
@@ -458,7 +489,6 @@ function updateLaporan(){
       menuTerjual[item.nama].omset += item.subtotal;
     });
   });
-
   const tbody = document.querySelector('#tabelLaporan tbody');
   tbody.innerHTML = '';
   Object.keys(menuTerjual).sort((a,b)=>menuTerjual[b].qty-menuTerjual[a].qty).forEach(nama => {
@@ -470,16 +500,13 @@ function updateLaporan(){
 function kirimLaporanWA(){
   const hariIni = new Date().toDateString();
   const trxHariIni = transaksi.filter(t => new Date(t.tanggal).toDateString() === hariIni);
-
   if(trxHariIni.length === 0){
     return alert('Belum ada transaksi hari ini mas!');
   }
-
   const omset = trxHariIni.reduce((a,b) => a+b.total,0);
   const omsetCash = trxHariIni.filter(t=>t.metodeBayar==='CASH').reduce((a,b)=>a+b.total,0);
   const omsetQris = trxHariIni.filter(t=>t.metodeBayar==='QRIS').reduce((a,b)=>a+b.total,0);
   const tgl = new Date().toLocaleDateString('id-ID', {weekday:'long', day:'numeric', month:'long', year:'numeric'});
-
   const menuTerjual = {};
   trxHariIni.forEach(t => {
     t.items.forEach(item => {
@@ -488,7 +515,6 @@ function kirimLaporanWA(){
     });
   });
   const itemTerlaris = Object.keys(menuTerjual).sort((a,b)=>menuTerjual[b]-menuTerjual[a])[0] || 'Belum ada';
-
   let pesan = `*LAPORAN ${NAMA_WARKOP.toUpperCase()}* ☕\n`;
   pesan += `${tgl}\n`;
   pesan += `━━━━━━━━━━━━━━\n`;
@@ -499,7 +525,6 @@ function kirimLaporanWA(){
   pesan += `Item Terlaris: ${itemTerlaris}\n`;
   pesan += `━━━━━━━━━━━━━━\n`;
   pesan += `_Laporan otomatis dari Kasir Digital Sannin_ 🙏`;
-
   let noTujuan = localStorage.getItem('noWaOwner') || NO_WA_ADMIN;
   let url = `https://wa.me/${noTujuan}?text=${encodeURIComponent(pesan)}`;
   window.open(url, '_blank');
@@ -508,11 +533,9 @@ function kirimLaporanWA(){
 function downloadLaporanExcel(){
   const hariIni = new Date().toDateString();
   const trxHariIni = transaksi.filter(t => new Date(t.tanggal).toDateString() === hariIni);
-
   if(trxHariIni.length === 0){
     return alert('Belum ada transaksi hari ini mas!');
   }
-
   let dataExcel = [];
   trxHariIni.forEach((t, i) => {
     const jam = new Date(t.tanggal).toLocaleTimeString('id-ID');
@@ -528,15 +551,12 @@ function downloadLaporanExcel(){
       });
     });
   });
-
   const omset = trxHariIni.reduce((a,b) => a+b.total,0);
   dataExcel.push({});
   dataExcel.push({'Menu': 'TOTAL OMSET', 'Subtotal': omset});
-
   let ws = XLSX.utils.json_to_sheet(dataExcel);
   let wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, ws, "Laporan");
-
   let tglFile = new Date().toLocaleDateString('id-ID').replace(/\//g, '-');
   XLSX.writeFile(wb, `Laporan-${NAMA_WARKOP.replace(/\s/g,'')}-${tglFile}.xlsx`);
 }
@@ -563,6 +583,7 @@ document.addEventListener('click',function(e){
   }
 });
 
+// INIT APP - JALANIN PAS BUKA
 cekLisensi();
 renderMenu();
 updateLaporan();
@@ -570,4 +591,4 @@ renderKeranjang();
 pilihMetodeBayar(); // INI PENTING BIAR CASH MUNCUL PERTAMA
 </script>
 </body>
-  </html>
+</html>
