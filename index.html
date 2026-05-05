@@ -81,11 +81,31 @@ Sampoerna Mild|30000|10</textarea>
     <button class="btn" onclick="window.open('https://wa.me/62895351432524?text=Saya%20mau%20aktivasi%20ulang%20'+KODE_LISENSI)">Chat WA Sekarang</button>
   </div>
 </div>
+    </div>
+  </div>
+
+<!-- PASTE MULAI DARI SINI -->
+<div class="popup-install" id="popupLogin" style="display:none">
+  <div class="popup-box">
+    <h3 style="color:#00ff88;margin:0 0 15px 0">🔐 Login Shift</h3>
+    <select id="pilihShift">
+      <option value="">-- Pilih Shift --</option>
+      <option value="PAGI">Shift PAGI</option>
+      <option value="SORE">Shift SORE</option>
+      <option value="MALAM">Shift MALAM</option>
+    </select>
+    <input id="namaKasir" placeholder="Nama Kasir, contoh: Budi">
+    <button class="btn" onclick="loginShift()">✅ MULAI KERJA</button>
+    <p style="font-size:11px;color:#888;margin:10px 0 0 0">*Wajib login tiap ganti kasir</p>
+  </div>
+</div>
+<!-- SAMPE SINI -->
+
 
 <div class="container" id="mainApp">
   <div class="header">
     <h2>☕ <span id="judulWarkop">WARKOP</span></h2>
-    <p style="font-size:14px;opacity:0.9">Sistem Kasir Digital</p>
+    <p style="font-size:14px;opacity:0.9">Shift: <span id="infoShift">-</span> | Kasir: <span id="infoKasir">-</span></p>
   </div>
 
   <div class="tab">
