@@ -520,36 +520,53 @@ function updateLaporan(){
 
 function kirimLaporanWA(){
   const hariIni = new Date().toDateString();
-  const trxHariIni = transaksi.filter(t => new Date(t.tanggal).toDateString() === hariIni);
-  if(trxHariIni.length === 0){
-    return alert('Belum ada transaksi hari ini mas!');
+  const shiftAktif = localStorage.getItem('shiftAktif');
+  const kasirAktif = localStorage.getItem('namaKasir');
+
+  // FILTER KERAS: Cuma transaksi shift + kasir yg login
+  const trxShiftIni = transaksi.filter(t =>
+    new Date(t.tanggal).toDateString() === hariIni &&
+    t.shift === shiftAktif &&
+    t.kasir === kasirAktif
+  );
+
+  if(trxShiftIni.length === 0){
+    return alert('Belum ada transaksi di shift ' + shiftAktif);
   }
-  const omset = trxHariIni.reduce((a,b) => a+b.total,0);
-  const omsetCash = trxHariIni.filter(t=>t.metodeBayar==='CASH').reduce((a,b)=>a+b.total,0);
-  const omsetQris = trxHariIni.filter(t=>t.metodeBayar==='QRIS').reduce((a,b)=>a+b.total,0);
-  const tgl = new Date().toLocaleDateString('id-ID', {weekday:'long', day:'numeric', month:'long', year:'numeric'});
+
+  const omset = trxShiftIni.reduce((a,b) => a + b.total, 0);
+  const omsetCash = trxShiftIni.filter(t=>t.metode=='CASH').reduce((a,b)=>a+b.total,0);
+  const omsetQris = trxShiftIni.filter(t=>t.metode=='QRIS').reduce((a,b)=>a+b.total,0);
+
+  const tgl = new Date().toLocaleDateString('id-ID');
+  const jam = new Date().toLocaleTimeString('id-ID');
+
   const menuTerjual = {};
-  trxHariIni.forEach(t => {
+  trxShiftIni.forEach(t => {
     t.items.forEach(item => {
       if(!menuTerjual[item.nama]) menuTerjual[item.nama] = 0;
       menuTerjual[item.nama] += item.jumlah;
     });
   });
-  const itemTerlaris = Object.keys(menuTerjual).sort((a,b)=>menuTerjual[b]-menuTerjual[a])[0] || 'Belum ada';
-  let pesan = `*LAPORAN ${NAMA_WARKOP.toUpperCase()}* ☕\n`;
-  pesan += `${tgl}\n`;
-  pesan += `━━━━━━━━━━━━━━\n`;
-  pesan += `Total Transaksi: ${trxHariIni.length}\n`;
-  pesan += `Total Omset: Rp ${omset.toLocaleString('id-ID')}\n`;
-  pesan += `CASH: Rp ${omsetCash.toLocaleString('id-ID')}\n`;
-  pesan += `QRIS: Rp ${omsetQris.toLocaleString('id-ID')}\n`;
-  pesan += `Item Terlaris: ${itemTerlaris}\n`;
-  pesan += `━━━━━━━━━━━━━━\n`;
-  pesan += `_Laporan otomatis dari Kasir Digital Sannin_ 🙏`;
-  let noTujuan = localStorage.getItem('noWaOwner') || NO_WA_ADMIN;
+
+  const itemTerlaris = Object.keys(menuTerjual).sort((a,b)=>menuTerjual[b]-menuTerjual[a])[0] || '-';
+
+  let pesan = `*LAPORAN SHIFT ${shiftAktif} - WARKOP SINGO*%0A`;
+  pesan += `Kasir: ${kasirAktif}%0A`;
+  pesan += `Tanggal: ${tgl} ${jam}%0A`;
+  pesan += `________________________%0A`;
+  pesan += `Total Transaksi: ${trxShiftIni.length}%0A`;
+  pesan += `Total Omset: *Rp ${omset.toLocaleString('id-ID')}*%0A`;
+  pesan += `CASH: Rp ${omsetCash.toLocaleString('id-ID')}%0A`;
+  pesan += `QRIS: Rp ${omsetQris.toLocaleString('id-ID')}%0A`;
+  pesan += `Item Terlaris: ${itemTerlaris}%0A`;
+  pesan += `________________________%0A`;
+  pesan += `_Laporan per shift. Privasi terjaga_`;
+
+  let noTujuan = localStorage.getItem('noWaOwner') || '628123456789'; // GANTI NO DEFAULT OWNER
   let url = `https://wa.me/${noTujuan}?text=${encodeURIComponent(pesan)}`;
   window.open(url, '_blank');
-}
+        }
 
 function downloadLaporanExcel(){
   const hariIni = new Date().toDateString();
