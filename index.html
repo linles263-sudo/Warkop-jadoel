@@ -8,54 +8,54 @@
   <style>
     * {margin:0;padding:0;box-sizing:border-box;font-family:sans-serif}
     body {background:#f0f2f5}
-  .container {max-width:480px;margin:0 auto;background:#f0f2f5;min-height:100vh}
-  .header {background:#2e7d32;color:#fff;padding:12px;text-align:center;border-radius:0 0 12px 12px;margin:0 10px}
-  .header h3 {margin:0;font-size:20px}
-  .tabs {display:flex;background:#fff;margin:10px;border-radius:8px;overflow:hidden;border:1px solid #e0e0e0}
-  .tab {flex:1;padding:12px;text-align:center;cursor:pointer;background:#fff;font-weight:600;color:#666}
-  .tab.active {background:#2e7d32;color:#fff}
-  .content {padding:10px}
-  .section {display:none}
-  .section.active {display:block}
-  .card {background:#fff;border:1px solid #e0e0e0;border-radius:12px;padding:15px;margin-bottom:10px}
-  .card h4 {color:#2e7d32;margin-bottom:10px}
-  .menu-grid {display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}
-  .menu-item {border:1px solid #c8e6c9;padding:10px;border-radius:8px;text-align:center;cursor:pointer;background:#f1f8e9;position:relative}
-  .menu-item:hover {background:#dcedc8}
-  .menu-item b {display:block;color:#1b5e20}
-  .menu-item.habis {opacity:0.5;cursor:not-allowed;background:#f5f5f5}
-  .badge-habis {position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#d32f2f;color:#fff;padding:2px 8px;border-radius:4px;font-size:12px;font-weight:bold}
-  .hapus-menu {position:absolute;top:2px;right:5px;background:red;color:#fff;border:none;border-radius:50%;width:20px;height:20px;font-size:12px;cursor:pointer}
-  .stok-info {font-size:11px;color:#666;margin-top:4px}
-  .cart-table {width:100%;border-collapse:collapse;margin:10px 0}
-  .cart-table th {background:#e8f5e9;padding:8px;text-align:left;color:#2e7d32}
-  .cart-table td {padding:8px;border-bottom:1px solid #eee;text-align:center}
-  .cart-table td:first-child {text-align:left}
-  .total {font-size:18px;font-weight:bold;color:#1b5e20;margin:10px 0}
-  .btn {width:100%;padding:12px;border:none;border-radius:8px;font-weight:bold;cursor:pointer;margin-top:8px}
-  .btn-primary {background:#2e7d32;color:#fff}
-  .btn-cash {background:#2e7d32;color:#fff}
-  .btn-qris {background:#fff;color:#2e7d32;border:2px solid #2e7d32}
-  .btn-danger {background:#d32f2f;color:#fff}
-  .btn-add {background:#ff9800;color:#fff;margin-bottom:10px}
-  .btn-orange {background:#ff9800;color:#fff}
-  .btn-group {display:flex;gap:8px}
-  .btn-group.btn {margin-top:0}
+ .container {max-width:480px;margin:0 auto;background:#f0f2f5;min-height:100vh}
+ .header {background:#2e7d32;color:#fff;padding:12px;text-align:center;border-radius:0 0 12px 12px;margin:0 10px}
+ .header h3 {margin:0;font-size:20px}
+ .tabs {display:flex;background:#fff;margin:10px;border-radius:8px;overflow:hidden;border:1px solid #e0e0e0;height:auto}
+ .tab {flex:1;padding:12px;text-align:center;cursor:pointer;background:#fff;font-weight:600;color:#666;height:auto}
+ .tab.active {background:#2e7d32;color:#fff}
+ .content {padding:10px}
+ .section {display:none}
+ .section.active {display:block}
+ .card {background:#fff;border:1px solid #e0e0e0;border-radius:12px;padding:15px;margin-bottom:10px}
+ .card h4 {color:#2e7d32;margin-bottom:10px}
+ .menu-grid {display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}
+ .menu-item {border:1px solid #c8e6c9;padding:10px;border-radius:8px;text-align:center;cursor:pointer;background:#f1f8e9;position:relative}
+ .menu-item:hover {background:#dcedc8}
+ .menu-item b {display:block;color:#1b5e20}
+ .menu-item.habis {opacity:0.5;cursor:not-allowed;background:#f5f5f5}
+ .badge-habis {position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#d32f2f;color:#fff;padding:2px 8px;border-radius:4px;font-size:12px;font-weight:bold}
+ .hapus-menu {position:absolute;top:2px;right:5px;background:red;color:#fff;border:none;border-radius:50%;width:20px;height:20px;font-size:12px;cursor:pointer}
+ .stok-info {font-size:11px;color:#666;margin-top:4px}
+ .cart-table {width:100%;border-collapse:collapse;margin:10px 0}
+ .cart-table th {background:#e8f5e9;padding:8px;text-align:left;color:#2e7d32}
+ .cart-table td {padding:8px;border-bottom:1px solid #eee;text-align:center}
+ .cart-table td:first-child {text-align:left}
+ .total {font-size:18px;font-weight:bold;color:#1b5e20;margin:10px 0}
+ .btn {width:100%;padding:12px;border:none;border-radius:8px;font-weight:bold;cursor:pointer;margin-top:8px}
+ .btn-primary {background:#2e7d32;color:#fff}
+ .btn-cash {background:#2e7d32;color:#fff}
+ .btn-qris {background:#fff;color:#2e7d32;border:2px solid #2e7d32}
+ .btn-danger {background:#d32f2f;color:#fff}
+ .btn-add {background:#ff9800;color:#fff;margin-bottom:10px}
+ .btn-orange {background:#ff9800;color:#fff}
+ .btn-group {display:flex;gap:8px}
+ .btn-group.btn {margin-top:0}
     input,select {width:100%;padding:12px;margin:8px 0;border:1px solid #c8e6c9;border-radius:8px}
-  .info-box {background:#e8f5e9;padding:10px;border-radius:8px;margin-bottom:10px;font-size:14px;color:#1b5e20}
-  .kembalian-box {background:#fff3e0;padding:15px;border-radius:8px;text-align:center;margin:10px 0}
-  .kembalian-box h3 {color:#e65100;margin:0}
+ .info-box {background:#e8f5e9;padding:10px;border-radius:8px;margin-bottom:10px;font-size:14px;color:#1b5e20}
+ .kembalian-box {background:#fff3e0;padding:15px;border-radius:8px;text-align:center;margin:10px 0}
+ .kembalian-box h3 {color:#e65100;margin:0}
     table {width:100%;border-collapse:collapse;margin-top:10px}
     th,td {border:1px solid #ddd;padding:8px;text-align:left;font-size:14px}
     th {background:#e8f5e9}
-  .footer-text {text-align:center;font-size:12px;color:#999;margin-top:20px;padding-bottom:20px}
-  .modal {display:none;position:fixed;z-index:100;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.5)}
-  .modal-content {background:#fff;margin:20% auto;padding:20px;border-radius:12px;width:90%;max-width:400px}
-  .setting-row {margin:15px 0}
-  .setting-row label {font-weight:bold;color:#2e7d32;display:block;margin-bottom:5px}
+ .footer-text {text-align:center;font-size:12px;color:#999;margin-top:20px;padding-bottom:20px}
+ .modal {display:none;position:fixed;z-index:100;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.5)}
+ .modal-content {background:#fff;margin:20% auto;padding:20px;border-radius:12px;width:90%;max-width:400px}
+ .setting-row {margin:15px 0}
+ .setting-row label {font-weight:bold;color:#2e7d32;display:block;margin-bottom:5px}
     hr {border:none;border-top:1px solid #e0e0e0;margin:15px 0}
-  .preview-bukti {max-width:150px;margin:10px auto;display:block;border:2px solid #2e7d32;border-radius:8px}
-  .bukti-label {background:#e8f5e9;padding:8px;border-radius:8px;font-size:12px;color:#1b5e20;margin-top:5px}
+ .preview-bukti {max-width:150px;margin:10px auto;display:block;border:2px solid #2e7d32;border-radius:8px}
+ .bukti-label {background:#e8f5e9;padding:8px;border-radius:8px;font-size:12px;color:#1b5e20;margin-top:5px}
   </style>
 </head>
 <body>
@@ -65,11 +65,11 @@
   </div>
 
   <div class="tabs">
-<div class="tab active" onclick="gantiTab(this, 'kasir')">Kasir</div>
-<div class="tab" onclick="gantiTab(this, 'minuman')">Minuman</div>
-<div class="tab" onclick="gantiTab(this, 'rokok')">Rokok</div>
-<div class="tab" onclick="gantiTab(this, 'laporan')">Laporan</div> 
-  
+    <div class="tab active" onclick="gantiTab(this, 'kasir')">Kasir</div>
+    <div class="tab" onclick="gantiTab(this, 'minuman')">Minuman</div>
+    <div class="tab" onclick="gantiTab(this, 'rokok')">Rokok</div>
+    <div class="tab" onclick="gantiTab(this, 'laporan')">Laporan</div>
+  </div>
 
   <div class="content">
     <div id="kasir" class="section active">
@@ -238,7 +238,6 @@ function gantiTab(el, tab){
   document.getElementById(tab).classList.add('active');
   if(tab=='laporan') updateLaporan();
 }
-
 
 function updateMenuCepatOtomatis(){
   const semuaMenu = [...menuMinuman,...menuRokok].filter(m=>m.stok>0);
@@ -600,7 +599,7 @@ function downloadExcel(){
     });
   });
 
-  let dataStok = [['Menu','Stoklet dataStok = [['Menu','Stok Awal','Terjual','Sisa Stok','Status']];
+  let dataStok = [['Menu','Stok Awal','Terjual','Sisa Stok','Status']];
   [...menuMinuman,...menuRokok].forEach(m=>{
     const terjual = trxHariIni.reduce((total,t)=>{
       const item = t.items.find(i=>i.nama==m.nama);
@@ -624,12 +623,4 @@ function hapusSemuaLaporan(){
     transaksi = [];
     localStorage.setItem('transaksiWarkop',JSON.stringify(transaksi));
     updateLaporan();
-    alert('Semua data transaksi berhasil dihapus!');
-  }
-}
-
-tampilSemuaMenu();
-updateLaporan();
-</script>
-</body>
-</html>
+    alert('
