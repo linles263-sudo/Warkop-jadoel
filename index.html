@@ -12,7 +12,7 @@
 .header {background:#2e7d32;color:#fff;padding:12px;text-align:center;border-radius:0 0 12px 12px;margin:0 10px}
 .header h3 {margin:0;font-size:20px}
 .header p {margin:4px 0 0 0;font-size:14px;opacity:0.9}
-.tabs {display:flex;background:#fff;margin:10px;border-radius:8px;overflow:hidden;border:1px solid #e0e0e0}
+.tabs {display:flex;background:#fff;margin:10px;border-radius:8px;overflow:hidden;border:1px solid #e0e0}
 .tab {flex:1;padding:12px;text-align:center;cursor:pointer;background:#fff;font-weight:600;color:#666}
 .tab.active {background:#2e7d32;color:#fff}
 .content {padding:10px}
@@ -212,10 +212,8 @@
   </div>
 </div>
 
-<script src="app.js"></script>
-</body>
-      </html>
-      let NAMA_WARKOP = localStorage.getItem('namaWarkop') || "WARKOP SINGO";
+<script>
+let NAMA_WARKOP = localStorage.getItem('namaWarkop') || "WARKOP SINGO";
 let KODE_WARKOP = localStorage.getItem('kodeWarkop') || "WKP-SGO-01";
 let NO_WA_OWNER = localStorage.getItem('noWaOwner') || "628123456789";
 let GAMBAR_QRIS = localStorage.getItem('gambarQris') || "";
@@ -411,7 +409,7 @@ function updateKeranjang(){
   keranjang.forEach((k,i)=>{
     const subtotal = k.harga * k.jumlah;
     total += subtotal;
-    list.innerHTML += `<tr><td>${k.nama}</td><td>${k.jumlah}</td><td>Rp ${subtotal.toLocaleString('id-ID')}</td><td><button onclick="hapusItem(${i})" style="color:red;border:none;background:none;font-weight:bold">x</button></td></tr>`;
+    list.innerHTML += `<tr><td>${k.nama}</td><td>${k.jumlah}</td><td>Rp ${subtotal.toLocaleString('id-ID')}</td><button onclick="hapusItem(${i})" style="color:red;border:none;background:none;font-weight:bold">x</button></td></tr>`;
   });
   document.getElementById('totalHarga').innerText = total.toLocaleString('id-ID');
   hitungKembalian();
@@ -619,5 +617,8 @@ function hapusSemuaLaporan(){
   }
 }
 
-// INI YANG BIKIN LOGIN JALAN
+// INI YANG BIKIN LOGIN JALAN - WAJIB ADA
 cekLogin();
+</script>
+</body>
+      </html>
