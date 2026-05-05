@@ -87,7 +87,6 @@
     </div>
 
     <div class="content">
-      <!-- TAB KASIR -->
       <div id="kasir" class="section active">
         <div class="card">
           <h4>Transaksi Baru</h4>
@@ -95,20 +94,20 @@
           <input type="text" id="cariMenu" placeholder="🔍 Ketik nama menu..." onkeyup="cariMenu()">
           <h4 style="margin-top:15px">Menu Cepat:</h4>
           <div class="menu-grid" id="menuCepat"></div>
-          
+
           <table class="cart-table">
             <thead><tr><th>Item</th><th>Qty</th><th>Subtotal</th><th></th></tr></thead>
             <tbody id="listKeranjang"></tbody>
           </table>
-          
+
           <div class="total">Total: Rp <span id="totalHarga">0</span></div>
-          
+
           <h4>Metode Bayar:</h4>
           <div class="btn-group">
             <button class="btn btn-cash" id="btnCash" onclick="pilihMetode('CASH')">💵 CASH</button>
             <button class="btn btn-qris" id="btnQris" onclick="pilihMetode('QRIS')">📱 QRIS</button>
           </div>
-          
+
           <div id="boxCash">
             <input type="number" id="uangBayar" placeholder="Uang Bayar Pelanggan" onkeyup="hitungKembalian()">
             <div class="kembalian-box">
@@ -116,7 +115,7 @@
             </div>
             <button class="btn btn-primary" onclick="prosesSimpanTrx()">💰 BAYAR CASH SELESAI</button>
           </div>
-          
+
           <div id="boxQris" class="hidden">
             <img id="gambarQris" src="" style="width:100%;max-width:200px;margin:10px auto;display:block;border:1px solid #ddd">
             <div class="bukti-label">📸 <b>Upload Bukti Transfer:</b> Foto layar HP pembeli</div>
@@ -128,7 +127,6 @@
         </div>
       </div>
 
-      <!-- TAB MINUMAN -->
       <div id="minuman" class="section">
         <div class="card">
           <h4>Daftar Minuman</h4>
@@ -137,7 +135,6 @@
         </div>
       </div>
 
-      <!-- TAB ROKOK -->
       <div id="rokok" class="section">
         <div class="card">
           <h4>Daftar Rokok</h4>
@@ -146,7 +143,6 @@
         </div>
       </div>
 
-      <!-- TAB LAPORAN -->
       <div id="laporan" class="section">
         <div class="card">
           <h4>Laporan Hari Ini</h4>
@@ -159,7 +155,7 @@
           <button class="btn btn-primary" onclick="downloadExcel()">💾 Download Laporan Excel</button>
           <button class="btn btn-danger" onclick="hapusSemuaLaporan()">Hapus Semua Laporan</button>
           <button class="btn btn-danger" onclick="logoutKasir()">🚪 LOGOUT / GANTI KASIR</button>
-          
+
           <hr>
           <h4>⚙️ Setting</h4>
           <div class="setting-row">
@@ -169,7 +165,7 @@
           <button class="btn btn-primary" onclick="simpanGambarQris()">💾 Simpan Gambar QRIS</button>
           <button class="btn btn-orange" onclick="bukaModalWarkop()">🔄 Ganti Data Warkop</button>
         </div>
-        
+
         <div class="card">
           <h4>Detail Menu Terjual</h4>
           <table>
@@ -178,13 +174,12 @@
           </table>
         </div>
       </div>
-      
+
       <div class="footer-text" id="kodeWarkop">WKP-SGO-01</div>
     </div>
   </div>
 </div>
 
-<!-- MODAL TAMBAH MENU -->
 <div id="modalTambah" class="modal">
   <div class="modal-content">
     <h4 id="judulModal">Tambah Menu</h4>
@@ -195,7 +190,6 @@
   </div>
 </div>
 
-<!-- MODAL TAMBAH MENU CEPAT -->
 <div id="modalMenuCepat" class="modal">
   <div class="modal-content">
     <h4>Tambah Menu Cepat</h4>
@@ -207,7 +201,6 @@
   </div>
 </div>
 
-<!-- MODAL GANTI DATA WARKOP -->
 <div id="modalWarkop" class="modal">
   <div class="modal-content">
     <h4>Ganti Data Warkop</h4>
@@ -219,8 +212,10 @@
   </div>
 </div>
 
-<script>
-let NAMA_WARKOP = localStorage.getItem('namaWarkop') || "WARKOP SINGO";
+<script src="app.js"></script>
+</body>
+      </html>
+      let NAMA_WARKOP = localStorage.getItem('namaWarkop') || "WARKOP SINGO";
 let KODE_WARKOP = localStorage.getItem('kodeWarkop') || "WKP-SGO-01";
 let NO_WA_OWNER = localStorage.getItem('noWaOwner') || "628123456789";
 let GAMBAR_QRIS = localStorage.getItem('gambarQris') || "";
@@ -276,6 +271,8 @@ function cekLogin(){
     document.getElementById('appSection').classList.remove('hidden');
     document.getElementById('infoShift').innerText = shiftAktif;
     document.getElementById('infoKasir').innerText = kasirAktif;
+    tampilSemuaMenu();
+    updateLaporan();
   }
 }
 
@@ -367,7 +364,7 @@ function simpanMenuBaru(){
   const nama = document.getElementById('namaMenuBaru').value;
   const harga = parseInt(document.getElementById('hargaMenuBaru').value);
   if(!nama ||!harga) return alert('Isi nama dan harga!');
-  
+
   if(jenisMenuAktif=='minuman'){
     menuMinuman.push({nama,harga});
     localStorage.setItem('menuMinuman',JSON.stringify(menuMinuman));
@@ -475,10 +472,10 @@ function prosesSimpanTrx(){
   const kembalian = metodeBayar=='CASH'?bayar-total:0;
   const bukti = document.getElementById('buktiQris').value;
   if(metodeBayar=='QRIS' &&!buktiFotoBase64) return alert('Upload bukti foto QRIS dulu!');
-  
+
   const shiftAktif = sessionStorage.getItem('shiftAktif');
   const kasirAktif = sessionStorage.getItem('namaKasir');
-  
+
   transaksi.push({
     id: Date.now(),
     tanggal: new Date().toISOString(),
@@ -513,12 +510,12 @@ function updateLaporan(){
   const omset = trxShiftIni.reduce((a,b)=>a+b.total,0);
   const omsetCash = trxShiftIni.filter(t=>t.metodeBayar=='CASH').reduce((a,b)=>a+b.total,0);
   const omsetQris = trxShiftIni.filter(t=>t.metodeBayar=='QRIS').reduce((a,b)=>a+b.total,0);
-  
+
   document.getElementById('totalTrx').innerText = trxShiftIni.length;
   document.getElementById('totalOmset').innerText = omset.toLocaleString('id-ID');
   document.getElementById('omsetCash').innerText = omsetCash.toLocaleString('id-ID');
   document.getElementById('omsetQris').innerText = omsetQris.toLocaleString('id-ID');
-  
+
   const menuTerjual = {};
   trxShiftIni.forEach(t => {
     t.items.forEach(item => {
@@ -527,7 +524,7 @@ function updateLaporan(){
       menuTerjual[item.nama].omset += item.subtotal;
     });
   });
-  
+
   const tbody = document.getElementById('tabelLaporan');
   tbody.innerHTML = '';
   Object.keys(menuTerjual).sort((a,b)=>menuTerjual[b].qty-menuTerjual[a].qty).forEach(nama => {
@@ -546,13 +543,13 @@ function kirimLaporanWA(){
     t.kasir===kasirAktif
   );
   if(trxShiftIni.length === 0) return alert('Belum ada transaksi di shift ' + shiftAktif);
-  
+
   const omset = trxShiftIni.reduce((a,b)=>a+b.total,0);
   const omsetCash = trxShiftIni.filter(t=>t.metodeBayar=='CASH').reduce((a,b)=>a+b.total,0);
   const omsetQris = trxShiftIni.filter(t=>t.metodeBayar=='QRIS').reduce((a,b)=>a+b.total,0);
   const tgl = new Date().toLocaleDateString('id-ID');
   const jam = new Date().toLocaleTimeString('id-ID');
-  
+
   const menuTerjual = {};
   trxShiftIni.forEach(t => {
     t.items.forEach(item => {
@@ -562,7 +559,7 @@ function kirimLaporanWA(){
     });
   });
   const itemTerlaris = Object.keys(menuTerjual).sort((a,b)=>menuTerjual[b].qty-menuTerjual[a].qty)[0] || '-';
-  
+
   let pesan = `*LAPORAN SHIFT ${shiftAktif} - ${NAMA_WARKOP.toUpperCase()}*%0A`;
   pesan += `Kasir: ${kasirAktif}%0A`;
   pesan += `Tanggal: ${tgl} ${jam}%0A`;
@@ -574,7 +571,7 @@ function kirimLaporanWA(){
   pesan += `Item Terlaris: ${itemTerlaris}%0A`;
   pesan += `________________________%0A`;
   pesan += `_Laporan per shift. Privasi terjaga_`;
-  
+
   let url = `https://wa.me/${NO_WA_OWNER}?text=${pesan}`;
   window.open(url, '_blank');
 }
@@ -586,10 +583,8 @@ function downloadExcel(){
     new Date(t.tanggal).toDateString()===hariIni && t.shift===shiftAktif
   );
   if(trxShiftIni.length === 0) return alert('Belum ada transaksi!');
-  
-  let data = [['Tanggal','Jam','Item','Qty','Harga','Subtotal','Metode','Kasir','Shift','
-               
- ,'No Ref','Ada Foto Bukti']];
+
+  let data = [['Tanggal','Jam','Item','Qty','Harga','Subtotal','Metode','Kasir','Shift','No Ref','Ada Foto Bukti']];
   trxShiftIni.forEach(t=>{
     const tgl = new Date(t.tanggal);
     t.items.forEach(item=>{
@@ -604,11 +599,11 @@ function downloadExcel(){
         t.kasir,
         t.shift,
         t.buktiQris || '-',
-        t.buktiFoto ? 'Ya' : 'Tidak'
+        t.buktiFoto? 'Ya' : 'Tidak'
       ]);
     });
   });
-  
+
   const ws = XLSX.utils.aoa_to_sheet(data);
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, ws, "Laporan");
@@ -624,9 +619,5 @@ function hapusSemuaLaporan(){
   }
 }
 
+// INI YANG BIKIN LOGIN JALAN
 cekLogin();
-tampilSemuaMenu();
-updateLaporan();
-</script>
-</body>
-</html>              
